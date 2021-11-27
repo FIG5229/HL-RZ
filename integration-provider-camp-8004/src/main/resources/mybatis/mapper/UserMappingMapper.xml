@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.integration.dao.UserMappingDao">
+
+	<insert id="addUserM" parameterType="UserMapping">
+		INSERT INTO
+		iommgt.user_mapping(
+		ID,
+		CZRY_ID,
+		MAPPING_DLDM,
+		MAPPING_PASSWORD,
+		MAPPING_URL,
+		SUBSYSTEM
+		) VALUES
+		(#{id},#{czry_id},#{mapping_dldm},#{mapping_password},#{mapping_url},#{subsystem});
+	</insert>
+
+	<delete id="deleteUserM" parameterType="string">
+		DELETE FROM
+		 iommgt.user_mapping WHERE id=#{id};
+	</delete>
+
+	<update id="updateUserM" parameterType="UserMapping">
+		UPDATE iommgt.user_mapping
+		<set>
+			<if test="czry_id != null and czry_id !=''">
+				CZRY_ID= #{czry_id},
+			</if>
+			<if test="mapping_dldm != null and mapping_dldm !=''">
+				MAPPING_DLDM= #{mapping_dldm},
+			</if>
+			<if test="mapping_password != null and mapping_password !=''">
+				MAPPING_PASSWORD= #{mapping_password},
+			</if>
+			<if test="mapping_url != null and mapping_url !=''">
+				MAPPING_URL= #{mapping_url},
+			</if>
+			<if test="subsystem != null and subsystem !=''">
+				SUBSYSTEM= #{subsystem}
+			</if>
+		</set>
+		where ID=#{id}
+	</update>
+
+	<select id="findAllM" resultType="UserMapping" parameterType="string">
+		SELECT u.ID,u.CZRY_ID,u.MAPPING_DLDM,u.MAPPING_URL,u.SUBSYSTEM,s.NAME
+		FROM user_mapping u LEFT JOIN subsystem s
+		ON u.SUBSYSTEM = s.ID WHERE u.CZRY_ID = #{czry_id}
+	</select>
+
+	<select id="findPassWordByID" resultType="map">
+		select MAPPING_PASSWORD,MAPPING_DLDM from iommgt.user_mapping where CZRY_ID= #{czry_id} AND SUBSYSTEM = #{subsystem}
+	</select>
+
+	<select id="findAllDldm" resultType="string">
+		select MAPPING_DLDM from iommgt.user_mapping WHERE CZRY_ID = #{czry_id} AND SUBSYSTEM = #{subsystem}
+	</select>
+
+	<update id="updatePassword" parameterType="string" >
+		UPDATE iommgt.user_mapping SET MAPPING_PASSWORD = #{password} WHERE id = #{id}
+	</update>
+
+	<select id="findPassWord" parameterType="string" resultType="string">
+		select MAPPING_PASSWORD from iommgt.user_mapping WHERE ID = #{id}
+	</select>
+
+	<select id="findSystemByCzry" resultType="string" parameterType="string">
+		select SUBSYSTEM from iommgt.user_mapping where CZRY_ID = #{czry_id}
+	</select>
+
+	<select id="findPasswordByCzry" parameterType="string" resultType="string">
+		select MAPPING_PASSWORD from iommgt.user_mapping WHERE CZRY_ID =#{czry_id} AND SUBSYSTEM = #{subsystem}
+	</select>
+
+	<select id="findById" parameterType="string" resultType="UserMapping">
+		select * from iommgt.user_mapping where ID = #{id}
+	</select>
+
+</mapper>

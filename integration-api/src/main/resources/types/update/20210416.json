@@ -1,0 +1,107 @@
+[{
+  "type": "iom_emv_event_info",
+  "source": {
+    "properties": {
+      "id": {
+        "type": "long"
+      },
+      "event_level": {
+        "type": "long"
+      },
+      "event_desc": {
+        "type": "text",
+        "fielddata": true
+      },
+      "source_id": {
+        "type": "long"
+      },
+      "source_name": {
+        "type": "text",
+        "fielddata": true
+      },
+      "source_identifier": {
+        "type": "text",
+        "fielddata": true
+      },
+      "source_event_id": {
+        "type": "text",
+        "fielddata": true
+      },
+      "source_ci_name": {
+        "type": "text",
+        "fielddata": true
+      },
+      "source_kpi_name": {
+        "type": "text",
+        "fielddata": true
+      },
+      "source_level": {
+        "type": "text",
+        "fielddata": true
+      },
+      "source_desc": {
+        "type": "text",
+        "fielddata": true
+      },
+      "kpi_id": {
+        "type": "long"
+      },
+      "kpi_name": {
+        "type": "text",
+        "fielddata": true
+      },
+      "ci_id": {
+        "type": "long"
+      },
+      "ci_name": {
+        "type": "text",
+        "fielddata": true
+      },
+      "alarm_id": {
+        "type": "long"
+      },
+      "maperiod_id": {
+        "type": "long"
+      },
+      "ext1": {
+        "type": "text",
+        "fielddata": true
+      },
+      "ext2": {
+        "type": "text",
+        "fielddata": true
+      },
+      "ext3": {
+        "type": "text",
+        "fielddata": true
+      },
+      "ext4": {
+        "type": "text",
+        "fielddata": true
+      },
+      "ext5": {
+        "type": "text",
+        "fielddata": true
+      },
+      "first_time": {
+        "type": "date",
+        "format": "yyyy-MM-dd HH:mm:ss"
+      },
+      "cjsj": {
+        "type": "date",
+        "format": "yyyy-MM-dd HH:mm:ss"
+      },
+      "domain_id": {
+        "type": "keyword"
+      },
+      "yxbz": {
+        "type": "keyword"
+      }
+    }
+  },
+  "settings": {
+    "index": {
+      "max_result_window": "2000000000"
+    }
+  }
+}]

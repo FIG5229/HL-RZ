@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.integration.dao.FaceDao">
+  <resultMap id="BaseResultMap" type="com.integration.entity.Face">
+    <id column="id" property="id" />
+    <result column="czry_id" property="czryId" />
+    <result column="face_id" property="faceId" />
+    <result column="img_up"  property="imgUp" />
+    <result column="img_down"  property="imgDown" />
+    <result column="img_left"  property="imgLeft" />
+    <result column="img_right"  property="imgRight" />
+    <result column="img_main"  property="imgMain" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, czry_id, face_id, img_up, img_down, img_left, img_right, img_main
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from iom_camp_face
+    where id = #{id}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from iom_camp_face
+    where id = #{id}
+  </delete>
+  <insert id="insert" parameterType="com.integration.entity.Face">
+    insert into iom_camp_face (id, czry_id, face_id, 
+      img_up, img_down, img_left, 
+      img_right, img_main)
+    values (#{id}, #{czryId}, #{faceId}, 
+      #{imgUp}, #{imgDown}, #{imgLeft}, 
+      #{imgRight}, #{imgMain})
+  </insert>
+  <insert id="insertSelective" parameterType="com.integration.entity.Face">
+    insert into iom_camp_face
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="czryId != null">
+        czry_id,
+      </if>
+      <if test="faceId != null">
+        face_id,
+      </if>
+      <if test="imgUp != null">
+        img_up,
+      </if>
+      <if test="imgDown != null">
+        img_down,
+      </if>
+      <if test="imgLeft != null">
+        img_left,
+      </if>
+      <if test="imgRight != null">
+        img_right,
+      </if>
+      <if test="imgMain != null">
+        img_main,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="czryId != null">
+        #{czryId},
+      </if>
+      <if test="faceId != null">
+        #{faceId},
+      </if>
+      <if test="imgUp != null">
+        #{imgUp},
+      </if>
+      <if test="imgDown != null">
+        #{imgDown},
+      </if>
+      <if test="imgLeft != null">
+        #{imgLeft},
+      </if>
+      <if test="imgRight != null">
+        #{imgRight},
+      </if>
+      <if test="imgMain != null">
+        #{imgMain},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.integration.entity.Face">
+    update iom_camp_face
+    <set>
+      <if test="czryId != null">
+        czry_id = #{czryId},
+      </if>
+      <if test="faceId != null">
+        face_id = #{faceId},
+      </if>
+      <if test="imgUp != null">
+        img_up = #{imgUp},
+      </if>
+      <if test="imgDown != null">
+        img_down = #{imgDown},
+      </if>
+      <if test="imgLeft != null">
+        img_left = #{imgLeft},
+      </if>
+      <if test="imgRight != null">
+        img_right = #{imgRight},
+      </if>
+      <if test="imgMain != null">
+        img_main = #{imgMain},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.integration.entity.Face">
+    update iom_camp_face
+    set czry_id = #{czryId},
+      face_id = #{faceId},
+      img_up = #{imgUp},
+      img_down = #{imgDown},
+      img_left = #{imgLeft},
+      img_right = #{imgRight},
+      img_main = #{imgMain}
+    where id = #{id}
+  </update>
+  
+  <select id="findFaceList" resultType="face">
+  	select * from iom_camp_face
+  </select>
+  
+</mapper>

@@ -1,0 +1,61 @@
+[
+	{
+		"type": "iom_pmv_performance",
+		"source": {
+			"properties": {
+				"ci_id": {
+					"type": "text",
+					"fielddata": true
+				},
+				"ci_name": {
+					"type": "keyword"
+				},
+				"ci_type_id": {
+					"type": "keyword"
+				},
+				"ci_type_name": {
+					"type": "keyword"
+				},
+				"cjsj": {
+					"type": "date",
+					"format": "yyyy-MM-dd HH:mm:ss"
+				},
+				"data_dource": {
+					"type": "keyword"
+				},
+				"id": {
+					"type": "long"
+				},
+				"instance": {
+					"type": "keyword"
+				},
+				"kpi_id": {
+					"type": "text",
+					"fielddata": true
+				},
+				"kpi_name": {
+					"type": "keyword"
+				},
+				"occ_time": {
+					"type": "date",
+					"format": "yyyy-MM-dd HH:mm:ss"
+				},
+				"occ_time_num": {
+					"type": "long"
+				},
+				"other_content": {
+					"type": "keyword"
+				},
+				"val": {
+					"type": "long"
+				},
+				"val_unit": {
+					"type": "keyword"
+				},
+				"domain_id": {
+					"type": "keyword"
+				}
+			}
+		}
+	}
+]

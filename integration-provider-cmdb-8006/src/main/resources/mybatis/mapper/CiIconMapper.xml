@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.integration.dao.CiIconDao">
+
+    <sql id="cols">
+        a
+        .
+        id
+        ,
+        a
+        .
+        icon_name,
+        a
+        .
+        icon_dir,
+        a
+        .
+        icon_type,
+        a
+        .
+        icon_desc,
+        a
+        .
+        icon_form,
+        a
+        .
+        icon_color,
+        a
+        .
+        icon_path,
+        a
+        .
+        icon_size,
+        a
+        .
+        icon_range,
+        a
+        .
+        sort,
+        a
+        .
+        scr_id,
+        a
+        .
+        scsj,
+        a
+        .
+        xgr_id,
+        a
+        .
+        xgsj,
+        a
+        .
+        yxbz
+    </sql>
+    
+    <sql id="colsRectification">
+        a.id,
+        a.icon_name iconName,
+        a.icon_dir iconDir,
+        a.icon_type iconType,
+        a.icon_desc iconDesc,
+        a.icon_form iconForm,
+        a.icon_color iconColor,
+        a.icon_path iconPath,
+        a.icon_size iconSize,
+        a.icon_range iconRange,
+        a.sort,
+        a.scr_id scrId,
+        a.scsj,
+        a.xgr_id xgrId,
+        a.xgsj,
+        a.yxbz
+    </sql>
+
+    <sql id="colsAdd">
+        id
+        ,
+        icon_name,
+        icon_dir,
+        icon_type,
+        icon_desc,
+        icon_form,
+        icon_color,
+        icon_path,
+        icon_size,
+        icon_range,
+        sort,
+        scr_id,
+        scsj,
+        xgr_id,
+        xgsj,
+        yxbz
+    </sql>
+
+    <sql id="getSql">
+        from IOMCI.IOM_CI_ICON a where 1=1
+        <if test="null != id ">
+            AND a.id = #{id}
+        </if>
+        <if test="null != icon_name ">
+            AND a.icon_name = #{icon_name}
+        </if>
+        <if test="null != icon_dir ">
+            AND a.icon_dir = #{icon_dir}
+        </if>
+        <if test="null != icon_type ">
+            AND a.icon_type = #{icon_type}
+        </if>
+        <if test="null != icon_desc ">
+            AND a.icon_desc = #{icon_desc}
+        </if>
+        <if test="null != icon_form ">
+            AND a.icon_form = #{icon_form}
+        </if>
+        <if test="null != icon_color ">
+            AND a.icon_color = #{icon_color}
+        </if>
+        <if test="null != icon_path ">
+            AND a.icon_path = #{icon_path}
+        </if>
+        <if test="null != icon_size ">
+            AND a.icon_size = #{icon_size}
+        </if>
+        <if test="null != icon_range ">
+            AND a.icon_range = #{icon_range}
+        </if>
+        <if test="null != sort ">
+            AND a.sort = #{sort}
+        </if>
+        <if test="null != scr_id ">
+            AND a.scr_id = #{scr_id}
+        </if>
+        <if test="null != scsj ">
+            AND a.scsj = #{scsj}
+        </if>
+        <if test="null != xgr_id ">
+            AND a.xgr_id = #{xgr_id}
+        </if>
+        <if test="null != xgsj ">
+            AND a.xgsj = #{xgsj}
+        </if>
+        <if test="null != yxbz ">
+            AND a.yxbz = #{yxbz}
+        </if>
+    </sql>
+
+
+    <select id="getInfo" parameterType="string" resultType="CiIconInfo">
+
+        select * from IOMCI.IOM_CI_ICON
+        <where>
+            <if test="_parameter != null">
+                ID = #{iconId}
+            </if>
+        </where>
+
+    </select>
+
+    <update id="updateInfo" parameterType="CiIconInfo">
+        UPDATE IOMCI.IOM_CI_ICON a
+        <set>
+            <if test="null != icon_name ">
+                a.icon_name = #{icon_name},
+            </if>
+            <if test="null != icon_full_name ">
+                a.icon_full_name = #{icon_full_name},
+            </if>
+            <if test="null != icon_dir ">
+                a.icon_dir = #{icon_dir},
+            </if>
+            <if test="null != icon_type ">
+                a.icon_type = #{icon_type},
+            </if>
+            <if test="null != icon_desc ">
+                a.icon_desc = #{icon_desc},
+            </if>
+            <if test="null != icon_form ">
+                a.icon_form = #{icon_form},
+            </if>
+            <if test="null != icon_color ">
+                a.icon_color = #{icon_color},
+            </if>
+            <if test="null != icon_path ">
+                a.icon_path = #{icon_path},
+            </if>
+            <if test="null != icon_size ">
+                a.icon_size = #{icon_size},
+            </if>
+            <if test="null != icon_range ">
+                a.icon_range = #{icon_range},
+            </if>
+            <if test="null != sort ">
+                a.sort = #{sort},
+            </if>
+            <if test="null != scr_id ">
+                a.scr_id = #{scr_id},
+            </if>
+            <if test="null != scsj ">
+                a.scsj = #{scsj},
+            </if>
+            <if test="null != xgr_id ">
+                a.xgr_id = #{xgr_id},
+            </if>
+            <if test="null != xgsj ">
+                a.xgsj = #{xgsj},
+            </if>
+            <if test="null != yxbz ">
+                a.yxbz = #{yxbz}
+            </if>
+        </set>
+        WHERE
+        a.id = #{id}
+    </update>
+
+    <insert id="addInfo" parameterType="CiIconInfo">
+        INSERT INTO
+            IOMCI.IOM_CI_ICON
+        VALUES (#{id},
+                #{icon_name},
+                #{icon_full_name},
+                #{icon_dir},
+                #{icon_type},
+                #{icon_desc},
+                #{icon_form},
+                #{icon_color},
+                #{icon_path},
+                #{icon_size},
+                #{icon_range},
+                #{sort},
+                #{scr_id},
+                str_to_date(#{scsj}, '%Y-%m-%d %H:%i:%s'),
+                #{xgr_id},
+                str_to_date(#{xgsj}, '%Y-%m-%d %H:%i:%s'),
+                #{yxbz})
+    </insert>
+
+
+    <delete id="deleteInfo" parameterType="string">
+        UPDATE IOMCI.IOM_CI_ICON
+        SET yxbz = 0
+        WHERE id = #{id}
+    </delete>
+
+    <select id="searchByName" parameterType="string" resultType="CiIconInfo">
+        select * from IOMCI.IOM_CI_ICON
+        where yxbz = 1
+        <if test="iconName != null">
+            and ICON_NAME LIKE
+            CONCAT('%',#{iconName},'%')
+        </if>
+        <if test="null != iconDirId">
+            and ICON_DIR=#{iconDirId}
+        </if>
+    </select>
+
+    <select id="searchByDirId" parameterType="string" resultType="CiIconInfo">
+        select * from IOMCI.IOM_CI_ICON
+        where yxbz = 1
+        <if test="_parameter != null">
+          and  ICON_DIR = #{iconDirId}
+        </if>
+    </select>
+    
+    <select id="searchIconByDirId" parameterType="string" resultType="Map">
+        select 
+        <include refid="colsRectification"/> 
+        from IOMCI.IOM_CI_ICON a
+        where a.yxbz = 1
+        <if test="iconDirIdStr != null">
+          and a.ICON_DIR = #{iconDirIdStr}
+        </if>
+        <if test="iconName != null and iconName!=''">
+            and a.ICON_NAME like CONCAT('%', #{iconName},'%')
+        </if>
+    </select>
+    
+    <select id="getIconByDmvImg" resultType="Map">
+        select 
+        <include refid="cols"/> 
+        from IOMCI.IOM_CI_ICON a
+        where a.yxbz = 1 and a.ICON_TYPE = #{iconType} 
+    </select>
+
+    <!-- 根据目录清空全部图标 -->
+    <update id="deleteIconByFolderId">
+        update iomci.iom_ci_icon
+        set yxbz = '0'
+        where icon_dir = #{dirId}
+    </update>
+
+    <!-- 批量删除图片 -->
+    <update id="deleteIconByIcons">
+        update iomci.iom_ci_icon
+        set yxbz = '0'
+        where icon_dir = #{dirId}
+        and id in
+        <foreach collection="icons" index="index" item="icon" separator="," open="(" close=")">
+            #{icon}
+        </foreach>
+    </update>
+    
+    <select id="getIconInfoByIconFullName" resultType="Map">
+        select
+           ID id,
+           ICON_NAME iconName,
+           ICON_FULL_NAME iconFullName,
+           ICON_DIR iconDir,
+           ICON_TYPE iconType,
+           ICON_DESC iconDesc,
+           ICON_FORM iconForm,
+           ICON_COLOR iconColor,
+           ICON_PATH iconPath,
+           ICON_SIZE iconSize,
+           ICON_RANGE iconRange,
+           SORT sort,
+           SCR_ID scrId,
+           SCSJ scsj,
+           XGR_ID xgrId,
+           XGSJ xgsj,
+           YXBZ yxbz
+        from iom_ci_icon where YXBZ=1
+        <if test="iconFullName != null and iconFullName!=''">
+            and ICON_FULL_NAME=#{iconFullName}
+        </if>
+    </select>
+    
+    <select id="getIconInfoByIconFullNames" resultType="String">
+        select
+           ICON_FULL_NAME iconFullName
+        from iom_ci_icon where YXBZ=1
+        <if test=" iconFullNameList != null and iconFullNameList != '' ">
+            AND iom_ci_icon.ICON_FULL_NAME IN
+            <foreach item="iconFullName" index="index" collection="iconFullNameList" open="(" separator="," close=")">
+                #{iconFullName}
+            </foreach>
+        </if>
+    </select>
+
+</mapper>

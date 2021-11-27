@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.integration.dao.CiKpiTplDao">
+
+    <sql id="cols">
+        a.id,
+        a.tpl_name,
+        a.tpl_alias,
+        a.tpl_desc,
+        a.idx_field,
+        a.cjr_id,
+        a.cjsj,
+        a.xgr_id,
+        a.xgsj,
+        a.yxbz
+    </sql>
+
+    <sql id="colsAdd">
+        id,
+        tpl_name,
+        tpl_alias,
+        tpl_desc,
+        idx_field,
+        cjr_id,
+        cjsj,
+        xgr_id,
+        xgsj,
+        yxbz
+    </sql>
+
+    <sql id="getSql">
+        from IOMCI.IOM_CI_KPI_TPL a where 1=1
+        <if test="null != id ">
+            AND a.id = #{id}
+        </if>
+        <if test="null != tpl_name ">
+            AND a.tpl_name = #{tpl_name}
+        </if>
+        <if test="null != tpl_alias ">
+            AND a.tpl_alias = #{tpl_alias}
+        </if>
+        <if test="null != tpl_desc ">
+            AND a.tpl_desc = #{tpl_desc}
+        </if>
+        <if test="null != idx_field ">
+            AND a.idx_field = #{idx_field}
+        </if>
+        <if test="null != cjr_id ">
+            AND a.cjr_id = #{cjr_id}
+        </if>
+        <if test="null != cjsj ">
+            AND a.cjsj = #{cjsj}
+        </if>
+        <if test="null != xgr_id ">
+            AND a.xgr_id = #{xgr_id}
+        </if>
+        <if test="null != xgsj ">
+            AND a.xgsj = #{xgsj}
+        </if>
+        <if test="null != yxbz ">
+            AND a.yxbz = #{yxbz}
+        </if>
+    </sql>
+
+    <select id="getAllPage" parameterType="hashmap" resultType="CiKpiTplInfo">
+
+        select
+        <include refid="cols"/>
+        <include refid="getSql"/>ORDER BY a.id desc
+    </select>
+
+    <select id="getAllCount" parameterType="hashmap" resultType="int">
+        select count(*)
+        <include refid="getSql"/>
+    </select>
+
+    <select id="getAllList" parameterType="hashmap" resultType="CiKpiTplInfo">
+
+        select
+        <include refid="cols"/>
+        <include refid="getSql"/>
+        ORDER BY a.id desc
+    </select>
+
+    <select id="getInfo" parameterType="hashmap" resultType="CiKpiTplInfo">
+
+        select
+        <include refid="cols"/>
+        <include refid="getSql"/>
+
+    </select>
+
+    <update id="updateInfo" parameterType="CiKpiTplInfo">
+        UPDATE IOMCI.IOM_CI_KPI_TPL a
+        <set>
+            <if test="null != tpl_name ">
+                a.tpl_name = #{tpl_name},
+            </if>
+            <if test="null != tpl_alias ">
+                a.tpl_alias = #{tpl_alias},
+            </if>
+            <if test="null != tpl_desc ">
+                a.tpl_desc = #{tpl_desc},
+            </if>
+            <if test="null != idx_field ">
+                a.idx_field = #{idx_field},
+            </if>
+            <if test="null != cjr_id ">
+                a.cjr_id = #{cjr_id},
+            </if>
+            <if test="null != cjsj ">
+                a.cjsj = #{cjsj},
+            </if>
+            <if test="null != xgr_id ">
+                a.xgr_id = #{xgr_id},
+            </if>
+            <if test="null != xgsj ">
+                a.xgsj = #{xgsj},
+            </if>
+            <if test="null != yxbz ">
+                a.yxbz = #{yxbz}
+            </if>
+        </set>
+        WHERE
+        <if test="null != id ">
+            a.id = #{id}
+        </if>
+    </update>
+
+    <insert id="insertInfo" parameterType="CiKpiTplInfo">
+        INSERT INTO IOMCI.IOM_CI_KPI_TPL
+        VALUES (
+        #{id},
+        #{tpl_name},
+        #{tpl_alias},
+        #{tpl_desc},
+        #{idx_field},
+        #{cjr_id},
+        str_to_date(#{cjsj},'%Y-%m-%d %H:%i:%s'),
+        #{xgr_id},
+        str_to_date(#{xgsj},'%Y-%m-%d %H:%i:%s'),
+        #{yxbz}
+        )
+    </insert>
+
+    <delete id="deleteInfo" parameterType="string">
+        DELETE FROM IOMCI.IOM_CI_KPI_TPL a WHERE a.id=#{tplId}
+    </delete>
+
+    <select id="getTpl_Item" resultType="Tpl_Item">
+        select  a.id,a.TPL_NAME,a.TPL_ALIAS,a.TPL_DESC,a.YXBZ,b.OBJ_ID,b.OBJ_NAME,b.OBJ_TYPE from
+            IOMCI.IOM_CI_KPI_TPL a left join
+            IOMCI.IOM_CI_KPI_TPL_ITEM b
+            on a.ID = b.TPL_ID
+    </select>
+
+    <select id="findAll" parameterType="CiKpiTplInfo" resultType="com.integration.entity.CiKpiTplInfo">
+        select * from IOMCI.IOM_CI_KPI_TPL
+    </select>
+
+</mapper>

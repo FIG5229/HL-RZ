@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.integration.generator.dao.IomCampLoginMapper">
+  <resultMap id="BaseResultMap" type="com.integration.generator.entity.IomCampLogin">
+    <id column="id" jdbcType="DECIMAL" property="id" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="czry_dldm" jdbcType="VARCHAR" property="czryDldm" />
+    <result column="czry_mc" jdbcType="VARCHAR" property="czryMc" />
+    <result column="session_id" jdbcType="VARCHAR" property="sessionId" />
+    <result column="login_time" jdbcType="TIMESTAMP" property="loginTime" />
+    <result column="logout_time" jdbcType="TIMESTAMP" property="logoutTime" />
+    <result column="cjsj" jdbcType="TIMESTAMP" property="cjsj" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, user_id, czry_dldm, czry_mc, session_id, login_time, logout_time, cjsj
+  </sql>
+  <select id="selectByExample" parameterType="com.integration.generator.entity.IomCampLoginExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from iom_camp_login
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from iom_camp_login
+    where id = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from iom_camp_login
+    where id = #{id,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.integration.generator.entity.IomCampLoginExample">
+    delete from iom_camp_login
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.integration.generator.entity.IomCampLogin">
+    insert into iom_camp_login (id, user_id, czry_dldm, 
+      czry_mc, session_id, login_time, 
+      logout_time, cjsj)
+    values (#{id,jdbcType=DECIMAL}, #{userId,jdbcType=BIGINT}, #{czryDldm,jdbcType=VARCHAR}, 
+      #{czryMc,jdbcType=VARCHAR}, #{sessionId,jdbcType=VARCHAR}, #{loginTime,jdbcType=TIMESTAMP}, 
+      #{logoutTime,jdbcType=TIMESTAMP}, #{cjsj,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.integration.generator.entity.IomCampLogin">
+    insert into iom_camp_login
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="czryDldm != null">
+        czry_dldm,
+      </if>
+      <if test="czryMc != null">
+        czry_mc,
+      </if>
+      <if test="sessionId != null">
+        session_id,
+      </if>
+      <if test="loginTime != null">
+        login_time,
+      </if>
+      <if test="logoutTime != null">
+        logout_time,
+      </if>
+      <if test="cjsj != null">
+        cjsj,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="czryDldm != null">
+        #{czryDldm,jdbcType=VARCHAR},
+      </if>
+      <if test="czryMc != null">
+        #{czryMc,jdbcType=VARCHAR},
+      </if>
+      <if test="sessionId != null">
+        #{sessionId,jdbcType=VARCHAR},
+      </if>
+      <if test="loginTime != null">
+        #{loginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="logoutTime != null">
+        #{logoutTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cjsj != null">
+        #{cjsj,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.integration.generator.entity.IomCampLoginExample" resultType="java.lang.Long">
+    select count(*) from iom_camp_login
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update iom_camp_login
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=BIGINT},
+      </if>
+      <if test="record.czryDldm != null">
+        czry_dldm = #{record.czryDldm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.czryMc != null">
+        czry_mc = #{record.czryMc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sessionId != null">
+        session_id = #{record.sessionId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.loginTime != null">
+        login_time = #{record.loginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.logoutTime != null">
+        logout_time = #{record.logoutTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.cjsj != null">
+        cjsj = #{record.cjsj,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update iom_camp_login
+    set id = #{record.id,jdbcType=DECIMAL},
+      user_id = #{record.userId,jdbcType=BIGINT},
+      czry_dldm = #{record.czryDldm,jdbcType=VARCHAR},
+      czry_mc = #{record.czryMc,jdbcType=VARCHAR},
+      session_id = #{record.sessionId,jdbcType=VARCHAR},
+      login_time = #{record.loginTime,jdbcType=TIMESTAMP},
+      logout_time = #{record.logoutTime,jdbcType=TIMESTAMP},
+      cjsj = #{record.cjsj,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.integration.generator.entity.IomCampLogin">
+    update iom_camp_login
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="czryDldm != null">
+        czry_dldm = #{czryDldm,jdbcType=VARCHAR},
+      </if>
+      <if test="czryMc != null">
+        czry_mc = #{czryMc,jdbcType=VARCHAR},
+      </if>
+      <if test="sessionId != null">
+        session_id = #{sessionId,jdbcType=VARCHAR},
+      </if>
+      <if test="loginTime != null">
+        login_time = #{loginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="logoutTime != null">
+        logout_time = #{logoutTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cjsj != null">
+        cjsj = #{cjsj,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.integration.generator.entity.IomCampLogin">
+    update iom_camp_login
+    set user_id = #{userId,jdbcType=BIGINT},
+      czry_dldm = #{czryDldm,jdbcType=VARCHAR},
+      czry_mc = #{czryMc,jdbcType=VARCHAR},
+      session_id = #{sessionId,jdbcType=VARCHAR},
+      login_time = #{loginTime,jdbcType=TIMESTAMP},
+      logout_time = #{logoutTime,jdbcType=TIMESTAMP},
+      cjsj = #{cjsj,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

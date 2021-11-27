@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.integration.dao.InfoDao">
+    <update id="updateInfo" parameterType="info">
+        UPDATE IOMCI.IOM_CI_INFO a
+        <set>
+            <if test="null != id ">
+                a.id = #{id},
+            </if>
+            <if test="null != ciCode ">
+                a.ci_code = #{ciCode},
+            </if>
+            <if test="null != ci_desc ">
+                a.ci_desc = #{ci_desc},
+            </if>
+            <if test="null != ci_type_id ">
+                a.ci_type_id = #{ci_type_id},
+            </if>
+            <if test="null != source_id ">
+                a.source_id = #{source_id},
+            </if>
+            <if test="null != owner_id ">
+                a.owner_id = #{owner_id},
+            </if>
+            <if test="null != org_id ">
+                a.org_id = #{org_id},
+            </if>
+            <if test="null != ci_version ">
+                a.ci_version = #{ci_version},
+            </if>
+            <if test="null != cjr_id ">
+                a.cjr_id = #{cjr_id},
+            </if>
+            <if test="null != cjsj ">
+                a.cjsj = str_to_date(#{cjsj} ,'%Y-%m-%d %H:%i:%s'),
+            </if>
+            <if test="null != xgr_id ">
+                a.xgr_id = #{xgr_id},
+            </if>
+            <if test="null != xgsj ">
+                a.xgsj = str_to_date(#{xgsj} ,'%Y-%m-%d %H:%i:%s'),
+            </if>
+            <if test="null != yxbz ">
+                a.yxbz = #{yxbz},
+            </if>
+            <if test="null != domain_id ">
+                a.domain_id = #{domain_id},
+            </if>
+            <if test="null != attrs_str ">
+                a.attrs_str = #{attrs_str},
+            </if>
+        </set>
+        WHERE a.id=#{id}
+    </update>
+
+    <update id="deleteInfoByTid" parameterType="list">
+        update IOMCI.IOM_CI_INFO set YXBZ=0 WHERE CI_TYPE_ID IN
+        <foreach collection="list" index="index" item="item" open="("
+                 separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+
+    <update id="deleteInfoByids" parameterType="list">
+        update IOMCI.IOM_CI_INFO set YXBZ=0 WHERE id IN
+        <foreach collection="list" index="index" item="item" open="("
+                 separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+    <update id="updateInfoList" parameterType="list">
+        <foreach collection="list" index="index" item="item" separator=";">
+        UPDATE IOMCI.IOM_CI_INFO a
+        <set>
+            <if test="null != item.id ">
+                a.id = #{item.id},
+            </if>
+            <if test="null != item.ciCode ">
+                a.ci_code = #{item.ciCode},
+            </if>
+            <if test="null != item.ci_desc ">
+                a.ci_desc = #{item.ci_desc},
+            </if>
+            <if test="null != item.ci_type_id ">
+                a.ci_type_id = #{item.ci_type_id},
+            </if>
+            <if test="null != item.source_id ">
+                a.source_id = #{item.source_id},
+            </if>
+            <if test="null != item.owner_id ">
+                a.owner_id = #{item.owner_id},
+            </if>
+            <if test="null != item.org_id ">
+                a.org_id = #{item.org_id},
+            </if>
+            <if test="null != item.ci_version ">
+                a.ci_version = #{item.ci_version},
+            </if>
+            <if test="null != item.cjr_id ">
+                a.cjr_id = #{item.cjr_id},
+            </if>
+            <if test="null != item.cjsj ">
+                a.cjsj = str_to_date(#{item.cjsj} ,'%Y-%m-%d %H:%i:%s'),
+            </if>
+            <if test="null != item.xgr_id ">
+                a.xgr_id = #{item.xgr_id},
+            </if>
+            <if test="null != item.xgsj ">
+                a.xgsj = str_to_date(#{item.xgsj} ,'%Y-%m-%d %H:%i:%s'),
+            </if>
+            <if test="null != item.yxbz ">
+                a.yxbz = #{item.yxbz},
+            </if>
+            <if test="null != item.domain_id ">
+                a.domain_id = #{item.domain_id},
+            </if>
+            <if test="null != item.attrs_str ">
+                a.attrs_str = #{item.attrs_str},
+            </if>
+        </set>
+        WHERE a.id=#{item.id}
+        </foreach>
+    </update>
+    <update id="updateInfoName">
+        update iom_ci_info ici set ici.CI_NAME = (
+        CASE
+            WHEN LENGTH(TRIM((SELECT CONCAT_WS(${reField}) FROM `iom_ci_type_data` ictd where ictd.id=ici.id)))=0 THEN
+                ici.CI_CODE
+            ELSE
+                (SELECT CONCAT_WS(${reField}) FROM `iom_ci_type_data` ictd where ictd.id=ici.id)
+        END ) where ici.CI_TYPE_ID=#{ciTypeId}
+    </update>
+    <update id="updateInfoNames">
+        update iom_ci_info ici set ici.CI_NAME = NULL where ici.CI_TYPE_ID=#{ciTypeId}
+    </update>
+
+
+    <select id="findDataIdByTid" parameterType="string" resultType="Info">
+		select ID,CI_CODE ciCode,CI_DESC,IFNULL(CI_NAME,CI_CODE) ciName FROM IOMCI.IOM_CI_INFO WHERE CI_TYPE_ID = #{tid} AND YXBZ=1 <if test="domainId != null and domainId !=''">AND DOMAIN_ID in (${domainId})</if>
+	</select>
+
+    <insert id="addTypeInfo" parameterType="info">
+		insert into
+		IOMCI.IOM_CI_INFO
+		values(#{id},#{ciCode},#{ciName},#{ci_desc},#{ci_type_id},#{source_id},#{owner_id},#{org_id},#{ci_version},#{attrs_str},#{domain_id},#{cjr_id},#{cjsj},#{xgr_id},#{xgsj},#{yxbz})
+	</insert>
+
+    <insert id="addTypeInfos" parameterType="info">
+
+        INSERT INTO IOMCI.IOM_CI_INFO
+        VALUES
+        <foreach collection="list" item="typeData" separator=",">
+            (#{typeData.id},#{typeData.ciCode},#{typeData.ciName},#{typeData.ci_desc},#{typeData.ci_type_id},#{typeData.source_id},#{typeData.owner_id},#{typeData.org_id},#{typeData.ci_version},#{typeData.attrs_str},#{typeData.domain_id},#{typeData.cjr_id},#{typeData.cjsj},#{typeData.xgr_id},#{typeData.xgsj},#{typeData.yxbz})
+        </foreach>
+
+    </insert>
+
+    <select id="findCIInfoListPage" resultType="java.util.LinkedHashMap">
+        select
+        ci_type_mc,
+        ci_type_bm,
+        cast(D.CI_TYPE_ID as char) ci_type_id,
+        cast(D.ID as char) ci_id,
+        cast(I.CI_CODE as char) ciCode,
+        IFNULL(I.CI_NAME,I.CI_CODE) ciName,
+        DATA_1,
+        DATA_2,
+        DATA_3,
+        DATA_4,
+        DATA_5,
+        DATA_6,
+        DATA_7,
+        DATA_8,
+        DATA_9,
+        DATA_10,
+        DATA_11,
+        DATA_12,
+        DATA_13,
+        DATA_14,
+        DATA_15,
+        DATA_16,
+        DATA_17,
+        DATA_18,
+        DATA_19,
+        DATA_20,
+        DATA_21,
+        DATA_22,
+        DATA_23,
+        DATA_24,
+        DATA_25,
+        DATA_26,
+        DATA_27,
+        DATA_28,
+        DATA_29,
+        DATA_30,
+        DATA_31,
+        DATA_32,
+        DATA_33,
+        DATA_34,
+        DATA_35
+        from
+        IOMCI.IOM_CI_TYPE as T
+        INNER JOIN IOMCI.IOM_CI_TYPE_DATA D ON T.ID = D.CI_TYPE_ID
+        <if test="domainId !=null and domainId !=''"> AND D.DOMAIN_ID in (${domainId})</if>
+        INNER JOIN IOMCI.IOM_CI_INFO I ON D.ID = I.ID  AND I.YXBZ = 1
+        <if test="domainId !=null and domainId !=''"> AND I.DOMAIN_ID in (${domainId})</if>
+        WHERE
+        T.YXBZ=1
+        <if test="tidList != null and tidList.length !=0">
+            AND D.CI_TYPE_ID in
+            <foreach collection="tidList" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="domainId !=null and domainId !=''">AND T.DOMAIN_ID in (${domainId})</if>
+        <if test="ciPropertyList !=null and ciPropertyList.length !=0">
+            <foreach collection="ciPropertyList" index="index" item="item">
+                <if test="index == 0">
+                    AND I.ATTRS_STR like CONCAT('%',#{item},'%')
+                </if>
+                <if test="index > 0">
+                    OR I.ATTRS_STR like CONCAT('%',#{item},'%')
+                </if>
+            </foreach>
+        </if>
+    </select>
+
+    <select id="findCIInfoListCount" resultType="int">
+        select
+        count(1)
+        from
+        IOMCI.IOM_CI_TYPE as T
+        INNER JOIN IOMCI.IOM_CI_TYPE_DATA D ON T.ID = D.CI_TYPE_ID
+        <if test="domainId !=null and domainId !=''"> AND D.DOMAIN_ID in (${domainId})</if>
+        INNER JOIN IOMCI.IOM_CI_INFO I ON D.ID = I.ID  AND I.YXBZ = 1
+        <if test="domainId !=null and domainId !=''"> AND I.DOMAIN_ID in (${domainId})</if>
+        WHERE
+        T.YXBZ=1
+        <if test="tidList != null and tidList.length !=0">
+            AND D.CI_TYPE_ID in
+            <foreach collection="tidList" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="domainId !=null and domainId !=''">AND T.DOMAIN_ID in (${domainId})</if>
+        <if test="ciPropertyList !=null and ciPropertyList.length !=0">
+            <foreach collection="ciPropertyList" index="index" item="item">
+                <if test="index == 0">
+                    AND I.ATTRS_STR like CONCAT('%',#{item},'%')
+                </if>
+                <if test="index > 0">
+                    OR I.ATTRS_STR like CONCAT('%',#{item},'%')
+                </if>
+            </foreach>
+        </if>
+    </select>
+
+    <select id="findCIInfoListPageMaintain" resultType="info">
+        select * ,ci_code ciCode,IFNULL(CI_NAME,CI_CODE) ciName,(select
+        CI_TYPE_BM from IOMCI.IOM_CI_TYPE where YXBZ=1 and
+        id=IOMCI.IOM_CI_INFO.CI_TYPE_ID ) as ci_type_bm
+        from IOMCI.IOM_CI_INFO
+        where YXBZ=1
+        <if test="searchName!=null and searchName!= ''">
+            AND ((select CI_TYPE_BM from IOMCI.IOM_CI_TYPE where YXBZ=1 and id=IOMCI.IOM_CI_INFO.CI_TYPE_ID ) like
+            CONCAT('%',#{searchName},'%') OR CI_CODE like CONCAT('%',#{searchName},'%'))
+        </if>
+        <if test="domainId!=null and domainId!=''"> AND domain_id =#{domainId}</if>
+    </select>
+
+    <select id="findInfoById" parameterType="string" resultType="info">
+		SELECT * FROM IOMCI.IOM_CI_INFO WHERE CI_CODE = #{id}
+        <if test="domainId != null and domainId !=''"> AND DOMAIN_ID in (${domainId})</if>
+	</select>
+
+
+    <select id="findCiInfoByBM" resultType="Map">
+		select ID,CI_CODE ciCode,CI_DESC,CI_TYPE_ID,IFNULL(CI_NAME,CI_CODE) ciName,
+		(SELECT CI_TYPE_MC from iomci.iom_ci_type where iomci.iom_ci_type.ID= iomci.iom_ci_info.CI_TYPE_ID ) as CI_TYPE_MC
+		from iomci.iom_ci_info
+		where CI_CODE=#{ciBm} and YXBZ = 1
+	</select>
+
+    <select id="findIndexByTypeId" resultType="EmvReturnCIMessage" parameterType="EmvRequestMessage">
+        select info.ID,info.CI_CODE ciCode,IFNULL(info.CI_NAME,info.CI_CODE) ciName,info.CI_DESC,info.CI_TYPE_ID,a.IDX as valueString from iom_ci_info info left join
+        iom_ci_type_data_index a on info.id = a.CI_ID where info.CI_TYPE_ID=#{typeId} and a.ATTR_ID=#{valueStringId} and
+        info.YXBZ =1
+        <if test="source != null">and info.SOURCE_ID = #{source}</if>
+    </select>
+
+    <select id="findByIdNum" parameterType="String" resultType="int">
+		select count(*) from iomci.iom_ci_info where YXBZ = 1 and CI_CODE = #{ciName}
+	</select>
+
+	<select id="getCiIdsByCiBm" parameterType="String" resultType="String">
+		select ID from IOMCI.IOM_CI_INFO where YXBZ=1 and CI_CODE like CONCAT('%',#{ciBm},'%')
+	</select>
+
+    <select id="findDataIdByTids" parameterType="string" resultType="Info">
+		select ID as ciId,CI_CODE as ciCode,CI_DESC as ciDesc,IFNULL(CI_NAME,CI_CODE) ciName FROM IOMCI.IOM_CI_INFO WHERE CI_TYPE_ID in (${tids}) AND YXBZ=1
+		<if test="domainId!=null and domainId!=''">AND DOMAIN_ID in (${domainId})</if>
+	</select>
+    <select id="findCisBySource" resultType="java.util.Map">
+        select * from iomci.iom_ci_info where YXBZ = 1 and SOURCE_ID = #{source}
+    </select>
+    
+    <select id="queryCiInfoAll" resultType="java.util.Map">
+        select ID,CI_CODE ciCode,CI_DESC,CI_TYPE_ID,IFNULL(CI_NAME,CI_CODE) ciName,
+		(SELECT CI_TYPE_MC from iomci.iom_ci_type where iomci.iom_ci_type.ID= iomci.iom_ci_info.CI_TYPE_ID ) as CI_TYPE_MC
+		from iomci.iom_ci_info
+		where YXBZ = 1
+    </select>
+    
+    <select id="queryCiInfoByCiId" resultType="java.util.Map">
+        select ID,CI_CODE ciCode,CI_DESC,CI_TYPE_ID,IFNULL(CI_NAME,CI_CODE) ciName,
+		(SELECT CI_TYPE_MC from iomci.iom_ci_type where iomci.iom_ci_type.ID= iomci.iom_ci_info.CI_TYPE_ID ) as CI_TYPE_MC
+		from iomci.iom_ci_info
+		where YXBZ = 1 AND iom_ci_info.ID=#{ciId}
+    </select>
+
+    <select id="getCiList" resultType="java.util.Map" parameterType="list">
+        SELECT
+        ci_code ciCode,ci_type_id ciTypeId,IFNULL(ci_name,ci_code) ciName
+        from iom_ci_info
+        where ci_code IN
+        <foreach collection="list" index="index" item="item" open="("
+                 separator="," close=")">
+            #{item}
+        </foreach>
+        <if test="domainId!=null and domainId!=''">AND DOMAIN_ID = #{domainId}</if>
+    </select>
+    <select id="findItemField" resultType="java.lang.String">
+        select mp_ci_item from iom_ci_type_item where ci_type_id =#{ciTypeId} and  is_label=1 and yxbz=1
+    </select>
+</mapper>

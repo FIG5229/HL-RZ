@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.integration.dao.IomCiKpiClassDao">
+
+    <resultMap type="com.integration.entity.IomCiKpiClass" id="IomCiKpiClassMap">
+        <result property="id" column="ID" jdbcType="VARCHAR"/>
+        <result property="name" column="NAME" jdbcType="VARCHAR"/>
+        <result property="domain_id" column="DOMAIN_ID" jdbcType="INTEGER"/>
+        <result property="cjrId" column="CJR_ID" jdbcType="VARCHAR"/>
+        <result property="cjsj" column="CJSJ" jdbcType="VARCHAR"/>
+        <result property="xgrId" column="XGR_ID" jdbcType="VARCHAR"/>
+        <result property="xgsj" column="XGSJ" jdbcType="TIMESTAMP"/>
+        <result property="yxbz" column="YXBZ" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="IomCiKpiClassMap">
+        select
+          ID, NAME, DOMAIN_ID, CJR_ID, CJSJ, XGR_ID, XGSJ, YXBZ
+        from iomci.iom_ci_kpi_class
+        where ID = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="IomCiKpiClassMap">
+        select
+          ID, NAME, DOMAIN_ID, CJR_ID, CJSJ, XGR_ID, XGSJ, YXBZ
+        from iomci.iom_ci_kpi_class
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="IomCiKpiClassMap">
+        select
+          ID, NAME, DOMAIN_ID, CJR_ID, CJSJ, XGR_ID, XGSJ, YXBZ
+        from iomci.iom_ci_kpi_class
+        <where>
+            <if test="id != null and id != ''">
+                and ID = #{id}
+            </if>
+            <if test="name != null and name != ''">
+                and NAME = #{name}
+            </if>
+            <if test="domainId != null and domainId !=''">
+                and DOMAIN_ID in (${domainId})
+            </if>
+            <if test="cjrId != null and cjrId != ''">
+                and CJR_ID = #{cjrId}
+            </if>
+            <if test="cjsj != null and cjsj != ''">
+                and CJSJ = #{cjsj}
+            </if>
+            <if test="xgrId != null and xgrId != ''">
+                and XGR_ID = #{xgrId}
+            </if>
+            <if test="xgsj != null and xgsj != ''">
+                and XGSJ = #{xgsj}
+            </if>
+            <if test="yxbz != null">
+                and YXBZ = #{yxbz}
+            </if>
+        </where>
+    </select>
+
+
+    <!--新增所有列-->
+    <insert id="insert" parameterType="IomCiKpiClass">
+        insert into iomci.iom_ci_kpi_class(ID,NAME, CJR_ID, CJSJ, XGR_ID, XGSJ, YXBZ,DOMAIN_ID)
+        values (#{id},#{name}, #{cjrId}, #{cjsj}, #{xgrId}, #{xgsj}, #{yxbz},#{domain_id})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update iomci.iom_ci_kpi_class
+        <set>
+            <if test="name != null and name != ''">
+                NAME = #{name},
+            </if>
+            <if test="domainId != null">
+                DOMAIN_ID = #{domainId},
+            </if>
+            <if test="cjrId != null and cjrId != ''">
+                CJR_ID = #{cjrId},
+            </if>
+            <if test="cjsj != null and cjsj != ''">
+                CJSJ = #{cjsj},
+            </if>
+            <if test="xgrId != null and xgrId != ''">
+                XGR_ID = #{xgrId},
+            </if>
+            <if test="xgsj != null and xgsj != ''">
+                XGSJ = #{xgsj},
+            </if>
+            <if test="yxbz != null">
+                YXBZ = #{yxbz},
+            </if>
+        </set>
+        where ID = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from iomci.iom_ci_kpi_class where ID = #{id}
+    </delete>
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="map">
+        select
+           ID as id,
+           NAME as name,
+           CJR_ID as cjrId,
+           CJSJ as cjsj,
+           XGR_ID as xgrId,
+           XGSJ as xgsj,
+           YXBZ as yxbz
+         from iomci.iom_ci_kpi_class
+         <where>
+             <if test="domainId!=null and domainId !=''">domain_id in (${domainId})</if>
+         </where>
+    </select>
+
+    <select id="booById" parameterType="string" resultType="int">
+        select count(*) from iomci.iom_ci_kpi_class where NAME = #{name}
+    </select>
+
+    <!-- 查询所有有效数据 -->
+    <select id="selectAllByPmv" resultType="com.integration.entity.IomCiKpiClass">
+        select
+           ID as id,
+           NAME as name,
+           CJR_ID as cjrId,
+           CJSJ as cjsj,
+           XGR_ID as xgrId,
+           XGSJ as xgsj,
+           YXBZ as yxbz
+         from iomci.iom_ci_kpi_class where YXBZ=1
+    </select>
+
+    <select id="getCiKpiAllByPmv" resultType="Map">
+       select
+          ID as id,
+          KPI_NAME as kpiName,
+          KPI_ALIAS as kpiAlias,
+          KPI_DESC as kpiDesc,
+          TYPE_ID as typeId,
+          KPI_CLASS_ID as kpiClassId,
+          IS_MATCH as isMatch,
+          VAL_UNIT as valUnit,
+          VAL_TYPE as valType,
+          VAL_EXP as valExp,
+          DW_ID as dwId,
+          DW_NAME as dwName,
+          SOURCE_ID as sourceId,
+          OP_ID as opId,
+          IDX_FIELD as idxField,
+          CJR_ID as cjrId,
+          CJSJ as cjsj,
+          XGR_ID as xgrId,
+          XGSJ as xgsj,
+          YXBZ as yxbz
+          from iomci.iom_ci_kpi where 1=1
+          AND YXBZ=1
+    </select>
+    <select id="findByName" parameterType="string" resultMap="IomCiKpiClassMap">
+        select * from iomci.iom_ci_kpi_class where NAME = #{name}
+    </select>
+    
+    <select id="getCiKpiClassInfoByKpiClassIds" resultType="Map">
+       select
+          ID id,
+          NAME name,
+          DOMAIN_ID domainId,
+          CJR_ID cjrId,
+          CJSJ cjsj,
+          XGR_ID xgrId,
+          XGSJ xgsj,
+          YXBZ yxbz
+       from iomci.iom_ci_kpi_class where YXBZ=1
+       <if test="domainId != null and domainId !=''"> AND iom_ci_kpi_class.DOMAIN_ID in (${domainId})</if>
+       <if test=" kpiClassIdList != null and kpiClassIdList != '' ">
+            AND iom_ci_kpi_class.ID IN
+            <foreach item="kpiClassId" index="index" collection="kpiClassIdList" open="(" separator="," close=")">
+                ${kpiClassId}
+            </foreach>
+        </if>
+    </select>
+</mapper>

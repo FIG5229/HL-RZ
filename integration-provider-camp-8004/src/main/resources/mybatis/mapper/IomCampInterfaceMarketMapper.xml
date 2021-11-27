@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.integration.dao.IomCampInterfaceMarketMapper">
+  <resultMap id="BaseResultMap" type="com.integration.entity.IomCampInterfaceMarket">
+    <id column="id" jdbcType="DECIMAL" property="id" />
+    <result column="client_name" jdbcType="VARCHAR" property="clientName" />
+    <result column="client_desc" jdbcType="VARCHAR" property="clientDesc" />
+    <result column="interface_method" jdbcType="VARCHAR" property="interfaceMethod" />
+    <result column="interface_type" jdbcType="VARCHAR" property="interfaceType" />
+    <result column="interface_uri" jdbcType="VARCHAR" property="interfaceUri" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="yxbz" jdbcType="INTEGER" property="yxbz" />
+    <result column="cjr_id" jdbcType="BIGINT" property="cjrId" />
+    <result column="cjsj" jdbcType="TIMESTAMP" property="cjsj" />
+    <result column="xgr_id" jdbcType="BIGINT" property="xgrId" />
+    <result column="xgsj" jdbcType="TIMESTAMP" property="xgsj" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.integration.entity.IomCampInterfaceMarket">
+    <result column="interface_param_json" jdbcType="LONGVARCHAR" property="interfaceParamJson" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, client_name, client_desc, interface_type,interface_method, interface_uri, username, password,
+    yxbz, cjr_id, cjsj, xgr_id, xgsj
+  </sql>
+  <sql id="Blob_Column_List">
+    interface_param_json
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="string" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from iom_camp_interface_market
+    where id = #{id}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="string">
+    delete from iom_camp_interface_market
+    where id = #{id}
+  </delete>
+  <insert id="insert" parameterType="com.integration.entity.IomCampInterfaceMarket">
+    insert into iom_camp_interface_market (id, client_name, client_desc, 
+      interface_type,interface_method, interface_uri, username,
+      password, yxbz, cjr_id, 
+      cjsj, xgr_id, xgsj, 
+      interface_param_json)
+    values (#{id,jdbcType=DECIMAL}, #{clientName,jdbcType=VARCHAR}, #{clientDesc,jdbcType=VARCHAR}, 
+      #{interfaceType,jdbcType=VARCHAR},#{interfaceMethod,jdbcType=VARCHAR}, #{interfaceUri,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR},
+      #{password,jdbcType=VARCHAR}, #{yxbz,jdbcType=INTEGER}, #{cjrId,jdbcType=BIGINT}, 
+      #{cjsj,jdbcType=TIMESTAMP}, #{xgrId,jdbcType=BIGINT}, #{xgsj,jdbcType=TIMESTAMP}, 
+      #{interfaceParamJson,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.integration.entity.IomCampInterfaceMarket">
+    insert into iom_camp_interface_market
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="clientName != null">
+        client_name,
+      </if>
+      <if test="clientDesc != null">
+        client_desc,
+      </if>
+      <if test="interfaceType != null">
+        interface_type,
+      </if>
+      <if test="interfaceMethod != null">
+        interface_method,
+      </if>
+      <if test="interfaceUri != null">
+        interface_uri,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="yxbz != null">
+        yxbz,
+      </if>
+      <if test="cjrId != null">
+        cjr_id,
+      </if>
+      <if test="cjsj != null">
+        cjsj,
+      </if>
+      <if test="xgrId != null">
+        xgr_id,
+      </if>
+      <if test="xgsj != null">
+        xgsj,
+      </if>
+      <if test="interfaceParamJson != null">
+        interface_param_json,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="clientName != null">
+        #{clientName,jdbcType=VARCHAR},
+      </if>
+      <if test="clientDesc != null">
+        #{clientDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="interfaceType != null">
+        #{interfaceType,jdbcType=VARCHAR},
+      </if>
+      <if test="interfaceUri != null">
+        #{interfaceUri,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="yxbz != null">
+        #{yxbz,jdbcType=INTEGER},
+      </if>
+      <if test="cjrId != null">
+        #{cjrId,jdbcType=BIGINT},
+      </if>
+      <if test="cjsj != null">
+        #{cjsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="xgrId != null">
+        #{xgrId,jdbcType=BIGINT},
+      </if>
+      <if test="xgsj != null">
+        #{xgsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="interfaceParamJson != null">
+        #{interfaceParamJson,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.integration.entity.IomCampInterfaceMarket">
+    update iom_camp_interface_market
+    <set>
+      <if test="clientName != null">
+        client_name = #{clientName,jdbcType=VARCHAR},
+      </if>
+      <if test="clientDesc != null">
+        client_desc = #{clientDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="interfaceType != null">
+        interface_type = #{interfaceType,jdbcType=VARCHAR},
+      </if>
+      <if test="interfaceMethod != null">
+        interface_method = #{interfaceMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="interfaceUri != null">
+        interface_uri = #{interfaceUri,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="yxbz != null">
+        yxbz = #{yxbz,jdbcType=INTEGER},
+      </if>
+      <if test="cjrId != null">
+        cjr_id = #{cjrId,jdbcType=BIGINT},
+      </if>
+      <if test="cjsj != null">
+        cjsj = #{cjsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="xgrId != null">
+        xgr_id = #{xgrId,jdbcType=BIGINT},
+      </if>
+      <if test="xgsj != null">
+        xgsj = #{xgsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="interfaceParamJson != null">
+        interface_param_json = #{interfaceParamJson,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.integration.entity.IomCampInterfaceMarket">
+    update iom_camp_interface_market
+    set client_name = #{clientName,jdbcType=VARCHAR},
+      client_desc = #{clientDesc,jdbcType=VARCHAR},
+      interface_type = #{interfaceType,jdbcType=VARCHAR},
+      interface_method = #{interfaceMethod,jdbcType=VARCHAR},
+      interface_uri = #{interfaceUri,jdbcType=VARCHAR},
+      username = #{username,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      yxbz = #{yxbz,jdbcType=INTEGER},
+      cjr_id = #{cjrId,jdbcType=BIGINT},
+      cjsj = #{cjsj,jdbcType=TIMESTAMP},
+      xgr_id = #{xgrId,jdbcType=BIGINT},
+      xgsj = #{xgsj,jdbcType=TIMESTAMP},
+      interface_param_json = #{interfaceParamJson,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.integration.entity.IomCampInterfaceMarket">
+    update iom_camp_interface_market
+    set client_name = #{clientName,jdbcType=VARCHAR},
+      client_desc = #{clientDesc,jdbcType=VARCHAR},
+      interface_type = #{interfaceType,jdbcType=VARCHAR},
+      interface_method = #{interfaceMethod,jdbcType=VARCHAR},
+      interface_uri = #{interfaceUri,jdbcType=VARCHAR},
+      username = #{username,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      yxbz = #{yxbz,jdbcType=INTEGER},
+      cjr_id = #{cjrId,jdbcType=BIGINT},
+      cjsj = #{cjsj,jdbcType=TIMESTAMP},
+      xgr_id = #{xgrId,jdbcType=BIGINT},
+      xgsj = #{xgsj,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=DECIMAL}
+  </update>
+
+
+
+  <select id="selectList" parameterType="com.integration.entity.IomCampInterfaceMarket" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    from iom_camp_interface_market
+    <where>
+      <if test="interfaceUriLike != null">
+        and interface_uri like CONCAT('%',#{interfaceUriLike,jdbcType=VARCHAR},'%')
+      </if>
+    </where>
+    order by id desc
+  </select>
+
+  <select id="selectOpenApi" parameterType="com.integration.entity.IomCampInterfaceMarket" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from iom_camp_interface_market
+    where interface_type = #{interfaceType,jdbcType=VARCHAR} and interface_uri = #{interfaceUri,jdbcType=VARCHAR}
+     and username = #{username,jdbcType=VARCHAR} and
+    password = #{password,jdbcType=VARCHAR}
+  </select>
+</mapper>

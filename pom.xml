@@ -1,0 +1,30 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.hlkj.integration</groupId>
+        <artifactId>integration</artifactId>
+        <version>1.6</version>
+    </parent>
+    <artifactId>basics</artifactId>
+    <version>1.5</version>
+    <packaging>pom</packaging>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
+
+    <!-- 完善在eureka网站中点击出现错误页面的情况 -->
+
+    <modules>
+        <module>integration-api</module>
+        <module>integration-eureka-7001</module>
+        <module>integration-zuul-9527</module>
+        <module>integration-provider-camp-8004</module>
+        <module>integration-provider-cmdb-8006</module>
+        <module>integration-websocket</module>
+    </modules>
+
+</project>

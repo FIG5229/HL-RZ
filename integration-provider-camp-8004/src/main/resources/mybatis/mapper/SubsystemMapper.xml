@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.integration.dao.SubsystemDao">
+
+	<select id="findAllS" resultType="Subsystem">
+		select * from iommgt.subsystem
+	</select>
+
+	<insert id="addSubsystem" parameterType="Subsystem">
+		INSERT INTO
+		iommgt.subsystem(
+		ID,
+		NAME,
+		DESCRIBES,
+		SERVERNAME,
+		ISORTHER,
+		COMMONPAGEURL
+		) VALUES
+		(#{id},#{name},#{describes},#{serverName},#{isorther},#{commonPageUrl});
+	</insert>
+
+	<delete id="deleteSubsystem" parameterType="string">
+		delete from iommgt.subsystem where ID = #{id}
+	</delete>
+
+	<update id="updateSubsystem" parameterType="Subsystem">
+		UPDATE iommgt.subsystem
+		<set>
+			<if test="name != null and name !=''">
+				NAME = #{name},
+			</if>
+			<if test="describes != null and describes !=''">
+				DESCRIBES = #{describes},
+			</if>
+			<if test="serverName != null and serverName != ''">
+				SERVERNAME = #{serverName},
+			</if>
+			<if test="isorther != null and isorther != ''">
+				ISORTHER = #{isorther},
+			</if>
+			<if test="commonPageUrl != null and commonPageUrl != ''">
+				COMMONPAGEURL = #{commonPageUrl}
+			</if>
+		</set>
+		where ID=#{id}
+	</update>
+
+	<select id="findAllName" resultType="string">
+		select name from iommgt.subsystem
+	</select>
+	
+	<select id="findKpiCode" parameterType="string" resultType="string">
+		SELECT KPI_CODE FROM iompmv.iom_pmv_kpi WHERE KPI_NAME = #{kpi_name}
+	</select>
+
+	<select id="findNameById" parameterType="string" resultType="string">
+		select name from iommgt.subsystem where ID = #{id}
+	</select>
+
+	<select id="findServerNameById" parameterType="string" resultType="string">
+		select SERVERNAME from iommgt.subsystem where ID = #{id}
+	</select>
+
+	<delete id="deleteUserByCzrySys" parameterType="string">
+		delete from iommgt.user_mapping where CZRY_ID =#{czryId} and SUBSYSTEM = #{subsystem}
+	</delete>
+		
+		
+		<select id="getUserInfoByLoginId" parameterType="string" resultType="Map">
+		select * from user_mapping where CZRY_ID=#{userId}  and SUBSYSTEM=#{sub}
+	</select>
+</mapper>

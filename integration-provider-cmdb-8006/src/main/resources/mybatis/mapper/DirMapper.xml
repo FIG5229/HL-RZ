@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.integration.dao.DirDao">
+
+    <select id="findDirList" resultType="dir" parameterType="integer">
+		select * FROM
+		IOMCI.IOM_CI_DIR WHERE <choose> <when test="type==3">(DIR_TYPE=#{type} OR DIR_TYPE=6)</when> <otherwise>DIR_TYPE=#{type}</otherwise> </choose> AND YXBZ=1 order by sort;
+	</select>
+	
+	<select id="findDirListByDiagram" resultType="dir">
+		select * FROM IOMCI.IOM_CI_DIR WHERE <choose> <when test="type==3">(DIR_TYPE=#{type} OR DIR_TYPE=6)</when> <otherwise>DIR_TYPE=#{type}</otherwise> </choose> AND YXBZ=1 AND CJR_ID = #{cjrId} order by sort;
+	</select>
+
+    <select id="dirNameExists" resultType="int">
+        select count(DIR_NAME) FROM IOMCI.IOM_CI_DIR
+        WHERE YXBZ = 1
+        AND DIR_NAME = #{dir_name}
+        <if test=" dir_type != null and dir_type != '' ">
+			<choose> <when test="dir_type==3"> AND (DIR_TYPE=#{dir_type} OR DIR_TYPE=6)</when> <otherwise> AND DIR_TYPE=#{dir_type}</otherwise> </choose>
+		</if>
+		<if test="domainId != null and domainId !=''">AND DOMAIN_ID in (${domainId})</if>
+    </select>
+
+    <select id="getDirListByParentId" resultType="map">
+        select ID as id,
+        DIR_NAME as dirName,
+        DIR_TYPE as dirType,
+        PARENT_DIR_ID as parentDirId,
+        DIR_LVL as dirLvl,
+        DIR_PATH as dirPath,
+        SORT as sort,
+        IS_LEAF as isLeaf,
+        DIR_ICON as dirIcon,
+        DIR_COLOR as dirColor,
+        DIR_DESC as dirDesc,
+        CJR_ID as cjrId,
+        CJSJ as cjsj,
+        XGR_ID as xgrId,
+        XGSJ as xgsj,
+        YXBZ as yxbz
+        from
+            IOMCI.IOM_CI_DIR
+        where yxbz=1 and dir_type=4 and
+            PARENT_DIR_ID=#{diagDir} and CJR_ID=#{user_id}
+            <if test="domainId != null and domainId !=''"> AND DOMAIN_ID in (${domainId})</if>
+    </select>
+
+    <select id="findDirById" parameterType="string" resultType="dir">
+		select * from
+		IOMCI.IOM_CI_DIR WHERE ID=#{dirId} AND YXBZ=1;
+	</select>
+
+    <select id="findTreeList" parameterType="string" resultType="tree">
+		select ID,PARENT_DIR_ID AS
+		PID,DIR_NAME AS NAME,DIR_ICON AS ICON, 'dir'
+		AS TYPE,sort as sort FROM
+		IOMCI.IOM_CI_DIR WHERE DIR_TYPE=1 AND YXBZ=1
+		<if test="domainId != null and domainId !=''">and domain_id in (${domainId})</if>
+		UNION
+		select ID,CI_TYPE_DIR
+		AS PID,CI_TYPE_MC AS
+		NAME,CI_TYPE_ICON AS
+		ICON,'class'
+		AS TYPE,sort as sort FROM
+		IOMCI.IOM_CI_TYPE WHERE YXBZ=1
+		<if test="domainId != null and domainId !=''">and domain_id in (${domainId})</if>
+		order by sort
+	</select>
+
+    <select id="fndTreeSort" resultType="int">
+		select max(sort) as sort from iomci.iom_ci_dir where yxbz = 1 and PARENT_DIR_ID = #{pId}
+	</select>
+
+    <select id="findIconDirList" resultType="dir">
+		select * from
+		IOMCI.IOM_CI_DIR
+		where (DIR_TYPE=3 OR  DIR_TYPE=6) AND YXBZ=1;
+	</select>
+
+    <insert id="addDir" parameterType="dir">
+		INSERT INTO IOMCI.IOM_CI_DIR
+		VALUES (
+		#{id},
+		#{dir_name},
+		#{dir_type},
+		#{parent_dir_id},
+		#{dir_lvl},
+		#{dir_path},
+		#{sort},
+		#{is_leaf},
+		#{dir_icon},
+		#{dir_color},
+		#{dir_desc},
+		#{domain_id},
+		#{cjr_id},
+		str_to_date(#{cjsj},'%Y-%m-%d %H:%i:%s'),
+		#{xgr_id},
+		str_to_date(#{xgsj},'%Y-%m-%d %H:%i:%s'),
+		#{yxbz}
+		)
+	</insert>
+
+    <update id="deleteDir" parameterType="string">
+		update
+		IOMCI.IOM_CI_DIR set
+		YXBZ=0 where ID=#{dirId}
+	</update>
+
+    <update id="updateDir" parameterType="dir">
+        UPDATE IOMCI.IOM_CI_DIR a
+        <set>
+            <if test="null != id ">
+                a.id = #{id},
+            </if>
+            <if test="null != dir_name ">
+                a.dir_name = #{dir_name},
+            </if>
+            <if test="null != dir_type ">
+                a.dir_type = #{dir_type},
+            </if>
+            <if test="null != parent_dir_id ">
+                a.parent_dir_id = #{parent_dir_id},
+            </if>
+            <if test="null != dir_lvl ">
+                a.dir_lvl = #{dir_lvl},
+            </if>
+            <if test="null != dir_path ">
+                a.dir_path = #{dir_path},
+            </if>
+            <if test="null != sort ">
+                a.sort = #{sort},
+            </if>
+            <if test="null != is_leaf ">
+                a.is_leaf = #{is_leaf},
+            </if>
+            <if test="null != dir_icon ">
+                a.dir_icon = #{dir_icon},
+            </if>
+            <if test="null != dir_color ">
+                a.dir_color = #{dir_color},
+            </if>
+            <if test="null != dir_desc ">
+                a.dir_desc = #{dir_desc},
+            </if>
+            <if test="null != cjr_id ">
+                a.cjr_id = #{cjr_id},
+            </if>
+            <if test="null != cjsj ">
+                a.cjsj = str_to_date(#{cjsj} ,'%Y-%m-%d %H:%i:%s'),
+            </if>
+            <if test="null != xgr_id ">
+                a.xgr_id = #{xgr_id},
+            </if>
+            <if test="null != xgsj ">
+                a.xgsj = str_to_date(#{xgsj} ,'%Y-%m-%d %H:%i:%s'),
+            </if>
+            <if test="null != yxbz ">
+                a.yxbz = #{yxbz}
+            </if>
+        </set>
+        WHERE a.id=#{id}
+
+    </update>
+    <update id="updateDirDomian">
+		update IOMCI.IOM_CI_DIR set DOMAIN_ID = #{domainId} where DOMAIN_ID is null
+	</update>
+	<update id="updateCiTypeDomian">
+		update IOMCI.IOM_CI_TYPE set DOMAIN_ID = #{domainId} where DOMAIN_ID is null
+	</update>
+
+	<select id="findDirTreeList" parameterType="string" resultType="tree">
+		select ID,PARENT_DIR_ID AS
+		PID,DIR_NAME AS NAME,DIR_ICON AS ICON, 'dir'
+		AS TYPE,sort as sort FROM
+		IOMCI.IOM_CI_DIR WHERE DIR_TYPE=1 AND YXBZ=1
+		AND DIR_NAME like CONCAT('%', #{name},'%')
+	</select>
+
+
+    <select id="DirTreeList" parameterType="string" resultType="tree">
+		select ID,PARENT_DIR_ID AS
+		PID,DIR_NAME AS NAME,DIR_ICON AS ICON, 'dir'
+		AS TYPE,sort as sort FROM
+		IOMCI.IOM_CI_DIR WHERE DIR_TYPE=1 AND YXBZ=1
+		AND DIR_NAME like CONCAT('%', #{name},'%')
+		UNION
+		select ID,CI_TYPE_DIR
+		AS PID,CI_TYPE_MC AS
+		NAME,CI_TYPE_ICON AS ICON,'class'
+		AS TYPE,sort as
+		sort FROM
+		IOMCI.IOM_CI_TYPE WHERE YXBZ=1
+		order by sort
+	</select>
+
+
+    <select id="findTypeList" parameterType="string" resultType="tree">
+		select ID,CI_TYPE_DIR
+		AS PID,CI_TYPE_MC AS
+		NAME,CI_TYPE_ICON AS
+		ICON,class
+		AS TYPE,sort as sort FROM
+		IOMCI.IOM_CI_TYPE WHERE YXBZ=1
+		AND CI_TYPE_MC like CONCAT('%', #{name},'%')
+		order by sort
+	</select>
+
+    <select id="findParentList" parameterType="string" resultType="tree">
+		SELECT *
+		FROM IOMCI.IOM_CI_VIEW_TREE
+		CONNECT BY PRIOR PID=ID
+		START WITH
+		ID=#{id}
+	</select>
+
+
+    <select id="findTreeListByName" parameterType="string"
+            resultType="tree">
+		SELECT *
+		FROM iomci.iom_ci_view_tree v
+		CONNECT BY PRIOR v.id = v.pid
+		START WITH v.id in (
+		select id from iomci.iom_ci_dir d where d.yxbz = 1 and d.dir_type = 1 and
+		d.dir_name like CONCAT('%', #{name},'%')
+		<if test="domainId != null and domainId !=''">and domain_id in (${domainId})</if>
+		)
+		union
+		SELECT *
+		FROM iomci.iom_ci_view_tree v
+		CONNECT BY PRIOR v.pid = v.id
+		START WITH v.id in (
+		select id from iomci.iom_ci_type t where t.yxbz = 1 and t.ci_type_mc like
+		CONCAT('%', #{name},'%')
+		<if test="domainId != null and domainId !=''">and domain_id in (${domainId})</if>
+		)
+	</select>
+    <select id="getDirByDirName" resultType="com.integration.entity.Dir" parameterType="string">
+		select * FROM
+		IOMCI.IOM_CI_DIR WHERE DIR_Name=#{dirName} AND YXBZ=1
+	</select>
+
+</mapper>

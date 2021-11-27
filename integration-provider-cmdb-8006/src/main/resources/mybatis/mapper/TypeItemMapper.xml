@@ -1,0 +1,700 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.integration.dao.TypeItemDao">
+
+	<sql id="cols">
+		a.id,
+		a.ci_type_id,
+		a.attr_name,
+		a.attr_std_name,
+		a.attr_type,
+		a.attr_desc,
+		a.mp_ci_item,
+		a.is_major,
+		a.is_requ,
+		a.def_val,
+		a.enum_vals,
+		a.sort,
+		a.cjr_id,
+		a.cjsj,
+		a.xgr_id,
+		a.xgsj,
+		a.`regexp`,
+		a.yxbz
+	</sql>
+
+	<sql id="colsAdd">
+		id,
+		ci_type_id,
+		attr_name,
+		attr_std_name,
+		attr_type,
+		attr_desc,
+		mp_ci_item,
+		is_major,
+		is_requ,
+		def_val,
+		enum_vals,
+		sort,
+		cjr_id,
+		cjsj,
+		xgr_id,
+		xgsj,
+		`regexp`,
+		yxbz
+	</sql>
+
+	<sql id="getSql">
+		from IOMCI.IOM_CI_TYPE_ITEM a where 1=1
+		<if test="null != id ">
+			AND a.id = #{id}
+		</if>
+		<if test="null != ci_type_id ">
+			AND a.ci_type_id = #{ci_type_id}
+		</if>
+		<if test="null != attr_name ">
+			AND a.attr_name = #{attr_name}
+		</if>
+		<if test="null != attr_std_name ">
+			AND a.attr_std_name = #{attr_std_name}
+		</if>
+		<if test="null != attr_type ">
+			AND a.attr_type = #{attr_type}
+		</if>
+		<if test="null != attr_desc ">
+			AND a.attr_desc = #{attr_desc}
+		</if>
+		<if test="null != mp_ci_item ">
+			AND a.mp_ci_item = #{mp_ci_item}
+		</if>
+		<if test="null != is_major ">
+			AND a.is_major = #{is_major}
+		</if>
+		<if test="null != is_requ ">
+			AND a.is_requ = #{is_requ}
+		</if>
+		<if test="null != def_val ">
+			AND a.def_val = #{def_val}
+		</if>
+		<if test="null != enum_vals ">
+			AND a.enum_vals = #{enum_vals}
+		</if>
+		<if test="null != sort ">
+			AND a.sort = #{sort}
+		</if>
+		<if test="null != cjr_id ">
+			AND a.cjr_id = #{cjr_id}
+		</if>
+		<if test="null != cjsj ">
+			AND a.cjsj = #{cjsj}
+		</if>
+		<if test="null != xgr_id ">
+			AND a.xgr_id = #{xgr_id}
+		</if>
+		<if test="null != xgsj ">
+			AND a.xgsj = #{xgsj}
+		</if>
+		<if test="null != regexp ">
+			AND a.`regexp` = #{regexp}
+		</if>
+		<if test="null != yxbz ">
+			AND a.yxbz = #{yxbz}
+		</if>
+	</sql>
+	<delete id="deleteItemTrue" parameterType="string">
+		delete from IOMCI.IOM_CI_TYPE_ITEM WHERE ID = #{id}
+	</delete>
+	<delete id="deleteItemByAllByTidTrue" parameterType="list">
+		delete from iom_ci_type_item
+		where id in
+		<foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+			#{item.id}
+		</foreach>
+	</delete>
+
+	<select id="findItemByTid" resultType="typeitem">
+		select * from
+		IOMCI.IOM_CI_TYPE_ITEM WHERE CI_TYPE_ID = #{tid} AND YXBZ=1
+		 order by
+		SORT
+	</select>
+	
+	<select id="findItemByTidToHump" resultType="Map">
+		select 
+		  ID id,
+		  CI_TYPE_ID ciTypeId,
+		  ATTR_NAME attrName,
+		  ATTR_STD_NAME attrStdName,
+		  ATTR_TYPE attrType,
+		  ATTR_DESC attrDesc,
+		  MP_CI_ITEM mpCiItem,
+		  IS_MAJOR isMajor,
+		  IS_REQU isRequ,
+		  DEF_VAL defVal,
+		  ENUM_VALS enumVals,
+		  SORT sort,
+		  CJR_ID cjrId,
+		  CJSJ cjsj,
+		  XGR_ID xgrId,
+		  XGSJ xgsj,
+		  `regexp`,
+		  YXBZ yxbz,
+		  is_label isLabel
+		 from
+		IOMCI.IOM_CI_TYPE_ITEM WHERE CI_TYPE_ID = #{tid} AND YXBZ=1
+		 order by
+		SORT
+	</select>
+	
+	<select id="findItemByTidsToHump" resultType="Map">
+		select 
+		  ID id,
+		  CI_TYPE_ID ciTypeId,
+		  ATTR_NAME attrName,
+		  ATTR_STD_NAME attrStdName,
+		  ATTR_TYPE attrType,
+		  ATTR_DESC attrDesc,
+		  MP_CI_ITEM mpCiItem,
+		  IS_MAJOR isMajor,
+		  IS_REQU isRequ,
+		  DEF_VAL defVal,
+		  ENUM_VALS enumVals,
+		  SORT sort,
+		  CJR_ID cjrId,
+		  CJSJ cjsj,
+		  XGR_ID xgrId,
+		  XGSJ xgsj,
+		  `regexp`,
+		  YXBZ yxbz,
+		  is_label isLabel
+		 from
+		IOMCI.IOM_CI_TYPE_ITEM WHERE YXBZ=1
+		<if test=" ciTypeIdList != null and ciTypeIdList != '' ">
+            AND IOM_CI_TYPE_ITEM.CI_TYPE_ID IN
+            <foreach item="ciTypeId" index="index" collection="ciTypeIdList" open="(" separator="," close=")">
+                ${ciTypeId}
+            </foreach>
+        </if>
+		 order by
+		ID
+	</select>
+
+	<select id="findItemList" resultType="typeitem">
+		select * from
+		IOMCI.IOM_CI_TYPE_ITEM WHERE YXBZ=1 order by sort
+	</select>
+
+	<select id="itemNameExists" resultType="int">
+		select count(ATTR_NAME)
+		FROM IOMCI.IOM_CI_TYPE_ITEM WHERE ATTR_NAME=#{attr_name} AND
+		CI_TYPE_ID = #{ci_type_id} and yxbz=1
+	</select>
+
+	<insert id="addItem" parameterType="typeitem">
+		INSERT INTO
+		IOMCI.IOM_CI_TYPE_ITEM
+		VALUES (
+		#{id},
+		#{ci_type_id},
+		#{attr_name},
+		#{attr_std_name},
+		#{attr_type},
+		#{attr_desc},
+		#{mp_ci_item},
+		#{regexp},
+		#{is_major},
+		#{is_requ},
+		#{is_rela},
+		#{is_label},
+		#{def_val},
+		#{enum_vals},
+		#{sort},
+		#{cjr_id},
+		str_to_date(#{cjsj} ,'%Y-%m-%d %H:%i:%s'),
+		#{xgr_id},
+		str_to_date(#{xgsj} ,'%Y-%m-%d %H:%i:%s'),
+		#{yxbz}
+		)
+
+	</insert>
+
+	<update id="updateItem" parameterType="typeitem">
+		UPDATE IOMCI.IOM_CI_TYPE_ITEM a
+		<set>
+			<if test="null != id  and id !=''">
+				a.id = #{id},
+			</if>
+			<if test="null != ci_type_id  ">
+				a.ci_type_id = #{ci_type_id},
+			</if>
+			<if test="null != attr_name " >
+				a.attr_name = #{attr_name},
+			</if>
+			<if test="null != attr_std_name ">
+				a.attr_std_name = #{attr_std_name},
+			</if>
+			<if test="null != attr_type ">
+				a.attr_type = #{attr_type},
+			</if>
+			<if test="null != attr_desc ">
+				a.attr_desc = #{attr_desc},
+			</if>
+			<if test="null != mp_ci_item ">
+				a.mp_ci_item = #{mp_ci_item},
+			</if>
+			<if test="null != is_major ">
+				a.is_major = #{is_major},
+			</if>
+			<if test="null != is_requ ">
+				a.is_requ = #{is_requ},
+			</if>
+			<if test="null != def_val ">
+				a.def_val = #{def_val},
+			</if>
+			<if test="null != enum_vals ">
+				a.enum_vals = #{enum_vals},
+			</if>
+			<if test="null != sort ">
+				a.sort = #{sort},
+			</if>
+			<if test="null != cjr_id ">
+				a.cjr_id = #{cjr_id},
+			</if>
+			<if test="null != regexp ">
+				a.`regexp` = #{regexp},
+			</if>
+			<if test="null != xgr_id ">
+				a.xgr_id = #{xgr_id},
+			</if>
+			<if test="null != yxbz ">
+				a.yxbz = #{yxbz},
+			</if>
+			<if test="null != is_rela ">
+				a.is_rela = #{is_rela}
+			</if>
+		</set>
+		WHERE a.id=#{id}
+	</update>
+
+	<update id="deleteItem" parameterType="string">
+		update
+		IOMCI.IOM_CI_TYPE_ITEM set YXBZ=0 WHERE ID = #{id}
+	</update>
+
+	<update id="deleteItemByTid" parameterType="list">
+		update
+		IOMCI.IOM_CI_TYPE_ITEM set YXBZ=0 WHERE
+		CI_TYPE_ID in
+		<foreach collection="list" index="index" item="item" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+	<select id="findTypeItem" parameterType="string" resultType="typeitem">
+		SELECT * FROM IOMCI.IOM_CI_TYPE_ITEM WHERE ID=#{id} AND YXBZ=1
+	</select>
+
+	<select id="findData" parameterType="string" resultType="com.integration.entity.TypeData">
+		${sql}
+	</select>
+    
+    <select id="findDataToHump" parameterType="string" resultType="Map">
+		${sql}
+	</select>
+	
+	<select id="dataNum" parameterType="string" resultType="typeitem">
+		SELECT
+		MP_CI_ITEM FROM IOMCI.IOM_CI_TYPE_ITEM WHERE CI_TYPE_ID =#{tid} and yxbz=1
+	</select>
+
+	<select id="findDataCount" parameterType="string" resultType="int">
+		SELECT COUNT(1) FROM IOMCI.IOM_CI_TYPE_DATA AS D,IOMCI.IOM_CI_INFO AS
+		I WHERE I.ID = D.ID AND D.CI_TYPE_ID=#{tid} AND I.YXBZ=1
+	</select>
+
+	<select id="findPK" parameterType="string" resultType="string">
+		select
+		MP_CI_ITEM FROM IOMCI.IOM_CI_TYPE_ITEM WHERE IS_MAJOR = 1 AND
+		CI_TYPE_ID = #{tid} and yxbz=1
+	</select>
+
+	<select id="findDataCodebyTid" resultType="string" >
+		select MP_CI_ITEM from iom_ci_type_item
+		where CI_TYPE_ID=#{tid} and ATTR_NAME='bigtype';
+	</select>
+
+    <update id="deleteItemByAllByTid">
+		  update iom_ci_type_item
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="yxbz =case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                     when id=#{item.id} then #{item.yxbz}
+                </foreach>
+            </trim>
+        </trim>
+        where id in
+        <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+            #{item.id}
+        </foreach>
+	</update>
+	<update id="updateItemList">
+		<foreach collection="list" index="index" item="item" separator=";">
+			UPDATE IOMCI.IOM_CI_TYPE_ITEM a
+			<set>
+				<if test="null != item.ci_type_id  ">
+					a.ci_type_id = #{item.ci_type_id},
+				</if>
+				<if test="null != item.attr_name " >
+					a.attr_name = #{item.attr_name},
+				</if>
+				<if test="null != item.attr_std_name ">
+					a.attr_std_name = #{item.attr_std_name},
+				</if>
+				<if test="null != item.attr_type ">
+					a.attr_type = #{item.attr_type},
+				</if>
+				<if test="null != item.attr_desc ">
+					a.attr_desc = #{item.attr_desc},
+				</if>
+				<if test="null != item.mp_ci_item ">
+					a.mp_ci_item = #{item.mp_ci_item},
+				</if>
+				<if test="null != item.is_major ">
+					a.is_major = #{item.is_major},
+				</if>
+				<if test="null != item.is_requ ">
+					a.is_requ = #{item.is_requ},
+				</if>
+				<if test="null != item.def_val ">
+					a.def_val = #{item.def_val},
+				</if>
+				<if test="null != item.enum_vals ">
+					a.enum_vals = #{item.enum_vals},
+				</if>
+				<if test="null != item.sort ">
+					a.sort = #{item.sort},
+				</if>
+				<if test="null != item.cjr_id ">
+					a.cjr_id = #{item.cjr_id},
+				</if>
+				<if test="null != item.regexp ">
+					a.`regexp` = #{item.regexp},
+				</if>
+				<if test="null != item.xgr_id ">
+					a.xgr_id = #{item.xgr_id},
+				</if>
+				<if test="null != item.yxbz ">
+					a.yxbz = #{item.yxbz},
+				</if>
+				<if test="null != item.is_rela ">
+					a.is_rela = #{item.is_rela},
+				</if>
+				<if test="null != item.is_label ">
+					a.is_label = #{item.is_label}
+				</if>
+			</set>
+			WHERE a.id=#{item.id}
+		</foreach>
+	</update>
+
+	<select id="findItemVal" resultType="string">
+		select idx from iomci.iom_ci_type_data_index where TYPE_ID=#{typeId} and ATTR_ID = #{itemId}
+		<if test="null != value and value !='' ">
+		and idx like CONCAT('%',#{value},'%')
+		</if>
+	</select>
+
+	<select id="findKpi" resultType="iomCiKpi">
+		select * from iomci.iom_ci_kpi
+	</select>
+
+	<select id="getMappingCiData" resultType="java.util.Map">
+		select max(case when attr_name = '编号' then mp_ci_item else '' end) sbbh,
+				max(case when attr_name = '设备名称' then mp_ci_item else '' end) sbmc,
+				max(case when attr_name = '所属' then mp_ci_item else '' end) ss,
+				max(case when attr_name = '所在U位' then mp_ci_item else '' end) uw,
+				ci_type_id ciTypeId
+		from(
+			select ci_type_id,attr_name,mp_ci_item
+			from iomci.iom_ci_type_item
+			where yxbz = '1'
+			and id in
+			<foreach item="item" index="index" collection="list" open="("  close=")" separator=",">
+				#{item}
+			</foreach>
+		)a group by ci_type_id
+	</select>
+
+	<select id="jhIsnull" resultType="java.util.Map">
+        select ci_type_id,${sbmc} sbmc,${checkColumn} checkColumn
+		from IOMCI.IOM_CI_TYPE_DATA
+		where ci_type_id = #{ciTypeId}
+			and ${checkColumn} is null
+    </select>
+
+	<select id="jhIsexis" resultType="java.util.Map">
+        select a.ci_type_id,sbbh, sbmc,checkColumn
+        from(
+            select ci_type_id,${sbbh} sbbh, ${sbmc} sbmc,${checkColumn} checkColumn
+            from IOMCI.IOM_CI_TYPE_DATA
+            where ci_type_id = #{ciTypeId}
+        )a left join (
+            select a.data_1
+            from IOMCI.IOM_CI_TYPE_DATA a
+            left join IOMCI.iom_ci_type b on a.ci_type_id = b.id
+            where b.ci_type_bm = '机柜'
+        )b on a.checkColumn = b.data_1
+        where b.data_1 is null
+    </select>
+
+	<select id="uDataIsnull" resultType="java.util.Map">
+        select ci_type_id,${sbmc} sbmc,${checkColumn} checkColumn
+        from IOMCI.IOM_CI_TYPE_DATA
+        where ci_type_id = #{ciTypeId}
+        and ${checkColumn} is null
+    </select>
+
+	<select id="uDatasFormat" resultType="java.util.Map">
+        select ci_type_id, ${sbbh} sbbh, ${sbmc} sbmc,${checkColumn} checkColumn
+        from IOMCI.IOM_CI_TYPE_DATA
+        where ci_type_id = #{ciTypeId}
+        and locate('-',${checkColumn}) = 0
+    </select>
+
+	<select id="getRepeatDataId" resultType="java.util.Map">
+		select ida,a.ci_type_id,b.${sbbh} sbbha,b.${sbmc} sbmca,b.${checkColumn} uwa,idb,c.${sbbh} sbbhb,c.${sbmc} sbmcb,c.${checkColumn} uwb
+		from(
+			select max(a.ci_type_id)ci_type_id,min(ida)ida,max(idb) idb
+			from(
+				select a.ci_type_id,a.id ida,b.id idb,concat(abs(a.id - b.id),abs(a.id + b.id)) result
+				from (
+					select id,ci_type_id,${ss} ss,SUBSTRING_INDEX(${checkColumn}, '-', 1)sta,SUBSTRING_INDEX(${checkColumn}, '-', -1) end
+					from IOMCI.iom_ci_type_data
+					where CI_TYPE_ID = #{ciTypeId} and locate('-',${checkColumn}) > 0
+				)a join (
+					select id,ci_type_id,${ss} ss,SUBSTRING_INDEX(${checkColumn}, '-', 1)sta,SUBSTRING_INDEX(${checkColumn}, '-', -1) end
+					from IOMCI.iom_ci_type_data
+					where CI_TYPE_ID = #{ciTypeId} and locate('-',${checkColumn}) > 0
+				)b on a.ss = b.ss and a.id != b.id
+				where a.sta &lt;= b.end and a.end &gt;= b.sta
+			) a
+			group by a.result
+		)a
+		join IOMCI.iom_ci_type_data b on a.ida = b.id
+		join IOMCI.iom_ci_type_data c on a.idb = c.id
+	</select>
+
+	<select id="selectCiAttrs" resultType="Map">
+		SELECT
+			iom_ci_type_data_index.CI_ID ciId,
+			GROUP_CONCAT(
+				IF (
+					iom_ci_type_item.IS_MAJOR = 1,
+					iom_ci_type_item.ATTR_NAME,
+					""
+				) SEPARATOR ""
+			) major,
+			iom_ci_type_data_index.CI_ID,
+			CONCAT(
+				'{',
+				GROUP_CONCAT(
+					'"',
+					iom_ci_type_item.ATTR_NAME,
+					'":"',
+					REPLACE (
+						iom_ci_type_data_index.IDX,
+						"\"",
+						"\\\""
+					),
+					'"'
+				),
+				'}'
+			) jsonAttr
+		FROM
+			iom_ci_type_item
+		LEFT JOIN iom_ci_type_data_index ON iom_ci_type_data_index.ATTR_ID = iom_ci_type_item.ID
+		LEFT JOIN iom_ci_info ON iom_ci_type_data_index.CI_ID = iom_ci_info.ID
+		WHERE
+			iom_ci_type_item.CI_TYPE_ID = #{ciTypeId}
+		AND iom_ci_type_item.YXBZ = 1
+		AND iom_ci_info.YXBZ = 1
+		GROUP BY
+			iom_ci_type_data_index.CI_ID
+		ORDER BY iom_ci_info.CJSJ
+	</select>
+
+	<select id="selectJiFangList" resultType="Map">
+		SELECT
+			iom_ci_type_data_index.CI_ID ciId,
+			CONCAT(
+				'{',
+				GROUP_CONCAT(
+					'"',
+					iom_ci_type_item.ATTR_NAME,
+					'":"',
+					REPLACE (
+						iom_ci_type_data_index.IDX,
+						"\"",
+						"\\\""
+					),
+					'"'
+				),
+				'}'
+			) jsonAttr
+		FROM
+			iom_ci_type_item
+		LEFT JOIN iom_ci_type_data_index ON iom_ci_type_data_index.ATTR_ID = iom_ci_type_item.ID
+		LEFT JOIN iom_ci_info ON iom_ci_type_data_index.CI_ID = iom_ci_info.ID
+		WHERE
+		1=1
+		<if test="null != ciTypeId and '' != ciTypeId">
+			and iom_ci_type_item.CI_TYPE_ID = #{ciTypeId}
+		</if>
+
+		<if test="null != ciBm and '' != ciBm">
+			and iom_ci_info.CI_CODE  = #{ciBm}
+		</if>
+		AND iom_ci_type_item.YXBZ = 1
+		AND iom_ci_info.YXBZ = 1
+		GROUP BY
+			iom_ci_type_data_index.CI_ID
+		ORDER BY iom_ci_info.CJSJ
+	</select>
+
+	<select id="selectCiAttrsById" resultType="Map">
+		SELECT
+			iom_ci_type_data_index.CI_ID ciId,GROUP_CONCAT(IF(iom_ci_type_item.IS_MAJOR=1,iom_ci_type_item.ATTR_NAME,"") SEPARATOR "") major
+			,iom_ci_type_data_index.CI_ID,CONCAT('{',GROUP_CONCAT('"',iom_ci_type_item.ATTR_NAME,'":"',REPLACE(iom_ci_type_data_index.IDX, "\"", "\\\""),'"'),'}') jsonAttr
+		FROM
+			iom_ci_type_item
+		inner JOIN
+			iom_ci_type_data_index ON iom_ci_type_data_index.ATTR_ID = iom_ci_type_item.ID
+		WHERE
+			CI_ID in (${ciTypeId})
+		AND iom_ci_type_item.YXBZ = 1
+		GROUP BY iom_ci_type_data_index.CI_ID
+	</select>
+
+	<select id="findDataIdByTidList" parameterType="string" resultType="string">
+		select CI_CODE FROM IOMCI.IOM_CI_INFO WHERE CI_TYPE_ID in (${ids}) AND YXBZ=1
+		<if test="domainId != null and domainId !=''"> AND DOMAIN_ID in (${domainId})</if>
+	</select>
+    <select id="selItemByTypeId" resultType="com.integration.entity.TypeItem">
+		select * from iomci.iom_ci_type_item where YXBZ = 1 and CI_TYPE_ID = #{ciClassId}
+	</select>
+	<select id="selItemListByTypeIdAndCiBm" resultType="java.lang.String">
+		select distinct a.mp_ci_item from iomci.iom_ci_type_item a LEFT JOIN iom_ci_info b ON b.CI_TYPE_ID = a.CI_TYPE_ID where a.YXBZ = 1
+		<if test="computerRoomArea !=null and computerRoomArea !=''"> and a.CI_TYPE_ID = #{computerRoomArea}</if>
+		<if test="ciBm !=null and ciBm !=''"> and b.CI_CODE = #{ciBm}</if>
+	</select>
+	<select id="selectJiFangLists" resultType="java.util.Map">
+		SELECT distinct
+			a.id ciId
+			<foreach collection="list" index="index" item="item">
+				,${item}
+			</foreach>
+		FROM iom_ci_type_data a
+		LEFT JOIN iom_ci_info b ON a.ID = b.ID
+		WHERE
+		1=1
+		<if test="ciTypeId !=null and ciTypeId !=''"> and a.CI_TYPE_ID = #{ciTypeId}</if>
+		<if test="ciCode !=null and ciCode !=''"> and b.CI_CODE = #{ciCode}</if>
+	</select>
+	<select id="selItemByTypeIdAndCiBm" resultType="com.integration.entity.TypeItem">
+		select distinct a.* from iomci.iom_ci_type_item a LEFT JOIN iom_ci_info b ON b.CI_TYPE_ID = a.CI_TYPE_ID where a.YXBZ = 1
+		<if test="ciTypeId !=null and ciTypeId !=''"> and a.CI_TYPE_ID = #{ciTypeId}</if>
+		<if test="ciCode !=null and ciCode !=''"> and b.CI_CODE = #{ciCode}</if>
+	</select>
+	<select id="findCiTypeListByCiIds" parameterType="string" resultType="java.lang.String">
+		SELECT DISTINCT CI_TYPE_ID FROM iom_ci_info WHERE CI_BM in (${ciTypeId})
+	</select>
+	<select id="selectCiAttrsByIds" resultType="java.util.Map">
+		SELECT distinct
+		b.ci_code ciId
+		<foreach collection="list" index="index" item="item">
+			,${item}
+		</foreach>
+		FROM iom_ci_type_data a
+		LEFT JOIN iom_ci_info b ON a.ID = b.ID
+		WHERE
+		1=1
+		<if test="ciTypeId !=null and ciTypeId !=''"> and a.CI_TYPE_ID = #{ciTypeId}</if>
+		<if test="ciIds !=null and ciIds !=''"> and b.ci_bm in (${ciIds})</if>
+	</select>
+	<select id="getMajorList" resultType="java.util.Map">
+		select ci_type_id,mp_ci_item from iom_ci_type_item where yxbz=1 and IS_MAJOR=1
+	</select>
+	<select id="findMpCiItemByIdTypeId" resultType="java.lang.String">
+		select MP_CI_ITEM from iomci.iom_ci_type_item where YXBZ = 1 and id = #{cIName}
+	</select>
+	<select id="getCiCodeList" resultType="java.lang.String">
+		select ci_code from iom_ci_info where
+		id in
+		<foreach collection="list" index="index" item="item" open="("
+				 separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+	<select id="findItemNameByItemId" resultType="java.lang.String">
+		select ATTR_NAME from iom_ci_type_item where
+		id in
+		<foreach collection="list" index="index" item="item" open="("
+				 separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+	<select id="findItemValByIdList" resultType="java.lang.String">
+		select MP_CI_ITEM from iom_ci_type_item where
+		id in
+		<foreach collection="list" index="index" item="item" open="("
+				 separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+	<select id="findDataMap" resultType="java.util.LinkedHashMap">
+		${sql}
+	</select>
+	<select id="findAllItemHump" resultType="java.util.Map">
+		select
+		  ID id,
+		  CI_TYPE_ID ciTypeId,
+		  ATTR_NAME attrName,
+		  ATTR_STD_NAME attrStdName,
+		  ATTR_TYPE attrType,
+		  ATTR_DESC attrDesc,
+		  MP_CI_ITEM mpCiItem,
+		  IS_MAJOR isMajor,
+		  IS_REQU isRequ,
+		  DEF_VAL defVal,
+		  ENUM_VALS enumVals,
+		  SORT sort,
+		  CJR_ID cjrId,
+		  CJSJ cjsj,
+		  XGR_ID xgrId,
+		  XGSJ xgsj,
+		  `regexp`,
+		  YXBZ yxbz,
+		  is_label isLabel
+		 from
+		IOMCI.IOM_CI_TYPE_ITEM WHERE  YXBZ=1
+	</select>
+	<select id="findDataMapDeploy" resultType="java.util.LinkedHashMap">
+		select ${character} from IOMCI.IOM_CI_TYPE_DATA data
+		left join IOMCI.IOM_CI_INFO info on info.ID = data.ID
+		where info.YXBZ=1
+		AND info.CI_TYPE_ID =#{tid}
+		<if test="ciPropertyList !=null and ciPropertyList.size>0">
+			<foreach collection="ciPropertyList" index="index" item="item">
+				<if test="index == 0">
+					AND info.ATTRS_STR like CONCAT('%',#{item},'%')
+				</if>
+				<if test="index > 0">
+					OR info.ATTRS_STR like CONCAT('%',#{item},'%')
+				</if>
+			</foreach>
+		</if>
+	</select>
+</mapper>

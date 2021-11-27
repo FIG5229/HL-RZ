@@ -1,0 +1,713 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.integration.dao.TypeDao">
+	<sql id="cols">
+		a.`id`,
+		a.`ci_type_bm`,
+		a.`ci_type_mc`,
+		a.`ci_type_std_bm`,
+		a.`ci_type_dir`,
+		a.`parent_ci_type_id`,
+		a.`ci_type_lv`,
+		a.`ci_type_path`,
+		a.`leaf`,
+		a.`ci_type_icon`,
+		a.`ci_type_desc`,
+		a.`ci_type_color`,
+		a.`sort`,
+		a.`cjr_id`,
+		a.`cjsj`,
+		a.`xgr_id`,
+		a.`xgsj`,
+		a.`yxbz`
+	</sql>
+	<sql id="getSql">
+		from IOMCI.IOM_CI_TYPE a where 1=1
+		<if test="null != id ">
+			a.id = #{id},
+		</if>
+		<if test="null != ci_type_mc ">
+			a.ci_type_mc = #{ci_type_mc},
+		</if>
+		<if test="null != ci_type_std_bm ">
+			a.ci_type_std_bm = #{ci_type_std_bm},
+		</if>
+		<if test="null != ci_type_bm ">
+			a.ci_type_bm = #{ci_type_bm},
+		</if>
+		<if test="null != ci_type_dir ">
+			a.ci_type_dir = #{ci_type_dir},
+		</if>
+		<if test="null != parent_ci_type_id ">
+			a.parent_ci_type_id = #{parent_ci_type_id},
+		</if>
+		<if test="null != ci_type_lv ">
+			a.ci_type_lv = #{ci_type_lv},
+		</if>
+		<if test="null != ci_type_path ">
+			a.ci_type_path = #{ci_type_path},
+		</if>
+		<if test="null != leaf ">
+			a.leaf = #{leaf},
+		</if>
+		<if test="null != ci_type_icon ">
+			a.ci_type_icon = #{ci_type_icon},
+		</if>
+		<if test="null != ci_type_desc ">
+			a.ci_type_desc = #{ci_type_desc},
+		</if>
+		<if test="null != ci_type_color ">
+			a.ci_type_color = #{ci_type_color},
+		</if>
+		<if test="null != sort ">
+			a.sort = #{sort},
+		</if>
+		<if test="null != cjr_id ">
+			a.cjr_id = #{cjr_id},
+		</if>
+		<if test="null != cjsj ">
+			a.cjsj = str_to_date(#{cjsj} ,'%Y-%m-%d %H:%i:%s'),
+		</if>
+		<if test="null != xgr_id ">
+			a.xgr_id = #{xgr_id},
+		</if>
+		<if test="null != xgsj ">
+			a.xgsj = str_to_date(#{xgsj} ,'%Y-%m-%d %H:%i:%s'),
+		</if>
+		<if test="null != yxbz ">
+			a.yxbz = #{yxbz},
+		</if>
+	</sql>
+
+	<select id="findTypeList" resultType="type" parameterType="java.lang.String">
+		select * from
+		IOMCI.IOM_CI_TYPE WHERE YXBZ=1
+		<if test="domainId != null and domainId !=''"> AND DOMAIN_ID in (${domainId})</if>
+	</select>
+	
+	<select id="queryCiInfoByCiTypeName" resultType="Map" parameterType="java.lang.String">
+		select 
+		   ID id,
+		   CI_CODE ciCode,
+		   IFNULL(CI_NAME,CI_CODE) as ciName,
+		   CI_DESC ciDesc,
+		   CI_TYPE_ID ciTypeId,
+		   SOURCE_ID sourceId,
+		   OWNER_ID ownerId,
+		   ORG_ID orgId,
+		   CI_VERSION ciVersion,
+		   ATTRS_STR attrsStr,
+		   CJR_ID cjrId,
+		   CJSJ cjsj,
+		   XGR_ID xgrId,
+		   XGSJ xgsj,
+		   YXBZ yxbz,
+		   DOMAIN_ID domainId
+		from iom_ci_info where YXBZ=1 AND CI_TYPE_ID IN(select ID from iom_ci_type where CI_TYPE_BM=#{ciTypeName} 
+		<if test="domainId != null and domainId != ''">
+ 		  AND DOMAIN_ID = #{domainId}
+ 		</if>
+		) 
+		<if test="domainId != null and domainId != ''">
+ 		  AND DOMAIN_ID = #{domainId}
+ 		</if>
+		LIMIT 0,200 
+	</select>
+	
+	<select id="queryCiInfoByCiTypeNameWorldMap" resultType="Map" parameterType="java.lang.String">
+		select 
+		   ID id,
+		   CI_BM ciBm,
+		   CI_DESC ciDesc,
+		   CI_TYPE_ID ciTypeId,
+		   SOURCE_ID sourceId,
+		   OWNER_ID ownerId,
+		   ORG_ID orgId,
+		   CI_VERSION ciVersion,
+		   ATTRS_STR attrsStr,
+		   CJR_ID cjrId,
+		   CJSJ cjsj,
+		   XGR_ID xgrId,
+		   XGSJ xgsj,
+		   YXBZ yxbz,
+		   DOMAIN_ID domainId
+		from iom_ci_info where YXBZ=1 AND CI_TYPE_ID IN(select ID from iom_ci_type where CI_TYPE_BM=#{ciTypeName})
+	</select>
+	
+
+	<select id="findCiTypeListHumpByIds" resultType="Map">
+		select 
+		  ID id,
+		  CI_TYPE_BM ciTypeBm,
+		  CI_TYPE_MC ciTypeMc,
+		  CI_TYPE_STD_BM ciTypeStdBm,
+		  CI_TYPE_DIR ciTypeDir,
+		  PARENT_CI_TYPE_ID parentCiTypeId,
+		  CI_TYPE_LV ciTypeLv,
+		  CI_TYPE_PATH ciTypePath,
+		  LEAF leaf,
+		  CI_TYPE_ICON ciTypeIcon,
+		  CI_TYPE_DESC ciTypeDesc,
+		  CI_TYPE_COLOR ciTypeColor,
+		  SORT sort,
+		  CJR_ID cjrId,
+		  CJSJ cjsj,
+		  XGR_ID xgrId,
+		  XGSJ xgsj,
+		  YXBZ yxbz
+ 		from IOMCI.IOM_CI_TYPE WHERE YXBZ=1 
+ 		<if test="domainId != null and domainId != ''">
+ 		  AND DOMAIN_ID in (${domainId})
+ 		</if>
+ 		<if test=" ciTypeIdList != null and ciTypeIdList != '' ">
+            AND IOM_CI_TYPE.ID IN
+            <foreach item="ciTypeId" index="index" collection="ciTypeIdList" open="(" separator="," close=")">
+                ${ciTypeId}
+            </foreach>
+        </if>       
+	</select>
+	
+	<select id="findTypeListHump" resultType="java.util.Map">
+		select ID id,CI_TYPE_BM ciTypeBm,CI_TYPE_MC ciTypeMc,CI_TYPE_STD_BM ciTypeStdBm,CI_TYPE_DIR ciTypeDir,
+				PARENT_CI_TYPE_ID parentCiTypeId,CI_TYPE_LV ciTypeLv,CI_TYPE_PATH ciTypePath,LEAF leaf,
+				CI_TYPE_ICON ciTypeIcon,CI_TYPE_DESC ciTypeDesc,CI_TYPE_COLOR ciTypeColor,
+				SORT sort,CJR_ID cjrId,CJSJ cjsj,XGR_ID xgrId,XGSJ xgsj,YXBZ yxbz
+ 		from IOMCI.IOM_CI_TYPE WHERE YXBZ=1 <if test="domainId != null and domainId !=''">AND DOMAIN_ID in (${domainId})</if>
+	</select>
+	
+	<select id="findCiTypeListHumpByCiTypeBm" resultType="Map">
+		select 
+		   ID id,
+		   CI_TYPE_BM ciTypeBm,
+		   CI_TYPE_MC ciTypeMc,
+		   CI_TYPE_STD_BM ciTypeStdBm,
+		   CI_TYPE_DIR ciTypeDir,
+		   PARENT_CI_TYPE_ID parentCiTypeId,
+		   CI_TYPE_LV ciTypeLv,
+		   CI_TYPE_PATH ciTypePath,
+		   LEAF leaf,
+		   CI_TYPE_ICON ciTypeIcon,
+		   CI_TYPE_DESC ciTypeDesc,
+		   CI_TYPE_COLOR ciTypeColor,
+		   SORT sort,
+		   DOMAIN_ID domainId,
+		   CJR_ID cjrId,
+		   CJSJ cjsj,
+		   XGR_ID xgrId,
+		   XGSJ xgsj,
+		   YXBZ yxbz
+ 		from IOMCI.IOM_CI_TYPE WHERE YXBZ=1 
+ 		<if test="domainId != null and domainId !=''">
+ 		  AND DOMAIN_ID in (${domainId})
+ 		</if>
+ 		<if test="ciTypeMc !=null and ciTypeMc!=''">
+			AND CI_TYPE_BM LIKE CONCAT('%',#{ciTypeMc},'%')
+		</if>
+	</select>
+
+	<select id="findTypeListByCond" resultType="type">
+		select
+		<include refid="cols" />
+		<include refid="getSql" />
+	</select>
+
+	<select id="findTypeInfo" resultMap="infoList">
+		select T.ID AS
+		TID,T.CI_TYPE_MC,T.CI_TYPE_ICON AS TCI_TYPE_ICON,I.ID AS IID,I.CI_BM from
+		IOMCI.IOM_CI_TYPE AS T INNER
+		JOIN IOMCI.IOM_CI_INFO AS I ON
+		I.CI_TYPE_ID = T.ID WHERE I.YXBZ=1 AND
+		T.YXBZ=1
+		<if test="search !=null and search!=''">
+			AND I.ATTRS_STR LIKE CONCAT('%',#{search},'%')
+			/*AND I.ID IN(select stinct CI_ID from
+			IOMCI.IOM_CI_TYPE_DATA_INDEX
+			WHERE IDX LIKE CONCAT('%',#{search},'%'))*/
+		</if>
+
+	</select>
+
+	<select id="ciCountByTid" parameterType="string" resultType="int">
+		select COUNT(1) from
+		IOMCI.IOM_CI_INFO WHERE CI_TYPE_ID=#{tid} AND YXBZ=1
+		<if test="domainId != null and domainId !=''">AND DOMAIN_ID in (${domainId})</if>
+	</select>
+
+	<resultMap id="infoList" type="typeinfolist">
+		<id property="id" column="tid" />
+		<result property="ci_type_mc" column="ci_type_mc" />
+		<result property="ci_type_icon" column="tci_type_icon" />
+		<collection property="infoList" column="ci_type_id" ofType="info">
+			<id property="id" column="iid" />
+			<id property="ci_type_icon" column="tci_type_icon" />
+			<result property="ci_bm" column="ci_bm" />
+		</collection>
+	</resultMap>
+
+
+
+	<select id="typeNameExists" parameterType="string" resultType="int">
+		select count(CI_TYPE_BM) FROM IOMCI.IOM_CI_TYPE WHERE CI_TYPE_MC =#{ci_type_bm}
+		<if test="domainId!=null and domainId !=''"> AND DOMAIN_ID =#{domainId}</if> AND yxbz = 1
+	</select>
+
+	<insert id="addType" parameterType="type">
+		INSERT INTO IOMCI.IOM_CI_TYPE
+		VALUES (
+		#{id},
+		#{ci_type_bm},
+		#{ci_type_mc},
+		#{ci_type_std_bm},
+		#{ci_type_dir},
+		#{parent_ci_type_id},
+		#{ci_type_lv},
+		#{ci_type_path},
+		#{leaf},
+		#{ci_type_icon},
+		#{ci_type_desc},
+		#{ci_type_color},
+		#{sort},
+		#{domain_id},
+		#{cjr_id},
+		str_to_date(#{cjsj} ,'%Y-%m-%d %H:%i:%s'),
+		#{xgr_id},
+		str_to_date(#{xgsj} ,'%Y-%m-%d %H:%i:%s'),
+		#{yxbz}
+		)
+	</insert>
+
+	<update id="updateType" parameterType="type">
+		UPDATE IOMCI.IOM_CI_TYPE a
+		<set>
+			<if test="null != id ">
+				a.id = #{id},
+			</if>
+			<if test="null != ci_type_mc ">
+				a.ci_type_mc = #{ci_type_mc},
+			</if>
+			<if test="null != ci_type_std_bm ">
+				a.ci_type_std_bm = #{ci_type_std_bm},
+			</if>
+			<if test="null != ci_type_bm ">
+				a.ci_type_bm = #{ci_type_bm},
+			</if>
+			<if test="null != ci_type_dir ">
+				a.ci_type_dir = #{ci_type_dir},
+			</if>
+			<if test="null != parent_ci_type_id ">
+				a.parent_ci_type_id = #{parent_ci_type_id},
+			</if>
+			<if test="null != ci_type_lv ">
+				a.ci_type_lv = #{ci_type_lv},
+			</if>
+			<if test="null != ci_type_path ">
+				a.ci_type_path = #{ci_type_path},
+			</if>
+			<if test="null != leaf ">
+				a.leaf = #{leaf},
+			</if>
+			<if test="null != ci_type_icon ">
+				a.ci_type_icon = #{ci_type_icon},
+			</if>
+			<if test="null != ci_type_desc ">
+				a.ci_type_desc = #{ci_type_desc},
+			</if>
+			<if test="null != ci_type_color ">
+				a.ci_type_color = #{ci_type_color},
+			</if>
+			<if test="null != sort ">
+				a.sort = #{sort},
+			</if>
+			<if test="null != domain_id ">
+				a.domain_id = #{domain_id},
+			</if>
+			<if test="null != cjr_id ">
+				a.cjr_id = #{cjr_id},
+			</if>
+			<if test="null != cjsj ">
+				a.cjsj = str_to_date(#{cjsj} ,'%Y-%m-%d %H:%i:%s'),
+			</if>
+			<if test="null != xgr_id ">
+				a.xgr_id = #{xgr_id},
+			</if>
+			<if test="null != xgsj ">
+				a.xgsj = str_to_date(#{xgsj} ,'%Y-%m-%d %H:%i:%s'),
+			</if>
+			<if test="null != yxbz ">
+				a.yxbz = #{yxbz},
+			</if>
+		</set>
+		WHERE a.id=#{id}
+	</update>
+
+	<update id="deleteType" parameterType="string">
+		update
+		IOMCI.IOM_CI_TYPE
+		set YXBZ=0 WHERE ID = #{typeId}
+	</update>
+
+	<select id="findTypeById" parameterType="string" resultType="type">
+		select * from IOMCI.IOM_CI_TYPE WHERE ID = #{typeId}
+		<if test="domainId!=null and domainId!=''">AND DOMAIN_ID in (${domainId})</if>
+	</select>
+
+	<update id="deleteTypeByDirId" parameterType="string">
+		update
+		IOMCI.IOM_CI_TYPE set YXBZ=0 WHERE CI_TYPE_DIR = #{dirId}
+	</update>
+
+	<select id="findTypeIdByDid" parameterType="string" resultType="string">
+		select ID from IOMCI.IOM_CI_TYPE WHERE CI_TYPE_DIR = #{dirId} AND
+		YXBZ=1
+	</select>
+
+	<select id="findTypeAllList" resultType="typeinfolist">
+		select T.ID AS
+		ID,T.CI_TYPE_MC,T.CI_TYPE_ICON AS CI_TYPE_ICON,i.ICON_FULL_NAME AS imageFullName from
+		IOMCI.IOM_CI_TYPE AS T left join iom_ci_icon as i on T.CI_TYPE_ICON = i.ICON_PATH WHERE T.YXBZ=1
+		<if test="search !=null and search!=''">
+			and T.CI_TYPE_MC LIKE CONCAT('%',#{search},'%'))
+		</if>
+		<if test="domainId != null and domainId !=''">and T.DOMAIN_ID in (${domainId})</if>
+	</select>
+
+	<select id="getCiInfoByLikeCiBmAndCiTypeId" resultType="info">
+		select iom_ci_info.ID,iom_ci_info.CI_CODE as ciCode,IFNULL(iom_ci_info.CI_NAME,iom_ci_info.CI_CODE) as ciName,iom_ci_info.CI_TYPE_ID from iom_ci_info where (iom_ci_info.CI_NAME like "%"#{search}"%" OR iom_ci_info.CI_CODE like "%"#{search}"%") and iom_ci_info.CI_TYPE_ID=#{ciTypeId}
+		<if test="domainId != null and domainId !=''"> and iom_ci_info.DOMAIN_ID in (${domainId})</if>
+	</select>
+	<select id="findTypeSort" resultType="int">
+		select max(SORT) as sort from IOMCI.IOM_CI_TYPE WHERE PARENT_CI_TYPE_ID = #{pId} AND
+		YXBZ=1
+	</select>
+	<select id="getCiTypeAllListByCiTypeId" resultType="typeinfolist">
+		select T.ID AS
+		ID,T.CI_TYPE_MC,T.CI_TYPE_ICON AS CI_TYPE_ICON,i.ICON_FULL_NAME AS imageFullName from
+		IOMCI.IOM_CI_TYPE AS T left join iom_ci_icon as i on T.CI_TYPE_ICON = i.ICON_PATH WHERE T.YXBZ=1
+		<if test=" domainId != null and domainId != '' ">
+            AND T.DOMAIN_ID in (${domainId})
+        </if>
+		<if test=" typeIdList != null and typeIdList != '' ">
+            AND T.ID IN
+            <foreach item="typeId" index="index" collection="typeIdList" open="(" separator="," close=")">
+                #{typeId}
+            </foreach>
+        </if>
+
+	</select>
+
+	<select id="getCiInfoNumByCiTypeId" resultType="Map">
+	    SELECT
+	      ciInfo.CI_TYPE_ID ciTypeId,
+	      COUNT(ciInfo.CI_TYPE_ID) ciNum
+	    FROM
+		(SELECT * from
+		IOMCI.IOM_CI_INFO WHERE IOMCI.IOM_CI_INFO.YXBZ=1
+		<if test=" domainId != null and domainId != '' ">
+            AND IOMCI.IOM_CI_INFO.DOMAIN_ID in (${domainId})
+        </if>
+		<if test=" typeIdList != null and typeIdList != '' ">
+            AND IOMCI.IOM_CI_INFO.CI_TYPE_ID IN
+            <foreach item="typeId" index="index" collection="typeIdList" open="(" separator="," close=")">
+                #{typeId}
+            </foreach>
+        </if>
+        )as ciInfo
+        GROUP BY
+	    ciInfo.CI_TYPE_ID
+	</select>
+	
+	<select id="findCiInfoByBaseMapId" resultType="Map">
+	    SELECT  
+           CI_TYPE_ID ciTypeId,
+           (select ci_type_mc from iom_ci_type where id = iom_ci_info.CI_TYPE_ID) ciTypeName,
+           CI_CODE ciCode,IFNULL(CI_NAME,CI_CODE) ciName
+         FROM iom_ci_info
+        where YXBZ=1
+        <if test=" domainId != null and domainId != '' ">
+            AND IOMCI.IOM_CI_INFO.DOMAIN_ID in (${domainId})
+        </if>
+        <if test=" ciCodeList != null and ciCodeList != '' ">
+            AND IOMCI.IOM_CI_INFO.CI_CODE IN
+            <foreach item="ciCode" index="index" collection="ciCodeList" open="(" separator="," close=")">
+                #{ciCode}
+            </foreach>
+        </if>
+        GROUP BY CI_TYPE_ID,CI_CODE
+	</select>
+
+
+	<select id="findDataIdByTid" resultType="info">
+		select ID,CI_CODE as ciCode,IFNULL(CI_NAME,CI_CODE) as ciName,CI_TYPE_ID FROM IOMCI.IOM_CI_INFO WHERE CI_TYPE_ID = #{ci_type_id} AND YXBZ=1
+		<if test="search !=null and search!=''">
+			AND ATTRS_STR LIKE CONCAT('%',#{search},'%')
+			/*AND I.ID IN(select distinct CI_ID from
+			IOMCI.IOM_CI_TYPE_DATA_INDEX
+			WHERE IDX LIKE CONCAT('%',#{search},'%'))*/
+		</if>
+	</select>
+
+	<select id="findCiInfoNumByGroupId" resultType="Map">
+		select CI_TYPE_ID,count(*) num from iom_ci_info where (CI_NAME like "%"#{search}"%" OR CI_CODE like "%"#{search}"%") AND YXBZ=1 <if test="domainId != null and domainId !=''"> AND DOMAIN_ID in (${domainId})</if> GROUP BY CI_TYPE_ID
+	</select>
+
+	<select id="findByMc" parameterType="string" resultType="type">
+		select * from IOMCI.IOM_CI_TYPE WHERE YXBZ = 1 AND ci_type_mc = #{name}
+		<if test="domainId!=null and domainId !=''"> AND DOMAIN_ID =#{domainId}</if>
+	</select>
+
+	<select id="findCiTypeIdAndMcByCiId" resultType="Map">
+	    select iom_ci_type.ID id,iom_ci_type.CI_TYPE_MC ciTypeMc,iom_ci_type.CI_TYPE_ICON ciTypeIcon from iom_ci_type where ID in(select DISTINCT CI_TYPE_ID from iom_ci_info where CI_CODE in
+	    <foreach collection="list" index="index" item="item" open="("
+                 separator="," close=")">
+            #{item}
+        </foreach>
+	    )
+	</select>
+
+	<select id="findClassAndCiInfoByCiIds" resultType="Map">
+	    select a.ID as ciId,a.CI_CODE as ciCode,IFNULL(a.CI_NAME,a.CI_CODE) ciName, b.ID as ciTypeId,b.CI_TYPE_MC as ciTypeMc from iom_ci_info as a LEFT JOIN iom_ci_type as b on a.CI_TYPE_ID=b.ID where a.CI_CODE in
+	    <foreach collection="list" index="index" item="item" open="("
+                 separator="," close=")">
+            #{item}
+        </foreach>
+	</select>
+
+	<select id="findClassInfoAndCiInfoByCiIds" resultType="Map">
+	    select a.ID as ciId,a.CI_CODE as ciCode,IFNULL(a.CI_NAME,a.CI_CODE) ciName,b.ID as ciTypeId,b.CI_TYPE_MC as ciTypeMc,b.CI_TYPE_ICON as ciTypeIcon from iom_ci_info as a LEFT JOIN iom_ci_type as b on a.CI_TYPE_ID=b.ID where a.CI_CODE in
+	    <foreach collection="list" index="index" item="item" open="("
+                 separator="," close=")">
+            #{item}
+        </foreach>
+	</select>
+
+	<select id="findCiInfoByCiIds" resultType="Map">
+	    select
+	      ID id,
+	      CI_CODE ciCode,
+	      IFNULL(CI_NAME,CI_CODE) ciName,
+	      CI_DESC ciDesc,
+	      CI_TYPE_ID ciTypeId,
+	      SOURCE_ID sourceId,
+	      OWNER_ID ownerId,
+	      ORG_ID orgId,
+	      CI_VERSION ciVersion,
+	      CJR_ID cjrId,
+	      CJSJ cjsj,
+	      XGR_ID xgrId,
+	      XGSJ xgsj,
+	      YXBZ yxbz,
+	      DOMAIN_ID domainId
+	    from iom_ci_info
+	    where iom_ci_info.YXBZ=1
+	    <if test=" ciCodeList != null and ciCodeList != '' ">
+            AND iom_ci_info.CI_CODE IN
+            <foreach item="ciCode" index="index" collection="ciCodeList" open="(" separator="," close=")">
+                #{ciCode}
+            </foreach>
+        </if>
+        <if test=" domainId != null and domainId != '' ">
+            AND iom_ci_info.DOMAIN_ID in (${domainId})
+        </if>
+	</select>
+	
+		<select id="findCiInfoByCiCodes" resultType="String">
+	    select
+	      CI_CODE ciCode
+	    from iom_ci_info
+	    where iom_ci_info.YXBZ=1
+	    <if test=" ciCodeList != null and ciCodeList != '' ">
+            AND iom_ci_info.CI_CODE IN
+            <foreach item="ciCode" index="index" collection="ciCodeList" open="(" separator="," close=")">
+                #{ciCode}
+            </foreach>
+        </if>
+        <if test=" domainId != null and domainId != '' ">
+            AND iom_ci_info.DOMAIN_ID in (${domainId})
+        </if>
+	</select>
+
+	<select id="findClassInfoByCiTypeIds" resultType="Map">
+         select
+           ID id,
+           CI_TYPE_BM ciTypeBm,
+           CI_TYPE_MC ciTypeMc,
+           CI_TYPE_STD_BM ciTypeStdBm,
+           CI_TYPE_DIR ciTypeDir,
+           PARENT_CI_TYPE_ID parentCiTypeId,
+           CI_TYPE_LV ciTypeLv,
+           CI_TYPE_PATH ciTypePath,
+           LEAF leaf,
+           CI_TYPE_ICON ciTypeIcon,
+           CI_TYPE_DESC ciTypeDesc,
+           CI_TYPE_COLOR ciTypeColor,
+           SORT sort,
+           DOMAIN_ID domainId,
+           CJR_ID cjrId,
+           CJSJ cjsj,
+           XGR_ID xgrId,
+           XGSJ xgsj,
+           YXBZ yxbz
+         from
+           iomci.iom_ci_type where id in
+         <foreach collection="list" index="index" item="item" open="("
+                 separator="," close=")">
+            #{item}
+        </foreach>
+        AND iom_ci_type.YXBZ=1
+    </select>
+	<select id="findCiTypeListHumpSearch" resultType="java.util.Map">
+		select ID id,CI_TYPE_BM ciTypeBm,CI_TYPE_MC ciTypeMc,CI_TYPE_STD_BM ciTypeStdBm,CI_TYPE_DIR ciTypeDir,
+		PARENT_CI_TYPE_ID parentCiTypeId,CI_TYPE_LV ciTypeLv,CI_TYPE_PATH ciTypePath,LEAF leaf,
+		CI_TYPE_ICON ciTypeIcon,CI_TYPE_DESC ciTypeDesc,CI_TYPE_COLOR ciTypeColor,
+		SORT sort,CJR_ID cjrId,CJSJ cjsj,XGR_ID xgrId,XGSJ xgsj,YXBZ yxbz
+		from IOMCI.IOM_CI_TYPE WHERE YXBZ=1 <if test="domainId != null and domainId !=''">AND DOMAIN_ID in (${domainId})</if>
+		<if test="typeIdList != null and typeIdList.size >0 ">
+			AND ID NOT IN
+			<foreach item="typeId" index="index" collection="typeIdList" open="(" separator="," close=")">
+				#{typeId}
+			</foreach>
+		</if>
+	</select>
+    <select id="findTypeAllListHump" resultType="com.integration.entity.TypeInfoListHump" parameterType="string">
+		select T.ID AS
+		ID,T.CI_TYPE_MC ciTypeMc,T.CI_TYPE_ICON AS ciTypeIcon from
+		IOMCI.IOM_CI_TYPE AS T  WHERE T.YXBZ=1
+		<if test="search !=null and search!=''">
+			and T.CI_TYPE_MC LIKE CONCAT('%',#{search},'%'))
+		</if>
+		<if test="domainId != null and domainId !=''">and T.DOMAIN_ID in (${domainId})</if>
+	</select>
+	<select id="findDataIdByTidHump" resultType="com.integration.entity.InfoHump" parameterType="string">
+		select ID,CI_CODE ciBm,CI_TYPE_ID ciTypeId FROM IOMCI.IOM_CI_INFO WHERE CI_TYPE_ID = #{ciTypeId} AND YXBZ=1
+		<if test="search !=null and search!=''">
+			AND ATTRS_STR LIKE CONCAT('%',#{search},'%')
+			/*AND I.ID IN(select distinct CI_ID from
+			IOMCI.IOM_CI_TYPE_DATA_INDEX
+			WHERE IDX LIKE CONCAT('%',#{search},'%'))*/
+		</if>
+	</select>
+	<select id="getCiTypeAllListByCiTypeIdHump" resultType="com.integration.entity.TypeInfoListHump">
+		select T.ID AS
+		ID,T.CI_TYPE_MC ciTypeMc,T.CI_TYPE_ICON  AS ciTypeIcon from
+		IOMCI.IOM_CI_TYPE AS T  WHERE T.YXBZ=1
+		<if test=" domainId != null and domainId != '' ">
+			AND T.DOMAIN_ID in (${domainId})
+		</if>
+		<if test=" typeIdList != null and typeIdList != '' ">
+			AND T.ID IN
+			<foreach item="typeId" index="index" collection="typeIdList" open="(" separator="," close=")">
+				#{typeId}
+			</foreach>
+		</if>
+	</select>
+	<select id="getCiInfoByLikeCiBmAndCiTypeIdHump" resultType="com.integration.entity.InfoHump">
+		select iom_ci_info.ID,iom_ci_info.CI_CODE,iom_ci_info.CI_TYPE_ID from iom_ci_info where iom_ci_info.CI_BM like "%"#{search}"%" and iom_ci_info.CI_TYPE_ID=#{ciTypeId}
+		<if test="domainId != null and domainId !=''"> and iom_ci_info.DOMAIN_ID in (${domainId})</if>
+	</select>
+	<select id="getCiTypeList" resultType="java.util.Map">
+		select
+		ID id,
+		CI_TYPE_BM ciTypeBm,
+		CI_TYPE_MC ciTypeMc,
+		CI_TYPE_STD_BM ciTypeStdBm,
+		CI_TYPE_DIR ciTypeDir,
+		PARENT_CI_TYPE_ID parentCiTypeId,
+		CI_TYPE_LV ciTypeLv,
+		CI_TYPE_PATH ciTypePath,
+		LEAF leaf,
+		CI_TYPE_ICON ciTypeIcon,
+		CI_TYPE_DESC ciTypeDesc,
+		CI_TYPE_COLOR ciTypeColor,
+		SORT sort,
+		CJR_ID cjrId,
+		CJSJ cjsj,
+		XGR_ID xgrId,
+		XGSJ xgsj,
+		YXBZ yxbz,
+		DOMAIN_ID domainId
+		from IOMCI.IOM_CI_TYPE WHERE YXBZ=1
+		<if test="domainId != null and domainId != ''">
+			AND DOMAIN_ID in (${domainId})
+		</if>
+	</select>
+	
+	<select id="getCiTypeInfoByCiTypeName" resultType="Map">
+		select
+		ID id,
+		CI_TYPE_BM ciTypeBm,
+		CI_TYPE_MC ciTypeMc,
+		CI_TYPE_STD_BM ciTypeStdBm,
+		CI_TYPE_DIR ciTypeDir,
+		PARENT_CI_TYPE_ID parentCiTypeId,
+		CI_TYPE_LV ciTypeLv,
+		CI_TYPE_PATH ciTypePath,
+		LEAF leaf,
+		CI_TYPE_ICON ciTypeIcon,
+		CI_TYPE_DESC ciTypeDesc,
+		CI_TYPE_COLOR ciTypeColor,
+		SORT sort,
+		CJR_ID cjrId,
+		CJSJ cjsj,
+		XGR_ID xgrId,
+		XGSJ xgsj,
+		YXBZ yxbz
+		from IOMCI.IOM_CI_TYPE WHERE YXBZ=1
+		<if test="domainId != null and domainId != ''">
+			AND DOMAIN_ID in (${domainId})
+		</if>
+		<if test="ciTypeName != null and ciTypeName != ''">
+			AND CI_TYPE_BM=#{ciTypeName}
+		</if>
+	</select>
+    <select id="getAllCiTypeList" resultType="com.integration.entity.Type">
+		select * from IOMCI.IOM_CI_TYPE WHERE YXBZ=1
+		<if test="domainId != null and domainId != ''">
+			AND DOMAIN_ID in (${domainId})
+		</if>
+	</select>
+
+
+	<select id="getCiInfoList" resultType="com.integration.entity.Info" parameterType="map">
+		select * from iom_ci_info
+		where YXBZ=1
+		<if test="attrsStr !=null and attrsStr!=''">
+			AND ATTRS_STR LIKE CONCAT('%',#{attrsStr},'%')
+		</if>
+		<if test="attrsStrLikeList != null and attrsStrLikeList.size() > 0">
+			and
+			<foreach collection="attrsStrLikeList" open="(" close=")" separator="or" item="temp">
+				ATTRS_STR LIKE ${temp}
+			</foreach>
+
+		</if>
+		<if test="ciTypeName !=null and ciTypeName!=''">
+			AND CI_TYPE_ID IN(select ID from iom_ci_type where CI_TYPE_BM=#{ciTypeName})
+		</if>
+		<if test="domainId != null and domainId != ''">
+			AND DOMAIN_ID in (${domainId})
+		</if>
+	</select>
+	<select id="findTypeByMap" resultType="java.util.Map"></select>
+    <select id="getTypeIdListCondition" resultType="java.lang.String">
+		SELECT
+		DISTINCT concat(T.ID) as TYPE_ID
+		FROM
+		IOMCI.IOM_CI_TYPE AS T
+		INNER JOIN IOMCI.IOM_CI_INFO I ON T.ID = I.CI_TYPE_ID  AND I.YXBZ = 1 <if test="domainId !=null and domainId !=''"> AND I.DOMAIN_ID in (${domainId})</if>
+		WHERE
+		T.YXBZ=1
+		<if test="domainId !=null and domainId !=''">AND T.DOMAIN_ID in (${domainId})</if>
+		<if test="ciPropertyList !=null and ciPropertyList.size>0">
+			<foreach collection="ciPropertyList" index="index" item="item">
+				<if test="index == 0">
+					AND I.ATTRS_STR like CONCAT('%',#{item},'%')
+				</if>
+				<if test="index > 0">
+					OR I.ATTRS_STR like CONCAT('%',#{item},'%')
+				</if>
+			</foreach>
+		</if>
+	</select>
+</mapper>

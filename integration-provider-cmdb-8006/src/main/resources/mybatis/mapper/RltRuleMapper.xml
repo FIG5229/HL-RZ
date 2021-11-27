@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.integration.dao.RltRuleDao">
+	<select id="getIomCiRltLineByRuleIdToStartTypeId" resultType="Map">
+		select
+		   line.ID id,
+		   line.RULE_ID ruleId,
+		   line.RLT_TYPE rltType,
+		   line.TYPE_ID typeId,
+		   line.START_TYPE_ID startTypeId,
+		   line.END_TYPE_ID endTypeId,
+		   line.RLT_ID rltId,
+		   line.START_NODE_ID startNodeId,
+		   line.END_NODE_ID endNodeId,
+		   line.LINE_TYPE lineType,
+		   line.LINE_OP lineOp,
+		   line.LINE_VAL lineVal,
+		   line.OP_TYPE opType,
+		   line.DOMAIN_ID domainId,
+		   line.CJSJ cjsj,
+		   line.XGSJ xgsj,
+		   line.YXBZ yxbz,
+		   rel.LINE_BM relName,
+		   type1.CI_TYPE_BM sourceTypeName,
+		   type2.CI_TYPE_BM targetTypeName
+		from iom_ci_rlt_line as line 
+		LEFT JOIN iom_ci_rel as rel ON rel.ID = line.RLT_ID
+		LEFT JOIN iom_ci_type as type1 ON type1.ID=line.START_TYPE_ID
+		LEFT JOIN iom_ci_type as type2 ON type2.ID=line.END_TYPE_ID
+		where line.YXBZ=1
+		<if test=" domainId != null and domainId != '' ">
+            AND line.DOMAIN_ID in (${domainId})
+        </if>
+		<if test=" ruleId != null and ruleId != '' ">
+            AND line.RULE_ID=#{ruleId}
+        </if>
+        <if test=" startTypeIdList != null and startTypeIdList != '' ">
+            AND line.START_TYPE_ID IN
+            <foreach item="startType" index="index" collection="startTypeIdList" open="(" separator="," close=")">
+                ${startType}
+            </foreach>
+        </if>
+        <if test=" endTypeIdList != null and endTypeIdList != '' ">
+            AND line.END_TYPE_ID IN
+            <foreach item="endType" index="index" collection="endTypeIdList" open="(" separator="," close=")">
+                ${endType}
+            </foreach>
+        </if>
+	</select>
+	
+	<select id="getIomCiRltLineByRuleId" resultType="Map">
+		select
+		   line.ID id,
+		   line.RULE_ID ruleId,
+		   line.RLT_TYPE rltType,
+		   line.TYPE_ID typeId,
+		   line.START_TYPE_ID startTypeId,
+		   line.END_TYPE_ID endTypeId,
+		   line.RLT_ID rltId,
+		   line.START_NODE_ID startNodeId,
+		   line.END_NODE_ID endNodeId,
+		   line.LINE_TYPE lineType,
+		   line.LINE_OP lineOp,
+		   line.LINE_VAL lineVal,
+		   line.OP_TYPE opType,
+		   line.DOMAIN_ID domainId,
+		   line.CJSJ cjsj,
+		   line.XGSJ xgsj,
+		   line.YXBZ yxbz,
+		   rel.LINE_BM relName,
+		   type1.CI_TYPE_BM sourceTypeName,
+		   type2.CI_TYPE_BM targetTypeName
+		from iom_ci_rlt_line as line 
+		LEFT JOIN iom_ci_rel as rel ON rel.ID = line.RLT_ID
+		LEFT JOIN iom_ci_type as type1 ON type1.ID=line.START_TYPE_ID
+		LEFT JOIN iom_ci_type as type2 ON type2.ID=line.END_TYPE_ID
+		where line.YXBZ=1
+		<if test=" domainId != null and domainId != '' ">
+            AND line.DOMAIN_ID in (${domainId})
+        </if>
+		<if test=" ruleId != null and ruleId != '' ">
+            AND line.RULE_ID=#{ruleId}
+        </if>
+	</select>
+	
+	<select id="getIomCiRltNodeCdtByNodeId" resultType="Map">
+	    SELECT
+	       node.NODE_TYPE_ID nodeTypeId,
+	       cdt.ID id,
+	       cdt.NODE_ID nodeId,
+	       cdt.ATTR_ID attrId,
+	       cdt.CDT_OP cdtOp,
+	       cdt.CDT_VAL cdtVal,
+	       cdt.IS_NOT isNot,
+	       cdt.STOR stor,
+	       cdt.DOMAIN_ID domainId,
+	       cdt.CJSJ cjsj,
+	       cdt.XGSJ xgsj,
+	       cdt.YXBZ yxbz
+        FROM
+	       iom_ci_rlt_node AS node
+        INNER JOIN iom_ci_rlt_node_cdt AS cdt ON node.ID = cdt.NODE_ID
+        WHERE node.YXBZ=1 AND cdt.YXBZ=1	    
+		<if test=" domainId != null and domainId != '' ">
+            AND node.DOMAIN_ID in (${domainId})
+        </if>
+		<if test=" domainId != null and domainId != '' ">
+            AND cdt.DOMAIN_ID in (${domainId})
+        </if>
+		<if test=" ruleId != null and ruleId != '' ">
+            AND node.RULE_ID=#{ruleId}
+        </if>
+	</select>
+	
+	<select id="getIomCiRltRuleByRltName" resultType="Map">
+	    SELECT
+	       ID id,
+	       RLT_TYPE rltType,
+	       RLT_NAME rltName,
+	       TYPE_ID typeId,
+	       RLT_DESC rltDesc,
+	       DIAG_XML diagXml,
+	       STATUS status,
+	       VALID_DESC valIdDesc,
+	       DOMAIN_ID domainId,
+	       CJR_ID cjrId,
+	       CJSJ cjsj,
+	       XGR_ID xgrId,
+	       XGSJ xgsj,
+	       YXBZ yxbz
+        FROM
+	       iom_ci_rlt_rule
+	    where YXBZ=1  
+		<if test=" domainId != null and domainId != '' ">
+            AND iom_ci_rlt_rule.DOMAIN_ID in (${domainId})
+        </if>
+        <if test=" userId != null and userId != '' ">
+            AND iom_ci_rlt_rule.CJR_ID=#{userId}
+        </if>
+		<if test=" rltName != null and rltName != '' ">
+             and iom_ci_rlt_rule.RLT_NAME like CONCAT('%',#{rltName},'%')
+         </if>
+         ORDER BY CJSJ DESC
+	</select>
+	
+	<select id="getCiRelByLineBm" resultType="String">
+	    SELECT
+	       ID id
+        FROM
+	       iom_ci_rel
+	    where YXBZ=1  
+		<if test=" relNameList != null and relNameList != '' ">
+            AND iom_ci_rel.LINE_BM IN
+            <foreach item="relName" index="index" collection="relNameList" open="(" separator="," close=")">
+                #{relName}
+            </foreach>
+        </if>
+	</select>
+
+</mapper>

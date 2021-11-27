@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.integration.dao.CiAssociatedFieldConfDao">
+
+	<insert id="addFieldConf">
+		INSERT INTO IOM_CI_ASSOCIATED_FIELD_CONF
+		(
+		ID,
+		SOURCE_CI_ID,
+		CI_TYPE_ID,
+		CI_ITEM_ID,
+		DOMAIN_ID,
+		CJR_ID,
+		CJSJ,
+		XGR_ID,
+		XGSJ,
+		YXBZ
+		)VALUES
+		(
+		#{id},
+		#{sourceCiId},
+		#{ciTypeId},
+		#{ciItemId},
+		#{domainId},
+		#{cjrId},
+		date_format(now() ,'%Y-%m-%d %H:%i:%s'),
+		#{xgrId},
+		date_format(now() ,'%Y-%m-%d %H:%i:%s'),
+		#{yxbz}
+		)
+	</insert>
+	<insert id="addconfTrigger">
+		INSERT INTO iom_ci_associated_trigger
+		(
+		ID,
+		CONF_ID,
+		CJR_ID,
+		CJSJ,
+		XGR_ID,
+		XGSJ
+		)VALUES
+		(
+		#{id},
+		#{confId},
+		#{cjrId},
+		date_format(now() ,'%Y-%m-%d %H:%i:%s'),
+		#{xgrId},
+		date_format(now() ,'%Y-%m-%d %H:%i:%s')
+		)
+	</insert>
+
+	<update id="updateFieldConf">
+		UPDATE IOM_CI_ASSOCIATED_FIELD_CONF
+		<set>
+			<if test="null != sourceCiId and sourceCiId!=''">
+				SOURCE_CI_ID=#{sourceCiId},
+			</if>
+			<if test="null != ciTypeId and ciTypeId!=''">
+				CI_TYPE_ID=#{ciTypeId},
+			</if>
+			<if test="null != ciItemId and ciItemId!=''">
+				CI_ITEM_ID=#{ciItemId},
+			</if>
+			<if test="null != xgrId and xgrId!=''">
+				XGR_ID=#{xgrId},
+			</if>
+			<if test="1==1">
+				XGSJ=date_format(now() ,'%Y-%m-%d %H:%i:%s'),
+			</if>
+		</set>
+		where ID =#{id}
+	</update>
+	<delete id="deleteFieldConf">
+		UPDATE IOM_CI_ASSOCIATED_FIELD_CONF set YXBZ=0,XGR_ID=#{xgrId},XGSJ=date_format(now() ,'%Y-%m-%d %H:%i:%s') WHERE ID =#{id}
+	</delete>
+	<select id="findFieldConfList" resultType="com.integration.entity.CiAssociatedFieldConf">
+		SELECT
+			ID id,
+			SOURCE_CI_ID sourceCiId,
+			CI_TYPE_ID ciTypeId,
+			CI_ITEM_ID ciItemId,
+			DOMAIN_ID domainId,
+			CJR_ID cjrId,
+			DATE_FORMAT(CJSJ, '%Y-%m-%d %H:%i:%s') cjsj,
+			XGR_ID xgrId,
+			DATE_FORMAT(XGSJ, '%Y-%m-%d %H:%i:%s') xgsj,
+			YXBZ yxbz
+		FROM IOM_CI_ASSOCIATED_FIELD_CONF WHERE YXBZ=1
+		<if test="sourceCiId!=null and sourceCiId!=''">
+			AND SOURCE_CI_ID=#{sourceCiId}
+		</if>
+		<if test="ciTypeId!=null and ciTypeId!=''">
+			AND CI_TYPE_ID =#{ciTypeId}
+		</if>
+		<if test="domainId!=null and domainId!=''">
+			AND DOMAIN_ID in (${domainId})
+		</if>
+
+	</select>
+	<select id="findFieldConf" resultType="com.integration.entity.CiAssociatedFieldConf">
+		SELECT
+			ID id,
+			SOURCE_CI_ID sourceCiId,
+			CI_TYPE_ID ciTypeId,
+			CI_ITEM_ID ciItemId,
+			DOMAIN_ID domainId,
+			CJR_ID cjrId,
+			DATE_FORMAT(CJSJ, '%Y-%m-%d %H:%i:%s') cjsj,
+			XGR_ID xgrId,
+			DATE_FORMAT(XGSJ, '%Y-%m-%d %H:%i:%s') xgsj,
+			YXBZ yxbz
+		FROM IOM_CI_ASSOCIATED_FIELD_CONF WHERE YXBZ=1
+		AND ID = #{id}
+	</select>
+    <select id="findConfList" resultType="com.integration.entity.CiAssociatedFieldConf">
+		SELECT
+			ID id,
+			SOURCE_CI_ID sourceCiId,
+			CI_TYPE_ID ciTypeId,
+			CI_ITEM_ID ciItemId,
+			DOMAIN_ID domainId,
+			CJR_ID cjrId,
+			DATE_FORMAT(CJSJ, '%Y-%m-%d %H:%i:%s') cjsj,
+			XGR_ID xgrId,
+			DATE_FORMAT(XGSJ, '%Y-%m-%d %H:%i:%s') xgsj,
+			YXBZ yxbz
+		FROM IOM_CI_ASSOCIATED_FIELD_CONF WHERE YXBZ=1
+		<if test=" sourceCiIdList != null and sourceCiIdList.size() !=0 ">
+			AND SOURCE_CI_ID IN
+			<foreach item="sourceCiId" index="index" collection="sourceCiIdList" open="(" separator="," close=")">
+				${sourceCiId}
+			</foreach>
+		</if>
+		<if test=" ciTypeIdList != null and ciTypeIdList.size() !=0 ">
+			AND CI_TYPE_ID IN
+			<foreach item="ciTypeId" index="index" collection="ciTypeIdList" open="(" separator="," close=")">
+				${ciTypeId}
+			</foreach>
+		</if>
+
+	</select>
+    <select id="findSourceCiIdByCiTypeId" resultType="java.lang.String">
+		SELECT
+			SOURCE_CI_ID sourceCiId
+		FROM IOM_CI_ASSOCIATED_FIELD_CONF WHERE YXBZ=1
+		AND CI_TYPE_ID=#{ciTypeId}
+	</select>
+</mapper>

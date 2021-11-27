@@ -1,0 +1,6 @@
+delete from `iommgt`.`iom_camp_menu` where gncd_dm = '1386867410480394240';
+delete from `iommgt`.`iom_camp_role_menu` where id = '1386867787032424448';
+INSERT INTO `iom_camp_menu` VALUES (1386867410480394240, '架构主题', '64562645432418305', NULL, NULL, NULL, 1, NULL, '/sys/topology/viewerTheme', 6, 72904780934168577, '2021-04-27 10:18:52', NULL, NULL, 1, 1);
+INSERT INTO `iom_camp_role_menu` VALUES (1386867787032424448, '104804839359397889', 1386867410480394240, 1, 72904780934168577, '2021-04-27 10:20:22', NULL, NULL);
+
+

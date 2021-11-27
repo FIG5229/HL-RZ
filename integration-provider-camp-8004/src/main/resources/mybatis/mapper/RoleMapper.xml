@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.integration.dao.RoleDao">
+
+	<insert id="addRole" parameterType="role">
+		insert into
+		iommgt.iom_camp_role(ROLE_DM,ROLE_MC,ROLE_TYPE,ROLE_DESC,SORT,CJR_ID,CJSJ,XGR_ID,YXBZ)
+		values(#{role_dm},#{role_mc},#{role_type},#{role_desc},#{sort},#{cjr_id},str_to_date(#{cjsj},'%Y-%m-%d %H:%i:%s'),#{xgr_id},#{yxbz})
+
+	</insert>
+
+	<select id="findRoleAll" resultType="role" parameterType="string">
+		select
+		crole.ROLE_DM,crole.ROLE_MC,crole.ROLE_TYPE,crole.ROLE_DESC,crole.SORT,crole.CJR_ID,DATE_FORMAT(crole.CJSJ,'%Y-%m-%d %H:%i:%s')CJSJ,crole.XGR_ID,DATE_FORMAT(crole.XGSJ,'%Y-%m-%d %H:%i:%s')XGSJ,crole.YXBZ,(select CZRY_MC from IOMMGT.IOM_CAMP_CZRY
+		WHERE ID = crole.CJR_ID) AS CJR_NAME,(select CZRY_MC from
+		iommgt.iom_camp_czry WHERE ID = crole.XGR_ID) AS XGR_NAME from
+		iommgt.iom_camp_role crole where 1=1
+		<if test="name != null and name !=''">
+			and crole.role_mc != #{name}
+		</if>
+		<if test="role_mc != null and role_mc !=''">
+			AND crole.ROLE_MC LIKE CONCAT('%',#{role_mc},'%')
+		</if>
+		order by crole.SORT
+	</select>
+
+	<delete id="deleteRole" parameterType="Long">
+		delete from
+		iommgt.iom_camp_role
+		where ROLE_DM = #{id};
+	</delete>
+
+	<delete id="deleteRoleMenu" parameterType="Long">
+		delete from
+		iommgt.iom_camp_role_menu WHERE ROLE_DM = #{roleId};
+	</delete>
+
+	<delete id="deleteCzryRole" parameterType="Long">
+		delete from
+		iommgt.iom_camp_czry_role WHERE ROLE_DM = #{roleId};
+	</delete>
+
+
+
+	<update id="updateRole" parameterType="role">
+		update iommgt.iom_camp_role
+		<set>
+			<if test="role_mc != null and role_mc !=''">
+				ROLE_MC=#{role_mc},
+			</if>
+			<if test="role_type != null and role_type !=''">
+				ROLE_TYPE=#{role_type},
+			</if>
+			<if test="role_desc != null and role_desc !=''">
+				ROLE_DESC=#{role_desc},
+			</if>
+			<if test="sort != null and sort !=''">
+				SORT=#{sort},
+			</if>
+			<if test="cjr_id != null and cjr_id !=''">
+				CJR_ID=#{cjr_id},
+			</if>
+			<if test="cjsj != null and cjsj !=''">
+				CJSJ=str_to_date(#{cjsj} ,'%Y-%m-%d %H:%i:%s'),
+			</if>
+			<if test="xgr_id != null and xgr_id !=''">
+				XGR_ID=#{xgr_id},
+			</if>
+			<if test="xgsj != null and xgsj !=''">
+				XGSJ=str_to_date(#{xgsj} ,'%Y-%m-%d %H:%i:%s'),
+			</if>
+			<if test="yxbz != null and yxbz !=''">
+				YXBZ=#{yxbz}
+			</if>
+		</set>
+		WHERE ROLE_DM=#{role_dm};
+	</update>
+
+
+	<select id="findRoleMenuList" resultType="roleMenu"
+		parameterType="Long">
+		select * from iommgt.iom_camp_role_menu WHERE ROLE_DM =
+		#{roleId}
+	</select>
+
+	<insert id="addRoleMenu" parameterType="roleMenu">
+		insert into
+		iommgt.iom_camp_role_menu(ID,ROLE_DM,GNCD_DM,CJR_ID,CJSJ)
+		VALUES(#{id},#{role_dm},#{gncd_dm},#{cjr_id},str_to_date(#{cjsj} ,'%Y-%m-%d %H:%i:%s'))
+	</insert>
+	
+	<select id="findRoleById" parameterType="Long" resultType="map">
+		SELECT
+			rm.gncd_dm gncdDm,mr.gncd_dm menuDm
+		FROM
+			iommgt.iom_camp_role_menu rm
+				LEFT JOIN
+				iommgt.iom_camp_menu_res mr
+				on rm.gncd_dm = mr.res_dm
+		WHERE
+			1=1
+		  and rm.role_dm=#{role_dm}
+		  AND YXBZ=1
+		  and rm.gnfl_type=2
+	</select>
+
+	<select id="getRoleNameBymc" resultType="int">
+		select count(*) from iommgt.iom_camp_role where role_mc = #{name}
+	</select>
+
+	<select id="getRoleById" resultType="Role" parameterType="string">
+		select * from iommgt.iom_camp_role where role_dm = #{id}
+	</select>
+</mapper>

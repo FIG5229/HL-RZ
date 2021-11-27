@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.integration.dao.MenuResDao">
+	<select id="selectMenuResListByDm" resultType="MenuRes" parameterType="string">
+		SELECT RES_DM,
+		RES_MC, GNCD_DM,
+		RES_TYPE, SORT, CJR_ID, CJSJ,
+		XGR_ID,
+		XGSJ, YXBZ, RES_URL,
+		(select CZRY_MC
+		from iommgt.iom_camp_czry
+		where id=iommgt.iom_camp_menu_res.CJR_ID) as cjrName,
+		(select CZRY_MC
+		from iommgt.iom_camp_czry
+		where id=iommgt.iom_camp_menu_res.XGR_ID) as xgrName
+		FROM iommgt.iom_camp_menu_res
+		where GNCD_DM=#{id}
+		and YXBZ=1
+		<if test="search != null and search != ''">
+			and RES_MC LIKE
+			CONCAT('%',#{search},'%')
+		</if>
+		order by RES_DM desc
+	</select>
+	<select id="selectMenuResByKey" resultType="MenuRes">
+		SELECT RES_DM,
+		RES_MC, GNCD_DM,
+		RES_TYPE, SORT, CJR_ID, CJSJ,
+		XGR_ID,
+		XGSJ, YXBZ, RES_URL
+		FROM iommgt.iom_camp_menu_res
+		where
+		RES_DM=#{id} and YXBZ=1
+		order by RES_DM desc;
+	</select>
+	<insert id="insertMenuRes" parameterType="MenuRes">
+		INSERT INTO iommgt.iom_camp_menu_res(
+		RES_DM,
+		RES_MC,
+		GNCD_DM,
+		RES_TYPE,
+		SORT,
+		CJR_ID,
+		CJSJ,
+		XGR_ID,
+		XGSJ,
+		RES_URL,
+		YXBZ) VALUES(
+		#{res_dm},
+		#{res_mc},#{gncd_dm},#{res_type},#{sort},
+		#{cjr_id},
+		str_to_date(#{cjsj} ,'%Y-%m-%d %H:%i:%s'),
+		#{xgr_id},
+		str_to_date(#{xgsj} ,'%Y-%m-%d %H:%i:%s'),
+		#{res_url},#{yxbz});
+
+	</insert>
+	<update id="updateMenuRes">
+		UPDATE iommgt.iom_camp_menu_res
+		<set>
+			<if test="res_mc != null and res_mc !=''">
+				RES_MC = #{res_mc},
+			</if>
+
+			<if test="gncd_dm!= null and gncd_dm !=''">
+				GNCD_DM =#{gncd_dm},
+			</if>
+			<if test="res_type!= null and res_type !=''">
+				RES_TYPE =#{res_type},
+			</if>
+
+			<if test="sort != null and sort !=''">
+				SORT = #{sort},
+			</if>
+
+			<if test="cjr_id != null and cjr_id !=''">
+				CJR_ID = #{cjr_id},
+			</if>
+
+			<if test="cjsj != null and cjsj !=''">
+				CJSJ = str_to_date(#{cjsj} ,'%Y-%m-%d %H:%i:%s'),
+			</if>
+
+			<if test="xgr_id != null and xgr_id !=''">
+				XGR_ID =#{xgr_id},
+			</if>
+
+			<if test="xgsj != null and xgsj !=''">
+				XGSJ =str_to_date(#{xgsj} ,'%Y-%m-%d %H:%i:%s'),
+			</if>
+
+			<if test="yxbz != null and yxbz !=''">
+				YXBZ = #{yxbz},
+			</if>
+			<if test="res_url != null and res_url !=''">
+				RES_URL = #{res_url}
+			</if>
+		</set>
+		where RES_DM = #{res_dm}
+	</update>
+	<delete id="deleteMenuResByKey" parameterType="String">
+		DELETE FROM iommgt.iom_camp_menu_res
+		WHERE
+		RES_DM=#{id};
+	</delete>
+</mapper>

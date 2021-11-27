@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.integration.dao.IomCampLoginDao">
+
+    <sql id="cols">
+        a.id,
+        a.user_id,
+        a.czry_dldm,
+        a.czry_mc,
+        a.session_id,
+        a.login_time,
+        a.logout_time,
+        a.cjsj
+    </sql>
+
+    <sql id="colsAdd">
+        id,
+        user_id,
+        czry_dldm,
+        czry_mc,
+        session_id,
+        login_time,
+        logout_time,
+        cjsj
+    </sql>
+
+    <sql id="getSql">
+        from iommgt.iom_camp_login a where 1=1
+        <if test="null != id ">
+            AND a.id = #{id}
+        </if>
+        <if test="null != user_id ">
+            AND a.user_id = #{user_id}
+        </if>
+        <if test="null != czry_dldm ">
+            AND a.czry_dldm = #{czry_dldm}
+        </if>
+        <if test="null != czry_mc ">
+            AND a.czry_mc = #{czry_mc}
+        </if>
+        <if test="null != session_id ">
+            AND a.session_id = #{session_id}
+        </if>
+        <if test="null != login_time ">
+            AND a.login_time = #{login_time}
+        </if>
+        <if test="null != logout_time ">
+            AND a.logout_time = #{logout_time}
+        </if>
+        <if test="null != cjsj ">
+            AND a.cjsj = #{cjsj}
+        </if>
+    </sql>
+
+    <select id="getAllPage" parameterType="hashmap" resultType="IomCampLoginInfo">
+
+        select
+        <include refid="cols"/>
+        <include refid="getSql"/>ORDER BY a.id desc
+    </select>
+
+    <select id="getAllCount" parameterType="hashmap" resultType="int">
+        select count(*)
+        <include refid="getSql"/>
+    </select>
+
+    <select id="getAllList" parameterType="hashmap" resultType="IomCampLoginInfo">
+
+        select
+        <include refid="cols"/>
+        <include refid="getSql"/>
+        ORDER BY a.id desc
+    </select>
+
+    <select id="getInfo" parameterType="hashmap" resultType="IomCampLoginInfo">
+
+        select
+        <include refid="cols"/>
+        <include refid="getSql"/>
+
+    </select>
+
+    <update id="updateInfo" parameterType="IomCampLoginInfo">
+        UPDATE iommgt.iom_camp_login a
+        <set>
+            <if test="null != user_id ">
+                a.user_id = #{user_id},
+            </if>
+            <if test="null != czry_dldm ">
+                a.czry_dldm = #{czry_dldm},
+            </if>
+            <if test="null != czry_mc ">
+                a.czry_mc = #{czry_mc},
+            </if>
+            <if test="null != session_id ">
+                a.session_id = #{session_id},
+            </if>
+            <if test="null != login_time ">
+                a.login_time = #{login_time},
+            </if>
+            <if test="null != logout_time ">
+                a.logout_time = #{logout_time},
+            </if>
+            <if test="null != cjsj ">
+                a.cjsj = #{cjsj}
+            </if>
+        </set>
+        WHERE
+            a.id = #{id}
+    </update>
+
+    <insert id="insertInfo" parameterType="IomCampLoginInfo">
+        INSERT INTO iommgt.iom_camp_login
+        VALUES (
+        #{id},
+        #{user_id},
+        #{czry_dldm},
+        #{czry_mc},
+        #{session_id},
+        str_to_date(#{login_time},'%Y-%m-%d %H:%i:%s'),
+        str_to_date(#{logout_time},'%Y-%m-%d %H:%i:%s'),
+        str_to_date(#{cjsj},'%Y-%m-%d %H:%i:%s')
+        )
+    </insert>
+
+    <delete id="deleteInfo" parameterType="_int">
+	  DELETE FROM iommgt.iom_camp_login a WHERE a.id=#{id}
+    </delete>
+
+    <select id="findByUserId" parameterType="String" resultType="IomCampLoginInfo">
+        select * from iommgt.iom_camp_login
+        <where>
+            <if test="_parameter != null">
+                USER_ID = #{userId}
+            </if>
+        </where>
+    </select>
+
+    <select id="findLogPage" parameterType="Group" resultType="IomCampLoginInfo">
+        select * from iommgt.iom_camp_login
+        <where>
+            <if test="_parameter != null">
+                CZRY_MC LIKE
+                CONCAT('%',#{czry_mc},'%')
+            </if>
+            and LOGIN_TIME between
+            <if test="_parameter != null">
+                #{startTime}
+            </if>
+            and
+            <if test="_parameter != null">
+                #{endTime}
+            </if>
+        </where>
+        order by ID DESC
+    </select>
+
+    <select id="findAll" resultType="IomCampLoginInfo">
+        select * from iommgt.iom_camp_login
+    </select>
+    
+    <select id="findAllPage" resultType="IomCampLoginInfo" parameterType="Map">
+        select * from iommgt.iom_camp_login order by ID DESC
+    </select>
+
+    <select id="findLogNum" resultType="int" parameterType="Group">
+        select count(*) from iommgt.iom_camp_login
+        <where>
+            <if test="_parameter != null">
+                CZRY_MC LIKE
+                CONCAT('%',#{czry_mc},'%')
+            </if>
+            and LOGIN_TIME between
+            <if test="_parameter != null">
+                #{startTime}
+            </if>
+            and
+            <if test="_parameter != null">
+                #{endTime}
+            </if>
+        </where>
+    </select>
+
+    <select id="findTimeAllPage" parameterType="Group" resultType="IomCampLoginInfo">
+        select * from iommgt.iom_camp_login
+        <where>
+            LOGIN_TIME between
+            <if test="_parameter != null">
+                #{startTime}
+            </if>
+            and
+            <if test="_parameter != null">
+                #{endTime}
+            </if>
+        </where>
+        order by ID DESC
+    </select>
+
+    <select id="findTimeNum" parameterType="Group" resultType="int">
+        select count(*) from iommgt.iom_camp_login
+        <where>
+            LOGIN_TIME between
+            <if test="_parameter != null">
+                #{startTime}
+            </if>
+            and
+            <if test="_parameter != null">
+                #{endTime}
+            </if>
+        </where>
+    </select>
+
+    <select id="findMcPage" parameterType="Group" resultType="IomCampLoginInfo">
+        select * from iommgt.iom_camp_login
+        <where>
+            <if test="_parameter != null">
+                CZRY_MC LIKE
+                CONCAT('%',#{czry_mc},'%')
+            </if>
+        </where>
+        order by ID DESC
+    </select>
+
+    <select id="findMcNum" parameterType="string" resultType="int">
+        select count(*) from iommgt.iom_camp_login
+        <where>
+            <if test="_parameter != null">
+                CZRY_MC LIKE
+                CONCAT('%',#{czry_mc},'%')
+            </if>
+        </where>
+    </select>
+
+
+</mapper>

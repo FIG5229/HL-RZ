@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.integration.dao.ConfigureDao">
+
+	<select id="findAllC" resultType="Configure">
+		select * from iommgt.configure
+	</select>
+
+	<select id="findBySid" parameterType="string" resultType="Configure">
+		select * from iommgt.configure where SERVERNAME = #{sid}
+	</select>
+
+	<insert id="addConfigure" parameterType="Configure" >
+		INSERT INTO
+		iommgt.configure(
+		ID,
+		TYPE,
+		URL,
+		SERVERNAME,
+		DTFORMAT,
+		BTNNAME,
+		ISSHOW,
+		REQUESTMODEL,
+		SORT
+		) VALUES
+		(#{id},#{type},#{url},#{serverName},#{dtFormat},#{btnName},#{isShow},#{requestModel},#{sort});
+	</insert>
+
+	<delete id="deleteConfById" parameterType="string">
+		delete from iommgt.configure where ID = #{id}
+	</delete>
+
+	<update id="updateConfById" parameterType="Configure">
+		UPDATE iommgt.configure
+		<set>
+			<if test="type != null and type !=''">
+				TYPE= #{type},
+			</if>
+			<if test="url != null and url != ''">
+				URL= #{url},
+			</if>
+			<if test="serverName != null and serverName !=''">
+				SERVERNAME= #{serverName},
+			</if>
+			<if test="dtFormat != null and dtFormat !=''">
+				DTFORMAT= #{dtFormat},
+			</if>
+			<if test="btnName != null and btnName !=''">
+				BTNNAME= #{btnName},
+			</if>
+			<if test="isShow != null and isShow !=''">
+				ISSHOW= #{isShow},
+			</if>
+			<if test="requestModel != null and requestModel !=''">
+				REQUESTMODEL= #{requestModel},
+			</if>
+			<if test="sort != null and sort !=''">
+				SORT= #{sort}
+			</if>
+		</set>
+		where ID=#{id}
+	</update>
+
+	<select id="findMappingByConfId" resultType="ConfMapping" parameterType="string">
+		select * from iommgt.configure_mapping where CONFIGID = #{configId}
+	</select>
+
+	<select id="findOutMappingByConfId" resultType="ConfOutMapping" parameterType="string">
+		select * from iommgt.configure_outmapping where CONFIGID = #{configId}
+	</select>
+
+    <insert id="addMapping" parameterType="ConfMapping">
+        INSERT INTO
+		iommgt.configure_mapping(
+		ID,
+		CONFIGID,
+		MAPPINGFIELD,
+		SELFFIELD
+		) VALUES
+		(#{id},#{configId},#{mappingField},#{selfField})
+    </insert>
+
+    <delete id="deleteMappingById" parameterType="string">
+        delete from iommgt.configure_mapping where ID = #{id}
+    </delete>
+
+    <update id="updateMapping" parameterType="ConfMapping">
+        UPDATE iommgt.configure_mapping
+        <set>
+            <if test="configId != null and configId !=''">
+                CONFIGID= #{configId},
+            </if>
+            <if test="mappingField != null and mappingField !=''">
+                MAPPINGFIELD= #{mappingField},
+            </if>
+            <if test="selfField != null and selfField !=''">
+                SELFFIELD= #{selfField}
+            </if>
+        </set>
+        where ID=#{id}
+    </update>
+
+
+	<select id="findSubsystemByUrl" parameterType="string" resultType="string">
+		select SUBSYSTEM from iommgt.configure where URL = #{url}
+	</select>
+
+    <insert id="addOutMapping" parameterType="ConfOutMapping">
+        INSERT INTO
+		iommgt.configure_outmapping(
+		ID,
+		CONFIGID,
+		MAPPINGCODE,
+		MAPPINGNAME
+		) VALUES
+		(#{id},#{configId},#{mappingCode},#{mappingName})
+    </insert>
+
+    <delete id="deleteOutMappingById" parameterType="string">
+        delete from iommgt.configure_outmapping where ID = #{id}
+    </delete>
+
+    <update id="updateOutMapping" parameterType="ConfOutMapping">
+        UPDATE iommgt.configure_outmapping
+        <set>
+            <if test="configId != null and configId !=''">
+                CONFIGID= #{configId},
+            </if>
+            <if test="mappingCode != null and mappingCode !=''">
+                MAPPINGCODE= #{mappingCode},
+            </if>
+            <if test="mappingName != null and mappingName !=''">
+                MAPPINGNAME= #{mappingName}
+            </if>
+        </set>
+        where ID=#{id}
+    </update>
+
+	<select id="findAllCM" resultType="Map">
+		select * from iommgt.configure_mapping
+	</select>
+
+	<select id="findAllCOM" resultType="Map">
+		select * from iommgt.configure_outmapping
+	</select>
+
+    <delete id="deleteConfByServer" parameterType="string">
+        delete from iommgt.configure where SERVERNAME = #{servername}
+    </delete>
+
+    <select id="findIdByServer" parameterType="string" resultType="string">
+        select id from iommgt.configure where SERVERNAME = #{servername}
+    </select>
+
+    <delete id="deleteMappingByConfId">
+        delete from iommgt.configure_mapping where CONFIGID = #{configid}
+    </delete>
+
+    <delete id="deleteOutMappingByConfId">
+        delete from iommgt.configure_outmapping where CONFIGID = #{configid}
+    </delete>
+
+</mapper>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.integration.dao.CiLabelDao">
+    <insert id="addLabel">
+        INSERT INTO iom_ci_label (
+            ID,
+            LABEL_NAME,
+            DIR_ID,
+            LABEL_RULE_INFO,
+            DOMAIN_ID,
+            CJR_ID,
+            CJSJ,
+            XGR_ID,
+            XGSJ,
+            YXBZ
+        ) VALUES
+        (
+            #{id},
+            #{labelName},
+            #{dirId},
+            #{labelRuleInfo},
+            #{domainId},
+            #{cjrId},
+            str_to_date(#{cjsj}, '%Y-%m-%d %H:%i:%s'),
+            #{xgrId},
+            str_to_date(#{xgsj}, '%Y-%m-%d %H:%i:%s'),
+            #{yxbz}
+        )
+    </insert>
+
+    <update id="updateLabel">
+        UPDATE iom_ci_label
+        <set>
+            <if test="null != labelName and labelName !='' ">
+                LABEL_NAME = #{labelName},
+            </if>
+            <if test="null != labelRuleInfo and labelRuleInfo !=''">
+                LABEL_RULE_INFO = #{labelRuleInfo},
+            </if>
+            <if test="null != domainId ">
+                DOMAIN_ID = #{domainId},
+            </if>
+            <if test="null != cjrId ">
+                CJR_ID = #{cjrId},
+            </if>
+            <if test="null != cjsj ">
+                CJSJ = str_to_date(#{cjsj}, '%Y-%m-%d %H:%i:%s'),
+            </if>
+            <if test="null != xgrId ">
+                XGR_ID = #{xgrId},
+            </if>
+            <if test="null != xgsj ">
+                XGSJ =  str_to_date(#{xgsj}, '%Y-%m-%d %H:%i:%s'),
+            </if>
+            <if test="null != yxbz ">
+                YXBZ = #{yxbz},
+            </if>
+        </set>
+        WHERE ID = #{id}
+    </update>
+
+    <delete id="deleteLabelById">
+        DELETE FROM iom_ci_label WHERE ID = #{id}
+    </delete>
+
+    <select id="getLabelListByDirId" resultType="java.util.Map">
+        select  id,label_name labelName,dir_id dirId,label_rule_info labelRuleInfo,domain_id domainId,cjr_id cjrId,cjsj,yxbz
+        from iom_ci_label
+        where yxbz=1 and dir_id = #{dirId}
+        <if test="domainId !=null and domainId !=''">
+            and domain_id in (${domainId})
+        </if>
+        <if test="labelName !=null and labelName!=''">
+            and label_name like CONCAT('%',#{labelName},'%')
+        </if>
+
+    </select>
+
+    <select id="getLabelById" resultType="java.util.Map">
+        select  id,label_name labelName,dir_id dirId,label_rule_info labelRuleInfo,domain_id domainId,cjr_id cjrId,cjsj,yxbz
+        from iom_ci_label
+        where yxbz=1 and id = #{labelId}
+        <if test="domainId !=null and domainId !=''">
+            and domain_id in (${domainId})
+        </if>
+    </select>
+    <select id="labelNameExists" resultType="java.lang.Integer">
+        select count(*) from iom_ci_label where yxbz=1
+        and  label_name=#{labelName}
+        <if test="domainId !=null and domainId !=''">
+            and domain_id in (${domainId})
+        </if>
+        <if test="id !=null and id !=''">
+            and id != #{id}
+        </if>
+    </select>
+</mapper>

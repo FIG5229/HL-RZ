@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.integration.dao.RoleDataDao">
+    <insert id="addRoleData" parameterType="list">
+         INSERT INTO iom_camp_role_data(ID,ROLE_DM,DATA_ID,AUTH_VALUE,CJR_ID,CJSJ,XGR_ID,XGSJ)
+         VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.id},
+            #{item.roleDm},
+            #{item.dataId},
+            #{item.authValue},
+            #{item.cjrId},
+            #{item.cjsj},
+            #{item.xgrId},
+            #{item.xgsj}
+            )
+        </foreach>
+
+    </insert>
+    <update id="updateRoleData" parameterType="list">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update
+            iom_camp_role_data
+            <set>
+                AUTH_VALUE = #{item.authValue},XGR_ID = #{item.xgrId},XGSJ = #{item.xgsj}
+            </set>
+            <where>
+                ID = #{item.id}
+            </where>
+        </foreach>
+    </update>
+
+
+    <select id="getRoleDataByRoleDmAndDataId" resultType="com.integration.entity.RoleData" parameterType="string">
+        SELECT ID id,ROLE_DM roleDm,DATA_ID dataId,auth_value authValue,cjr_id cjrId,cjsj,xgr_id xgrId,xgsj
+        FROM iom_camp_role_data
+        <where>
+            <if test="dataId != null and dataId !=''">
+                and data_id =#{dataId}
+            </if>
+            <if test="roleDm != null and roleDm != ''">
+                and role_dm = #{roleDm}
+            </if>
+        </where>
+    </select>
+    <select id="findRoleDataByDataId" resultType="com.integration.entity.RoleData" parameterType="string">
+         SELECT ID id,ROLE_DM roleDm,DATA_ID dataId,auth_value authValue,cjr_id cjrId,cjsj,xgr_id xgrId,xgsj
+         FROM iom_camp_role_data
+         <where>
+             <if test="dataId != null and dataId != ''">
+                 and data_id = #{dataId}
+             </if>
+             <if test="tokenUserId != null and tokenUserId != null">
+                 and role_dm in (
+                  select role_dm from iom_camp_czry_role where czry_id = #{tokenUserId}
+                 )
+             </if>
+
+         </where>
+
+    </select>
+</mapper>

@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.integration.dao.MenuDao">
+
+	<select id="selectMenuListByCzryRole" resultType="Menu">
+		SELECT
+		*
+		FROM
+		iommgt.iom_camp_menu
+		where
+		YXBZ =1
+		and display_flag = true
+		and gncd_type=#{type}
+		and GNCD_DM in
+		(
+		SELECT
+		GNCD_DM
+		FROM
+		iommgt.iom_camp_role_menu
+		where
+		ROLE_DM in
+		(
+		SELECT ROLE_DM FROM iommgt.iom_camp_czry_role WHERE CZRY_ID =  #{id}
+		)
+		)
+		order by sj_gncd_dm, sort 
+	</select>
+	
+	<select id="selectMenuListByCzryRoleToSuperAdmin" resultType="Menu">
+		SELECT
+		*
+		FROM
+		iommgt.iom_camp_menu
+		where
+		YXBZ =1
+		and display_flag = true
+		and gncd_type=#{type}
+		order by sj_gncd_dm, sort 
+	</select>
+
+	<select id="getCustMenuListMap" resultType="java.util.Map">
+		select a.ID,a.MENU_ID menuId,a.MENU_NAME menuName,a.MENU_TYPE menuType,a.P_MENU_ID pMenuId,a.P_FUNC_MENU_ID pFuncMenuId,
+            a.url urlMenu,b.GNCD_URL url,a.MENU_LEVEL menuLevel,a.SORT,a.CJR_ID cjrId,a.CJSJ,a.XGR_ID xgrId,a.XGSJ,a.YXBZ
+        from iommgt.iom_camp_custom_menu a
+        left join iommgt.iom_camp_menu b on a.menu_id = b.gncd_dm
+        where a.yxbz = '1'
+        and a.CJR_ID = #{token}
+        order by a.sort
+	</select>
+
+	<select id="selectMenuList" resultType="Menu">
+		SELECT GNCD_DM,
+		GNCD_MC, SJ_GNCD_DM, SJ_GNCD_MC, GNFL,
+		GNCD_LEVEL,
+		GNCD_TYPE, GNCD_IMG, GNCD_URL, SORT,
+		CJR_ID, CJSJ,
+		XGR_ID, XGSJ, YXBZ,display_flag
+		FROM iommgt.iom_camp_menu where YXBZ=1
+		and display_flag = true
+		ORDER BY sort
+	</select>
+
+	<select id="selectMenuListMap" resultType="java.util.Map">
+		SELECT GNCD_DM,
+		GNCD_MC, SJ_GNCD_DM, SJ_GNCD_MC, GNFL,
+		GNCD_LEVEL,
+		GNCD_TYPE, GNCD_IMG, GNCD_URL, SORT,
+		CJR_ID, CJSJ,
+		XGR_ID, XGSJ, YXBZ,display_flag
+		FROM iommgt.iom_camp_menu where YXBZ=1
+		and display_flag = true
+		ORDER BY sort
+	</select>
+
+	<select id="selectMenuEndLevleListMap" resultType="java.util.Map">
+		SELECT gncd_dm  gncdDm, gncd_mc  gncdMc, sj_gncd_dm  sjGncdDm, sj_gncd_mc  sjGncdMc,
+				gnfl  gnfl, gncd_level  gncdLevel, gncd_type  gncdType, gncd_img  gncdImg, gncd_url  gncdUrl,
+				sort  sort, cjr_id  cjrId, cjsj  cjsj, xgr_id  xgrId, xgsj  xgsj, yxbz,display_flag
+		FROM iommgt.iom_camp_menu
+		where YXBZ=1
+		and display_flag = true
+			and gncd_dm not in (select distinct sj_gncd_dm from iommgt.iom_camp_menu)
+		ORDER BY sort
+	</select>
+
+	<select id="selectMenuByKey" resultType="Menu">
+		SELECT GNCD_DM,
+		GNCD_MC, SJ_GNCD_DM, SJ_GNCD_MC, GNFL,
+		GNCD_LEVEL,
+		GNCD_TYPE, GNCD_IMG, GNCD_URL, SORT,
+		CJR_ID, CJSJ,
+		XGR_ID, XGSJ, YXBZ,display_flag
+		FROM iommgt.iom_camp_menu
+		where
+		GNCD_DM=#{id} and YXBZ=1
+		and display_flag = true
+	</select>
+	<insert id="insertMenu" parameterType="Menu">
+		INSERT INTO
+		iommgt.iom_camp_menu(
+		GNCD_DM,
+		GNCD_MC,
+		SJ_GNCD_DM,
+		SJ_GNCD_MC,
+		GNFL,
+		GNCD_LEVEL,
+		GNCD_TYPE,
+		GNCD_IMG,
+		GNCD_URL,
+		SORT,
+		CJR_ID,
+		CJSJ,
+		XGR_ID,
+		XGSJ,
+		YXBZ) VALUES(
+		#{gncd_dm},
+		#{gncd_mc},
+		#{sj_gncd_dm},
+		#{sj_gncd_mc},
+		#{gnfl},
+		#{gncd_level},
+		#{gncd_type},
+		#{gncd_img},
+		#{gncd_url},
+		#{sort},
+		#{cjr_id},
+		str_to_date(#{cjsj} ,'%Y-%m-%d %H:%i:%s'),
+		#{xgr_id},
+		str_to_date(#{xgsj} ,'%Y-%m-%d %H:%i:%s'),
+		#{yxbz});
+	</insert>
+	<update id="updateMenu" parameterType="Menu">
+		UPDATE iommgt.iom_camp_menu
+		<set>
+			<if test="gncd_mc != null and gncd_mc!=''">
+				GNCD_MC =#{gncd_mc},
+			</if>
+			<if test="sj_gncd_dm != null and sj_gncd_dm!=''">
+				SJ_GNCD_DM = #{sj_gncd_dm},
+			</if>
+
+			<if test="sj_gncd_mc != null and sj_gncd_mc !=''">
+				SJ_GNCD_MC = #{sj_gncd_mc},
+			</if>
+
+			<if test="gnfl != null and gnfl !=''">
+				GNFL = #{gnfl},
+			</if>
+
+			<if test="gncd_level != null and gncd_level !=''">
+				GNCD_LEVEL = #{gncd_level},
+			</if>
+
+			<if test="gncd_type != null and gncd_type !=''">
+				GNCD_TYPE = #{gncd_type},
+			</if>
+
+			<if test="gncd_img != null and gncd_img !=''">
+				GNCD_IMG = #{gncd_img},
+			</if>
+
+			<if test="gncd_url != null">
+				GNCD_URL = #{gncd_url},
+			</if>
+
+			<if test="sort != null and sort !=''">
+				SORT = #{sort},
+			</if>
+
+			<if test="cjr_id!= null and cjr_id !=''">
+				CJR_ID = #{cjr_id},
+			</if>
+
+			<if test="cjsj != null and cjsj !=''">
+				CJSJ = str_to_date(#{cjsj} ,'%Y-%m-%d %H:%i:%s'),
+			</if>
+
+			<if test="xgr_id != null and xgr_id !=''">
+				XGR_ID =#{xgr_id},
+			</if>
+
+			<if test="xgsj != null and xgsj !=''">
+				XGSJ = str_to_date(#{xgsj} ,'%Y-%m-%d %H:%i:%s'),
+			</if>
+
+			<if test="yxbz != null and yxbz !=''">
+				YXBZ = #{yxbz}
+			</if>
+		</set>
+		where GNCD_DM = #{gncd_dm}
+	</update>
+
+	<update id="updateCustomerMenuName">
+        update iommgt.iom_camp_custom_menu
+        set menu_name = #{menu.gncd_mc}
+        where yxbz = '1' and menu_id = #{menu.gncd_dm}
+    </update>
+    
+    <update id="updateCampPermitCustomMenuName">
+        update iommgt.iom_camp_permit_custom_menu
+        set MENU_NAME = #{menuName}
+        where yxbz = '1' and MENU_ID = #{menuId}
+    </update>
+
+	<update id="deleteMenuByKey" parameterType="String">
+		update
+		iommgt.iom_camp_menu
+		set YXBZ = 0
+		where GNCD_DM in(SELECT GNCD_DM
+		FROM  (select * from iommgt.iom_camp_menu where YXBZ=1) menu 
+		where FIND_IN_SET(GNCD_DM, getChildList(#{id})));
+	</update>
+	
+	
+	<delete id="deleteRoleMenuByid" parameterType="String">
+		delete from iommgt.iom_camp_role_menu where gncd_dm = #{gncd_dm}
+	</delete>
+	
+	<select id="getGncdBySjgncd" resultType="map">
+		select gncd_dm as gncd_dm from iommgt.iom_camp_menu where sj_gncd_dm = #{gncd_dm} and yxbz = 1
+		and display_flag = true
+	</select>
+	<select id="selectMenuByRoleid" resultType="Menu" parameterType="string">
+		select menu.GNCD_DM,
+		menu.GNCD_MC, menu.SJ_GNCD_DM, menu.SJ_GNCD_MC, menu.GNFL,
+		menu.GNCD_LEVEL,
+		menu.GNCD_TYPE, menu.GNCD_IMG, menu.GNCD_URL, menu.SORT,
+		menu.CJR_ID, menu.CJSJ,
+		menu.XGR_ID, menu.XGSJ, menu.YXBZ,menu.display_flag from iommgt.iom_camp_role_menu rolemenu ,iommgt.iom_camp_menu menu
+		where rolemenu.gncd_dm = menu.gncd_dm
+		and rolemenu.role_dm = #{roleid} 
+	</select>
+
+	<select id="getMenuListByCzryId" resultType="java.util.Map">
+		SELECT gncd_dm  gncdDm, gncd_mc  gncdMc, sj_gncd_dm  sjGncdDm, sj_gncd_mc  sjGncdMc,
+				gnfl  gnfl, gncd_level  gncdLevel, gncd_type  gncdType, gncd_img  gncdImg, gncd_url  gncdUrl,
+				sort  sort, cjr_id  cjrId, cjsj  cjsj, xgr_id  xgrId, xgsj  xgsj, yxbz,display_flag
+		FROM iommgt.iom_camp_menu
+		where YXBZ =1
+		and display_flag = true
+		and GNCD_DM in (
+			SELECT GNCD_DM FROM iommgt.iom_camp_role_menu
+			where ROLE_DM in (
+				SELECT ROLE_DM FROM iommgt.iom_camp_czry_role
+				WHERE 1=1
+				<if test="id != null and id != ''">
+					and CZRY_ID =  #{id}
+				</if>
+			)
+		)
+		and gncd_dm not in (select distinct sj_gncd_dm from iommgt.iom_camp_menu)
+		<if test="menuName != null and menuName != ''">
+			and gncd_mc like concat('%',#{menuName},'%')
+		</if>
+		order by sj_gncd_dm, sort
+	</select>
+
+	<select id="getMenuListByIds" resultType="java.util.Map">
+		select gncd_dm  gncdDm, gncd_mc  gncdMc, sj_gncd_dm  sjGncdDm, sj_gncd_mc  sjGncdMc,
+				gnfl  gnfl, gncd_level  gncdLevel, gncd_type  gncdType, gncd_img  gncdImg, gncd_url  gncdUrl,
+				sort  sort, cjr_id  cjrId, cjsj  cjsj, xgr_id  xgrId, xgsj  xgsj, yxbz,display_flag
+		from iommgt.iom_camp_menu
+		where yxbz = '1'
+		and display_flag = true
+		and gncd_dm in
+		<foreach collection="menuIds" index="index" item="id" separator="," open="(" close=")">
+			#{id}
+		</foreach>
+	</select>
+
+	<select id="getDisplayDmList" resultType="string">
+		select gncd_dm from iom_camp_menu where display_flag = true
+	</select>
+</mapper>

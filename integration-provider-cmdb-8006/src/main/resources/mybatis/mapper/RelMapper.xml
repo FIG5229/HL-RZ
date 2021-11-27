@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.integration.dao.RelDao">
+
+	<sql id="cols">
+		a.id,
+		a.line_bm,
+		a.line_name,
+		a.line_std_bm,
+		a.line_desc,
+		a.parent_line_id,
+		a.line_lvl,
+		a.line_path,
+		a.sort,
+		a.line_cost,
+		a.line_style,
+		a.line_width,
+		a.line_color,
+		a.line_arror,
+		a.line_anime,
+		a.cjr_id,
+		a.cjsj,
+		a.xgr_id,
+		a.xgsj,
+		a.yxbz
+	</sql>
+
+	<sql id="colsAdd">
+		id,
+		line_bm,
+		line_name,
+		line_std_bm,
+		line_desc,
+		parent_line_id,
+		line_lvl,
+		line_path,
+		sort,
+		line_cost,
+		line_style,
+		line_width,
+		line_color,
+		line_arror,
+		line_anime,
+		domain_id,
+		cjr_id,
+		cjsj,
+		xgr_id,
+		xgsj,
+		yxbz
+	</sql>
+
+	<sql id="getSql">
+		from IOMCI.IOM_CI_REL a where 1=1
+		<if test="null != id ">
+			AND a.id = #{id}
+		</if>
+		<if test="null != line_bm ">
+			AND a.line_bm = #{line_bm}
+		</if>
+		<if test="null != line_name ">
+			AND a.line_name = #{line_name}
+		</if>
+		<if test="null != line_std_bm ">
+			AND a.line_std_bm = #{line_std_bm}
+		</if>
+		<if test="null != line_desc ">
+			AND a.line_desc = #{line_desc}
+		</if>
+		<if test="null != parent_line_id ">
+			AND a.parent_line_id = #{parent_line_id}
+		</if>
+		<if test="null != line_lvl ">
+			AND a.line_lvl = #{line_lvl}
+		</if>
+		<if test="null != line_path ">
+			AND a.line_path = #{line_path}
+		</if>
+		<if test="null != sort ">
+			AND a.sort = #{sort}
+		</if>
+		<if test="null != line_cost ">
+			AND a.line_cost = #{line_cost}
+		</if>
+		<if test="null != line_style ">
+			AND a.line_style = #{line_style}
+		</if>
+		<if test="null != line_width ">
+			AND a.line_width = #{line_width}
+		</if>
+		<if test="null != line_color ">
+			AND a.line_color = #{line_color}
+		</if>
+		<if test="null != line_arror ">
+			AND a.line_arror = #{line_arror}
+		</if>
+		<if test="null != line_anime ">
+			AND a.line_anime = #{line_anime}
+		</if>
+		<if test="null != cjr_id ">
+			AND a.cjr_id = #{cjr_id}
+		</if>
+		<if test="null != cjsj ">
+			AND a.cjsj = str_to_date(#{cjsj} ,'%Y-%m-%d %H:%i:%s')
+		</if>
+		<if test="null != xgr_id ">
+			AND a.xgr_id = #{xgr_id}
+		</if>
+		<if test="null != xgsj ">
+			AND a.xgsj = str_to_date(#{xgsj} ,'%Y-%m-%d %H:%i:%s')
+		</if>
+		<if test="null != yxbz ">
+			AND a.yxbz = #{yxbz}
+		</if>
+	</sql>
+
+	<select id="getAllPage" resultType="Rel">
+
+		select
+		<include refid="cols" />
+		<include refid="getSql" />
+		ORDER BY a.id desc
+	</select>
+
+	<select id="getAllCount" resultType="int">
+		select count(*)
+		<include refid="getSql" />
+		and YXBZ=1
+	</select>
+
+	<select id="getAllList" resultType="Rel">
+		select
+		<include refid="cols" />
+		from IOMCI.IOM_CI_REL a where 1=1
+		<if test="null != id ">
+			AND a.id = #{id}
+		</if>
+		<if test="null != line_bm ">
+			AND a.line_bm = #{line_bm}
+		</if>
+		<if test="null != line_name ">
+			AND a.line_name LIKE CONCAT('%',#{line_name},'%')
+		</if>
+		<if test="null != line_std_bm ">
+			AND a.line_std_bm = #{line_std_bm}
+		</if>
+		<if test="null != line_desc ">
+			AND a.line_desc = #{line_desc}
+		</if>
+		<if test="null != parent_line_id ">
+			AND a.parent_line_id = #{parent_line_id}
+		</if>
+		<if test="null != line_lvl ">
+			AND a.line_lvl = #{line_lvl}
+		</if>
+		<if test="null != line_path ">
+			AND a.line_path = #{line_path}
+		</if>
+		<if test="null != sort ">
+			AND a.sort = #{sort}
+		</if>
+		<if test="null != line_cost ">
+			AND a.line_cost = #{line_cost}
+		</if>
+		<if test="null != line_style ">
+			AND a.line_style = #{line_style}
+		</if>
+		<if test="null != line_width ">
+			AND a.line_width = #{line_width}
+		</if>
+		<if test="null != line_color ">
+			AND a.line_color = #{line_color}
+		</if>
+		<if test="null != line_arror ">
+			AND a.line_arror = #{line_arror}
+		</if>
+		<if test="null != line_anime ">
+			AND a.line_anime = #{line_anime}
+		</if>
+		<if test="null != cjr_id ">
+			AND a.cjr_id = #{cjr_id}
+		</if>
+		<if test="null != cjsj ">
+			AND a.cjsj = str_to_date(#{cjsj} ,'%Y-%m-%d %H:%i:%s')
+		</if>
+		<if test="null != xgr_id ">
+			AND a.xgr_id = #{xgr_id}
+		</if>
+		<if test="null != xgsj ">
+			AND a.xgsj = str_to_date(#{xgsj} ,'%Y-%m-%d %H:%i:%s')
+		</if>
+		<if test="null != yxbz ">
+			AND a.yxbz = #{yxbz}
+		</if>
+		<if test="null != domainId and domainId !=''">
+			AND a.domain_id in (${domainId})
+		</if>
+		and YXBZ=1		
+		ORDER BY a.id desc
+	</select>
+	<select id="getAllListNoLike" resultType="Rel">
+		select
+		<include refid="cols" />
+		from IOMCI.IOM_CI_REL a where 1=1
+		<if test="null != id ">
+			AND a.id = #{id}
+		</if>
+		<if test="null != line_bm ">
+			AND a.line_bm = #{line_bm}
+		</if>
+		<if test="null != line_name ">
+			AND a.line_name = #{line_name}
+		</if>
+		<if test="null != line_std_bm ">
+			AND a.line_std_bm = #{line_std_bm}
+		</if>
+		<if test="null != line_desc ">
+			AND a.line_desc = #{line_desc}
+		</if>
+		<if test="null != parent_line_id ">
+			AND a.parent_line_id = #{parent_line_id}
+		</if>
+		<if test="null != line_lvl ">
+			AND a.line_lvl = #{line_lvl}
+		</if>
+		<if test="null != line_path ">
+			AND a.line_path = #{line_path}
+		</if>
+		<if test="null != sort ">
+			AND a.sort = #{sort}
+		</if>
+		<if test="null != line_cost ">
+			AND a.line_cost = #{line_cost}
+		</if>
+		<if test="null != line_style ">
+			AND a.line_style = #{line_style}
+		</if>
+		<if test="null != line_width ">
+			AND a.line_width = #{line_width}
+		</if>
+		<if test="null != line_color ">
+			AND a.line_color = #{line_color}
+		</if>
+		<if test="null != line_arror ">
+			AND a.line_arror = #{line_arror}
+		</if>
+		<if test="null != line_anime ">
+			AND a.line_anime = #{line_anime}
+		</if>
+		<if test="null != cjr_id ">
+			AND a.cjr_id = #{cjr_id}
+		</if>
+		<if test="null != cjsj ">
+			AND a.cjsj = str_to_date(#{cjsj} ,'%Y-%m-%d %H:%i:%s')
+		</if>
+		<if test="null != xgr_id ">
+			AND a.xgr_id = #{xgr_id}
+		</if>
+		<if test="null != xgsj ">
+			AND a.xgsj = str_to_date(#{xgsj} ,'%Y-%m-%d %H:%i:%s')
+		</if>
+		<if test="null != yxbz ">
+			AND a.yxbz = #{yxbz}
+		</if>
+		<if test="null != domainId and domainId!='' ">
+			AND a.domain_id in  (${domainId})
+		</if>
+		and YXBZ=1
+		ORDER BY a.id desc
+	</select>
+	<select id="getInfo" resultType="Rel">
+
+		select
+		<include refid="cols" />
+		<include refid="getSql" />
+
+
+	</select>
+
+	<update id="updateInfo" parameterType="Rel">
+		UPDATE IOMCI.IOM_CI_REL a
+		<set>
+			<if test="null != line_bm ">
+				a.line_bm = #{line_bm},
+			</if>
+			<if test="null != line_name ">
+				a.line_name = #{line_name},
+			</if>
+			<if test="null != line_std_bm ">
+				a.line_std_bm = #{line_std_bm},
+			</if>
+			<if test="null != line_desc ">
+				a.line_desc = #{line_desc},
+			</if>
+			<if test="null != parent_line_id ">
+				a.parent_line_id = #{parent_line_id},
+			</if>
+			<if test="null != line_lvl ">
+				a.line_lvl = #{line_lvl},
+			</if>
+			<if test="null != line_path ">
+				a.line_path = #{line_path},
+			</if>
+			<if test="null != sort ">
+				a.sort = #{sort},
+			</if>
+			<if test="null != line_cost ">
+				a.line_cost = #{line_cost},
+			</if>
+			<if test="null != line_style ">
+				a.line_style = #{line_style},
+			</if>
+			<if test="null != line_width ">
+				a.line_width = #{line_width},
+			</if>
+			<if test="null != line_color ">
+				a.line_color = #{line_color},
+			</if>
+			<if test="null != line_arror ">
+				a.line_arror = #{line_arror},
+			</if>
+			<if test="null != line_anime ">
+				a.line_anime = #{line_anime},
+			</if>
+			<if test="null != cjr_id ">
+				a.cjr_id = #{cjr_id},
+			</if>
+			<if test="null != cjsj ">
+				a.cjsj = str_to_date(#{cjsj} ,'%Y-%m-%d %H:%i:%s'),
+			</if>
+			<if test="null != xgr_id ">
+				a.xgr_id = #{xgr_id},
+			</if>
+			<if test="null != xgsj ">
+				a.xgsj = str_to_date(#{xgsj} ,'%Y-%m-%d %H:%i:%s'),
+			</if>
+			<if test="null != domain_id ">
+				a.domain_id = #{domain_id},
+			</if>
+			<if test="null != yxbz ">
+				a.yxbz = #{yxbz}
+			</if>
+		</set>
+		WHERE a.id=#{id}
+
+	</update>
+
+	<insert id="insertInfo" parameterType="Rel">
+		INSERT INTO IOMCI.IOM_CI_REL(
+		<include refid="colsAdd" />
+		)
+		VALUES (
+		#{id},
+		#{line_bm},
+		#{line_name},
+		#{line_std_bm},
+		#{line_desc},
+		#{parent_line_id},
+		#{line_lvl},
+		#{line_path},
+		#{sort},
+		#{line_cost},
+		#{line_style},
+		#{line_width},
+		#{line_color},
+		#{line_arror},
+		#{line_anime},
+		#{domain_id},
+		#{cjr_id},
+		str_to_date(#{cjsj} ,'%Y-%m-%d %H:%i:%s'),
+		#{xgr_id},
+		str_to_date(#{xgsj} ,'%Y-%m-%d %H:%i:%s'),
+		#{yxbz}
+		)
+	</insert>
+
+	<delete id="deleteInfo" parameterType="string">
+		DELETE FROM
+		IOMCI.IOM_CI_REL a WHERE a.id=#{id}
+	</delete>
+	<select id="findRelNameById" parameterType="String" resultType="Rel">
+		SELECT
+			*
+		FROM
+			iomci.iom_ci_rel
+		WHERE
+			1 = 1
+		  AND id =#{id}
+	</select>
+	<select id="findRelName" resultType="Rel">
+		SELECT
+			*
+		FROM
+			iomci.iom_ci_rel
+		where yxbz=1
+	</select>
+</mapper>

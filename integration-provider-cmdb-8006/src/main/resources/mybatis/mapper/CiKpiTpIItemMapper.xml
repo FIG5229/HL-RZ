@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.integration.dao.CiKpiTpIItemDao">
+
+    <sql id="cols">
+            a.id,
+            a.tpl_id,
+            a.obj_type,
+            a.obj_id,
+            a.obj_name,
+            a.kpi_use_type,
+            a.cjsj,
+            a.xgsj,
+            a.yxbz
+    </sql>
+
+    <sql id="colsAdd">
+            id,
+            tpl_id,
+            obj_type,
+            obj_id,
+            obj_name,
+            kpi_use_type,
+            cjsj,
+            xgsj,
+            yxbz
+    </sql>
+
+    <sql id="getSql">
+        from IOMCI.IOM_CI_KPI_TPL_ITEM a where 1=1
+        <if test="null != id ">
+            AND a.id = #{id}
+        </if>
+        <if test="null != tpl_id ">
+            AND a.tpl_id = #{tpl_id}
+        </if>
+        <if test="null != obj_type ">
+            AND a.obj_type = #{obj_type}
+        </if>
+        <if test="null != obj_id ">
+            AND a.obj_id = #{obj_id}
+        </if>
+        <if test="null != obj_name ">
+            AND a.obj_name = #{obj_name}
+        </if>
+        <if test="null != kpi_use_type ">
+            AND a.kpi_use_type = #{kpi_use_type}
+        </if>
+        <if test="null != cjsj ">
+            AND a.cjsj = #{cjsj}
+        </if>
+        <if test="null != xgsj ">
+            AND a.xgsj = #{xgsj}
+        </if>
+        <if test="null != yxbz ">
+            AND a.yxbz = #{yxbz}
+        </if>
+    </sql>
+
+    <select id="getAllPage" parameterType="hashmap" resultType="CiKpiTpIItemInfo">
+
+        select
+        <include refid="cols"/>
+        <include refid="getSql"/>ORDER BY a.id desc
+    </select>
+
+    <select id="getAllCount" parameterType="hashmap" resultType="int">
+        select count(*)
+        <include refid="getSql"/>
+    </select>
+
+    <select id="getAllList" parameterType="hashmap" resultType="CiKpiTpIItemInfo">
+
+        select
+        <include refid="cols"/>
+        <include refid="getSql"/>
+        ORDER BY a.id desc
+    </select>
+
+    <select id="getInfo" parameterType="hashmap" resultType="CiKpiTpIItemInfo">
+
+        select
+        <include refid="cols"/>
+        <include refid="getSql"/>
+
+    </select>
+
+    <update id="updateInfo" parameterType="CiKpiTpIItemInfo">
+        UPDATE IOMCI.IOM_CI_KPI_TPL_ITEM a
+        <set>
+            <if test="null != tpl_id ">
+                a.tpl_id = #{tpl_id},
+            </if>
+            <if test="null != obj_type ">
+                a.obj_type = #{obj_type},
+            </if>
+            <if test="null != obj_id ">
+                a.obj_id = #{obj_id},
+            </if>
+            <if test="null != obj_name ">
+                a.obj_name = #{obj_name},
+            </if>
+            <if test="null != kpi_use_type ">
+                a.kpi_use_type = #{kpi_use_type},
+            </if>
+            <if test="null != cjsj ">
+                a.cjsj = #{cjsj},
+            </if>
+            <if test="null != xgsj ">
+                a.xgsj = #{xgsj},
+            </if>
+            <if test="null != yxbz ">
+                a.yxbz = #{yxbz}
+            </if>
+        </set>
+        WHERE
+        <if test="null != id ">
+            a.id = #{id}
+        </if>
+    </update>
+
+    <insert id="insertInfo" parameterType="CiKpiTpIItemInfo">
+        INSERT INTO IOMCI.IOM_CI_KPI_TPL_ITEM
+        VALUES (
+        #{id},
+        #{tpl_id},
+        #{obj_type},
+        #{obj_id},
+        #{obj_name},
+        #{kpi_use_type},
+        str_to_date(#{cjsj},'%Y-%m-%d %H:%i:%s'),
+        str_to_date(#{xgsj},'%Y-%m-%d %H:%i:%s'),
+        #{yxbz}
+        )
+    </insert>
+
+    <delete id="deleteInfo" parameterType="string">
+	    DELETE FROM IOMCI.IOM_CI_KPI_TPL_ITEM WHERE TPL_ID=#{tplItemId}
+    </delete>
+
+    <select id="getTplById" parameterType="string" resultType="CiKpiTpIItemInfo">
+        select * from IOMCI.IOM_CI_KPI_TPL_ITEM where TPL_ID=#{tplId}
+    </select>
+
+</mapper>

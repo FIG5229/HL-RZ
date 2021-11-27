@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.integration.dao.CiViewDao">
+    <sql id="common">
+        from ci_view
+        where
+        1=1
+        <if test="ciId != null and ciId != '' ">
+            and ciId = #{ciId}
+        </if>
+        <if test="ciIds != null and ciIds != '' ">
+            and ciId in (${ciIds})
+        </if>
+        <if test="ciTypeId != null and ciTypeId != '' ">
+            and ciTypeId = #{ciTypeId}
+        </if>
+        <if test="ciTypeName != null and ciTypeName != '' ">
+            and ciTypeName = #{ciTypeName}
+        </if>
+        <if test="ciCode != null and ciCode != '' ">
+            and ciCode = #{ciCode}
+        </if>
+        <if test="sourceId != null and sourceId != '' ">
+            and sourceId = #{sourceId}
+        </if>
+        <if test="major != null and major != '' ">
+            and major = #{major}
+        </if>
+        <if test="jsondata != null">
+            <foreach collection="jsondata.keys" item="item" index="i">
+                and jsondata->'$."${item}"' = '${jsondata[item]}'
+            </foreach>
+        </if>
+    </sql>
+
+    <select id="selectList" resultType="com.integration.entity.vo.CiView">
+        select *
+        <include refid="common"/>
+    </select>
+    
+    <select id="selectListByJniom" resultType="com.integration.entity.vo.CiView">
+        select *
+        <include refid="common"/>
+    </select>
+
+    <select id="findCi" resultType="com.integration.entity.vo.CiView">
+        select * from ci_view
+        where
+        1=1
+        <if test="mapCList!=null">
+            <foreach collection="mapCList" item="item">
+                and ${item.key} in (#{item.val})
+            </foreach>
+        </if>
+        <if test="mapJList != null">
+            <foreach collection="mapJList" item="item">
+                and jsondata->'$."${item.key}"' in ( '${item.val}')
+            </foreach>
+        </if>
+    </select>
+</mapper>

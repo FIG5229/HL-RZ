@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.integration.dao.ParameterDao">
+
+    <insert id="addParameter" parameterType="Parameter">
+		insert into
+		iommgt.iom_camp_parameter(PARA_ID,PARA_MC,PARA_TYPE,PARA_DATA,PARA_DESC,IS_OPEN,SORT,CJR_ID,CJSJ,XGR_ID,YXBZ,PARA_CODE)
+		VALUES(#{para_id},#{para_mc},#{para_type},#{para_data},#{para_desc},#{is_open},#{sort},#{cjr_id},#{cjsj},#{xgr_id},#{yxbz},#{para_code})
+		
+	</insert>
+
+    <update id="deleteParameter" parameterType="string">
+		update iommgt.iom_camp_parameter set YXBZ = 2 WHERE PARA_ID=#{para_id}
+	</update>
+
+    <update id="updateParameter" parameterType="Parameter">
+        update iommgt.iom_camp_parameter
+        <set>
+            <if test="para_mc != null and para_mc !=''">
+                PARA_MC=#{para_mc},
+            </if>
+            <if test="para_type != null and para_type !=''">
+                PARA_TYPE=#{para_type},
+            </if>
+            <if test="para_data != null and para_data !=''">
+                PARA_DATA=#{para_data},
+            </if>
+            <if test="para_desc != null and para_desc !=''">
+                PARA_DESC=#{para_desc},
+            </if>
+            <if test="is_open != null and is_open !=''">
+                IS_OPEN=#{is_open},
+            </if>
+            <if test="sort != null and sort !=''">
+                SORT=#{sort},
+            </if>
+            <if test="cjr_id != null and cjr_id !=''">
+                CJR_ID=#{cjr_id},
+            </if>
+            <if test="cjsj != null and cjsj !=''">
+                CJSJ=str_to_date(#{cjsj} ,'%Y-%m-%d %H:%i:%s'),
+            </if>
+            <if test="xgr_id != null and xgr_id !=''">
+                XGR_ID=#{xgr_id},
+            </if>
+            <if test="xgsj != null and xgsj !=''">
+                XGSJ=str_to_date(#{xgsj} ,'%Y-%m-%d %H:%i:%s'),
+            </if>
+            <if test="yxbz != null and yxbz !=''">
+                YXBZ=#{yxbz}
+            </if>
+            <if test="para_code != null and para_code !=''">
+                PARA_CODE=#{para_code}
+            </if>
+        </set>
+        where PARA_ID=#{para_id}
+    </update>
+    <select id="findParameterPage" resultType="Parameter">
+        SELECT PARA_ID, PARA_MC, PARA_TYPE, PARA_DATA,
+        PARA_DESC, IS_OPEN,SORT, CJR_ID, CJSJ, XGR_ID,
+        XGSJ, YXBZ,PARA_CODE
+        FROM iommgt.iom_camp_parameter
+        where YXBZ=1
+        <if test="search !=null and search!=''">
+            and PARA_MC LIKE CONCAT('%',#{search},'%')
+        </if>
+        order by "PARA_ID" DESC
+    </select>
+    <select id="findParameterCount" resultType="int" parameterType="string">
+        SELECT Count(*)
+        FROM iommgt.iom_camp_parameter WHERE YXBZ=1
+        <if test="search !=null and search!=''">
+            and PARA_MC LIKE CONCAT('%',#{search},'%')
+        </if>
+    </select>
+
+    <select id="findParameterById" parameterType="int" resultType="Parameter">
+	
+		select * from iommgt.iom_camp_parameter WHERE PARA_ID = #{para_id} AND YXBZ=1
+	</select>
+
+    <select id="findAllParam" resultType="Parameter">
+		select * from iommgt.iom_camp_parameter WHERE YXBZ=1
+	</select>
+    <select id="findParByCode" resultType="map">
+        select * from iommgt.iom_camp_parameter where PARA_CODE = #{code} and YXBZ = 1
+    </select>
+
+</mapper>

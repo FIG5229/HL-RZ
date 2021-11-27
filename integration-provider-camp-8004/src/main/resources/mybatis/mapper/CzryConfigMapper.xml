@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.integration.dao.CzryConfigDao">
+
+
+
+	<select id="findCzryConfigList" resultType="map">
+		select * from
+		iom_camp_czry_config where userId=#{userId}
+	</select>
+
+	<update id="updateCzryConfig" parameterType="map">
+		UPDATE iommgt.iom_camp_czry_config
+		<set>
+			<if test="userId != null and userId !=''">
+				userId = #{userId},
+			</if>
+			<if test="dataInfo != null and dataInfo !=''">
+				dataInfo = #{dataInfo},
+			</if>
+			<if test="mark != null and mark !=''">
+				mark = #{mark},
+			</if>
+			</set>
+			where userId=#{userId}
+	</update>
+
+	<insert id="addCzryConfig" parameterType="map">
+		INSERT INTO
+		iommgt.iom_camp_czry_config(
+		id,
+		dataInfo,
+		userId,
+		mark
+		)VALUES
+		(#{id},#{dataInfo},#{userId},#{mark});
+	</insert>
+
+</mapper>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.integration.dao.ActionsDao">
+
+	<insert id="insertAction" parameterType="Map">
+		INSERT INTO
+		`iommgt`.`iom_camp_action`
+		(`ID`, `LOG_TIME`, `USER_ID`, `CZRY_DLDM`, `CZRY_MC`, `OP_NAME`, `OP_PATH`,
+		`OP_DESC`, `IS_STATUS`, `OP_PARAM`, `OP_RESULT`, `OP_CLASS`,
+		`OP_METHOD`, `CJSJ`)
+		VALUES
+		(#{id},#{log_time},#{user_id},#{czry_dldm},#{czry_mc},#{op_name},#{op_path},
+		#{op_desc},#{is_status},#{op_param},#{op_result},#{op_class},#{op_method},
+		#{cjsj});
+
+	</insert>
+
+
+</mapper>

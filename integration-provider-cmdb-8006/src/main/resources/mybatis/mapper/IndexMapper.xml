@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.integration.dao.DataIndexDao">
+
+    <insert id="addDataIndex" parameterType="dataindex">
+		INSERT INTO
+		IOMCI.IOM_CI_TYPE_DATA_INDEX
+		VALUES(#{id},#{ci_id},#{attr_id},#{type_id},#{idx},#{domain_id},#{cjsj},#{xgsj});
+	</insert>
+
+    <insert id="addDataIndexs" parameterType="dataindex">
+
+        INSERT INTO IOM_CI_TYPE_DATA_INDEX
+        VALUES
+        <foreach collection="list" item="typeData" separator=",">
+            (#{typeData.id},#{typeData.ci_id},#{typeData.attr_id},#{typeData.type_id},#{typeData.idx},#{typeData.domain_id},#{typeData.cjsj},#{typeData.xgsj})
+        </foreach>
+    </insert>
+    <update id="updateDataIndex" parameterType="DataIndex">
+		UPDATE
+		  IOM_CI_TYPE_DATA_INDEX
+		SET
+		  IDX = #{idx}
+		WHERE TYPE_ID = #{type_id}
+		  AND CI_ID = #{ci_id}
+		  AND ATTR_ID = #{attr_id}
+	</update>
+
+    <update id="updateDataIndexs" parameterType="DataIndex">
+        <foreach separator=";" collection="list" item="typeData" index="index">
+            UPDATE
+            IOM_CI_TYPE_DATA_INDEX
+            <set>
+                IDX=#{typeData.idx},
+                DOMAIN_ID=#{typeData.domain_id}
+            </set>
+            WHERE TYPE_ID = #{typeData.type_id}
+            AND CI_ID = #{typeData.ci_id}
+            AND ATTR_ID = #{typeData.attr_id}
+        </foreach>
+    </update>
+    <delete id="deleteDataIndexByciId" parameterType="DataIndex">
+		DELETE
+		FROM
+		  IOM_CI_TYPE_DATA_INDEX
+		WHERE CI_ID = #{ciId}
+	</delete>
+
+    <delete id="deleteDataIndexByciIds" parameterType="list">
+        DELETE
+        FROM
+        IOM_CI_TYPE_DATA_INDEX
+        WHERE CI_ID in
+        <foreach collection="list" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+    <delete id="deleteDataIndexByTypeId" parameterType="string">
+        DELETE
+        FROM
+        IOM_CI_TYPE_DATA_INDEX
+        WHERE TYPE_ID = #{tid}
+    </delete>
+    
+    
+    
+    <select id="findInfoByItemAndType" resultType="DataIndex">
+		select * FROM
+		IOM_CI_TYPE_DATA_INDEX WHERE ATTR_ID=#{Itemid} AND TYPE_ID =#{typeId} ;
+	</select>
+	
+	
+	 <delete id="deleteDataIndexByTypeIdAndCI" parameterType="string">
+        DELETE
+        FROM
+        IOM_CI_TYPE_DATA_INDEX
+        WHERE ATTR_ID=#{Itemid} AND TYPE_ID =#{typeId} ;
+    </delete>
+    
+    
+    
+</mapper>

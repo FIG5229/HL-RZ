@@ -1,0 +1,18 @@
+ALTER TABLE `iommgt`.`iom_camp_dict`
+MODIFY COLUMN `DICT_NAME` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '字典名称' AFTER `DICT_BM`;
+
+delete from `iommgt`.`iom_camp_dict` where DICT_ID in ('1381531788811038720','1383992527660511232','1383992707227054080','1383993795783159808','1384018674637074432','1384019036068638720','1384019366890172416');
+INSERT INTO `iommgt`.`iom_camp_dict`(`DICT_ID`, `DICT_BM`, `DICT_NAME`, `SJ_ID`, `GNFL`, `SORT`, `CJR_ID`, `CJSJ`, `XGR_ID`, `XGSJ`, `YXBZ`, `COUTENT`) VALUES (1381531788811038720, 'ci_exp', '对象属性正则表达式', '0', 0, 0, 72904780934168577, '2021-04-12 16:57:00', NULL, NULL, 1, NULL);
+INSERT INTO `iommgt`.`iom_camp_dict`(`DICT_ID`, `DICT_BM`, `DICT_NAME`, `SJ_ID`, `GNFL`, `SORT`, `CJR_ID`, `CJSJ`, `XGR_ID`, `XGSJ`, `YXBZ`, `COUTENT`) VALUES (1383992527660511232, 'ci_exp_mobile', "^1[345678]\\d{9}$", 'ci_exp', 0, 0, 244976290694840321, '2021-04-19 11:55:06', NULL, NULL, 1, '手机');
+INSERT INTO `iommgt`.`iom_camp_dict`(`DICT_ID`, `DICT_BM`, `DICT_NAME`, `SJ_ID`, `GNFL`, `SORT`, `CJR_ID`, `CJSJ`, `XGR_ID`, `XGSJ`, `YXBZ`, `COUTENT`) VALUES (1383992707227054080, 'ci_exp_tel', '0\\d{2,3}-\\d{7,8}(-\\d{1,6})?', 'ci_exp', 0, 0, 244976290694840321, '2021-04-19 11:55:49', NULL, NULL, 1, '座机');
+INSERT INTO `iommgt`.`iom_camp_dict`(`DICT_ID`, `DICT_BM`, `DICT_NAME`, `SJ_ID`, `GNFL`, `SORT`, `CJR_ID`, `CJSJ`, `XGR_ID`, `XGSJ`, `YXBZ`, `COUTENT`) VALUES (1383993795783159808, 'ci_exp_url', '^((ht|f)tps?):\/\/[\\w\-]+(.[\\w\-]+)+([\\w\-.,@?^=%&:\/~+#]*[\\w\-@?^=%&\/~+#])?$', 'ci_exp', 0, 0, 244976290694840321, '2021-04-19 12:00:08', NULL, NULL, 1, 'URL');
+INSERT INTO `iommgt`.`iom_camp_dict`(`DICT_ID`, `DICT_BM`, `DICT_NAME`, `SJ_ID`, `GNFL`, `SORT`, `CJR_ID`, `CJSJ`, `XGR_ID`, `XGSJ`, `YXBZ`, `COUTENT`) VALUES (1384018674637074432, 'ci_exp_email', '^[A-Za-z0-9-_\\u4e00-\\u9fa5]+@[a-zA-Z0-9_-]+(.[a-zA-Z0-9_-]+)+$', 'ci_exp', 0, 0, 244976290694840321, '2021-04-19 13:39:00', NULL, NULL, 1, '邮箱');
+INSERT INTO `iommgt`.`iom_camp_dict`(`DICT_ID`, `DICT_BM`, `DICT_NAME`, `SJ_ID`, `GNFL`, `SORT`, `CJR_ID`, `CJSJ`, `XGR_ID`, `XGSJ`, `YXBZ`, `COUTENT`) VALUES (1384019036068638720, 'ci_exp_ip', '^((25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\.){3}(25[0-5]|2[0-4]\\d|[01]?\\d\\d?)$', 'ci_exp', 0, 0, 244976290694840321, '2021-04-19 13:40:26', NULL, NULL, 1, 'IP');
+INSERT INTO `iommgt`.`iom_camp_dict`(`DICT_ID`, `DICT_BM`, `DICT_NAME`, `SJ_ID`, `GNFL`, `SORT`, `CJR_ID`, `CJSJ`, `XGR_ID`, `XGSJ`, `YXBZ`, `COUTENT`) VALUES (1384019366890172416, 'ci_exp_serial_num', '^\\d+$', 'ci_exp', 0, 0, 244976290694840321, '2021-04-19 13:41:45', 244976290694840321, '2021-04-19 13:42:28', 1, '序列号');
+
+
+delete from `iommgt`.`iom_camp_dict` where DICT_ID in ('1381814146281893888','1381814938648834048','1381815095654215680');
+INSERT INTO `iommgt`.`iom_camp_dict`(`DICT_ID`, `DICT_BM`, `DICT_NAME`, `SJ_ID`, `GNFL`, `SORT`, `CJR_ID`, `CJSJ`, `XGR_ID`, `XGSJ`, `YXBZ`, `COUTENT`) VALUES (1381814146281893888, 'ci_attr_type', '对象属性类别', '0', 0, 0, 72904780934168577, '2021-04-13 11:38:59', NULL, NULL, 1, NULL);
+INSERT INTO `iommgt`.`iom_camp_dict`(`DICT_ID`, `DICT_BM`, `DICT_NAME`, `SJ_ID`, `GNFL`, `SORT`, `CJR_ID`, `CJSJ`, `XGR_ID`, `XGSJ`, `YXBZ`, `COUTENT`) VALUES (1381814938648834048, 'ci_attr_type_str', '字符串', 'ci_attr_type', 0, 0, 72904780934168577, '2021-04-13 11:42:08', NULL, NULL, 1, '字符串');
+INSERT INTO `iommgt`.`iom_camp_dict`(`DICT_ID`, `DICT_BM`, `DICT_NAME`, `SJ_ID`, `GNFL`, `SORT`, `CJR_ID`, `CJSJ`, `XGR_ID`, `XGSJ`, `YXBZ`, `COUTENT`) VALUES (1381815095654215680, 'ci_attr_type_int', '整型', 'ci_attr_type', 0, 0, 72904780934168577, '2021-04-13 11:42:46', NULL, NULL, 1, '整型');
+

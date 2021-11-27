@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.integration.generator.dao.IomCampMenuResMapper">
+  <resultMap id="BaseResultMap" type="com.integration.generator.entity.IomCampMenuRes">
+    <id column="res_dm" jdbcType="BIGINT" property="resDm" />
+    <result column="res_mc" jdbcType="VARCHAR" property="resMc" />
+    <result column="gncd_dm" jdbcType="BIGINT" property="gncdDm" />
+    <result column="res_type" jdbcType="INTEGER" property="resType" />
+    <result column="sort" jdbcType="INTEGER" property="sort" />
+    <result column="cjr_id" jdbcType="BIGINT" property="cjrId" />
+    <result column="cjsj" jdbcType="TIMESTAMP" property="cjsj" />
+    <result column="xgr_id" jdbcType="BIGINT" property="xgrId" />
+    <result column="xgsj" jdbcType="TIMESTAMP" property="xgsj" />
+    <result column="yxbz" jdbcType="INTEGER" property="yxbz" />
+    <result column="res_url" jdbcType="VARCHAR" property="resUrl" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    res_dm, res_mc, gncd_dm, res_type, sort, cjr_id, cjsj, xgr_id, xgsj, yxbz, res_url
+  </sql>
+  <select id="selectByExample" parameterType="com.integration.generator.entity.IomCampMenuResExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from iom_camp_menu_res
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from iom_camp_menu_res
+    where res_dm = #{resDm,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from iom_camp_menu_res
+    where res_dm = #{resDm,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.integration.generator.entity.IomCampMenuResExample">
+    delete from iom_camp_menu_res
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.integration.generator.entity.IomCampMenuRes">
+    insert into iom_camp_menu_res (res_dm, res_mc, gncd_dm, 
+      res_type, sort, cjr_id, 
+      cjsj, xgr_id, xgsj, 
+      yxbz, res_url)
+    values (#{resDm,jdbcType=BIGINT}, #{resMc,jdbcType=VARCHAR}, #{gncdDm,jdbcType=BIGINT}, 
+      #{resType,jdbcType=INTEGER}, #{sort,jdbcType=INTEGER}, #{cjrId,jdbcType=BIGINT}, 
+      #{cjsj,jdbcType=TIMESTAMP}, #{xgrId,jdbcType=BIGINT}, #{xgsj,jdbcType=TIMESTAMP}, 
+      #{yxbz,jdbcType=INTEGER}, #{resUrl,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.integration.generator.entity.IomCampMenuRes">
+    insert into iom_camp_menu_res
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="resDm != null">
+        res_dm,
+      </if>
+      <if test="resMc != null">
+        res_mc,
+      </if>
+      <if test="gncdDm != null">
+        gncd_dm,
+      </if>
+      <if test="resType != null">
+        res_type,
+      </if>
+      <if test="sort != null">
+        sort,
+      </if>
+      <if test="cjrId != null">
+        cjr_id,
+      </if>
+      <if test="cjsj != null">
+        cjsj,
+      </if>
+      <if test="xgrId != null">
+        xgr_id,
+      </if>
+      <if test="xgsj != null">
+        xgsj,
+      </if>
+      <if test="yxbz != null">
+        yxbz,
+      </if>
+      <if test="resUrl != null">
+        res_url,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="resDm != null">
+        #{resDm,jdbcType=BIGINT},
+      </if>
+      <if test="resMc != null">
+        #{resMc,jdbcType=VARCHAR},
+      </if>
+      <if test="gncdDm != null">
+        #{gncdDm,jdbcType=BIGINT},
+      </if>
+      <if test="resType != null">
+        #{resType,jdbcType=INTEGER},
+      </if>
+      <if test="sort != null">
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="cjrId != null">
+        #{cjrId,jdbcType=BIGINT},
+      </if>
+      <if test="cjsj != null">
+        #{cjsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="xgrId != null">
+        #{xgrId,jdbcType=BIGINT},
+      </if>
+      <if test="xgsj != null">
+        #{xgsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="yxbz != null">
+        #{yxbz,jdbcType=INTEGER},
+      </if>
+      <if test="resUrl != null">
+        #{resUrl,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.integration.generator.entity.IomCampMenuResExample" resultType="java.lang.Long">
+    select count(*) from iom_camp_menu_res
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update iom_camp_menu_res
+    <set>
+      <if test="record.resDm != null">
+        res_dm = #{record.resDm,jdbcType=BIGINT},
+      </if>
+      <if test="record.resMc != null">
+        res_mc = #{record.resMc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gncdDm != null">
+        gncd_dm = #{record.gncdDm,jdbcType=BIGINT},
+      </if>
+      <if test="record.resType != null">
+        res_type = #{record.resType,jdbcType=INTEGER},
+      </if>
+      <if test="record.sort != null">
+        sort = #{record.sort,jdbcType=INTEGER},
+      </if>
+      <if test="record.cjrId != null">
+        cjr_id = #{record.cjrId,jdbcType=BIGINT},
+      </if>
+      <if test="record.cjsj != null">
+        cjsj = #{record.cjsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.xgrId != null">
+        xgr_id = #{record.xgrId,jdbcType=BIGINT},
+      </if>
+      <if test="record.xgsj != null">
+        xgsj = #{record.xgsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.yxbz != null">
+        yxbz = #{record.yxbz,jdbcType=INTEGER},
+      </if>
+      <if test="record.resUrl != null">
+        res_url = #{record.resUrl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update iom_camp_menu_res
+    set res_dm = #{record.resDm,jdbcType=BIGINT},
+      res_mc = #{record.resMc,jdbcType=VARCHAR},
+      gncd_dm = #{record.gncdDm,jdbcType=BIGINT},
+      res_type = #{record.resType,jdbcType=INTEGER},
+      sort = #{record.sort,jdbcType=INTEGER},
+      cjr_id = #{record.cjrId,jdbcType=BIGINT},
+      cjsj = #{record.cjsj,jdbcType=TIMESTAMP},
+      xgr_id = #{record.xgrId,jdbcType=BIGINT},
+      xgsj = #{record.xgsj,jdbcType=TIMESTAMP},
+      yxbz = #{record.yxbz,jdbcType=INTEGER},
+      res_url = #{record.resUrl,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.integration.generator.entity.IomCampMenuRes">
+    update iom_camp_menu_res
+    <set>
+      <if test="resMc != null">
+        res_mc = #{resMc,jdbcType=VARCHAR},
+      </if>
+      <if test="gncdDm != null">
+        gncd_dm = #{gncdDm,jdbcType=BIGINT},
+      </if>
+      <if test="resType != null">
+        res_type = #{resType,jdbcType=INTEGER},
+      </if>
+      <if test="sort != null">
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="cjrId != null">
+        cjr_id = #{cjrId,jdbcType=BIGINT},
+      </if>
+      <if test="cjsj != null">
+        cjsj = #{cjsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="xgrId != null">
+        xgr_id = #{xgrId,jdbcType=BIGINT},
+      </if>
+      <if test="xgsj != null">
+        xgsj = #{xgsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="yxbz != null">
+        yxbz = #{yxbz,jdbcType=INTEGER},
+      </if>
+      <if test="resUrl != null">
+        res_url = #{resUrl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where res_dm = #{resDm,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.integration.generator.entity.IomCampMenuRes">
+    update iom_camp_menu_res
+    set res_mc = #{resMc,jdbcType=VARCHAR},
+      gncd_dm = #{gncdDm,jdbcType=BIGINT},
+      res_type = #{resType,jdbcType=INTEGER},
+      sort = #{sort,jdbcType=INTEGER},
+      cjr_id = #{cjrId,jdbcType=BIGINT},
+      cjsj = #{cjsj,jdbcType=TIMESTAMP},
+      xgr_id = #{xgrId,jdbcType=BIGINT},
+      xgsj = #{xgsj,jdbcType=TIMESTAMP},
+      yxbz = #{yxbz,jdbcType=INTEGER},
+      res_url = #{resUrl,jdbcType=VARCHAR}
+    where res_dm = #{resDm,jdbcType=BIGINT}
+  </update>
+</mapper>

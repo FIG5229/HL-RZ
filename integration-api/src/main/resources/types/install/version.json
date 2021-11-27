@@ -1,0 +1,11 @@
+{
+	"properties": {
+		"name": {
+			"type": "keyword"
+		},
+		"createTime": {
+			"type": "date",
+			"format": "yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis"
+		}
+	}
+}

@@ -1,0 +1,451 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.integration.generator.dao.IomCiDataRelMapper">
+  <resultMap id="BaseResultMap" type="com.integration.generator.entity.IomCiDataRel">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="REL_ID" jdbcType="VARCHAR" property="relId" />
+    <result column="REL_NAME" jdbcType="VARCHAR" property="relName" />
+    <result column="REL_DESC" jdbcType="CHAR" property="relDesc" />
+    <result column="SOURCE_ID" jdbcType="INTEGER" property="sourceId" />
+    <result column="OWENR_ID" jdbcType="INTEGER" property="owenrId" />
+    <result column="ORG_ID" jdbcType="INTEGER" property="orgId" />
+    <result column="SOURCE_CI_ID" jdbcType="DECIMAL" property="sourceCiId" />
+    <result column="SOURCE_CI_BM" jdbcType="VARCHAR" property="sourceCiBm" />
+    <result column="SOURCE_TYPE_BM" jdbcType="VARCHAR" property="sourceTypeBm" />
+    <result column="SOURCE_TYPE_ID" jdbcType="DECIMAL" property="sourceTypeId" />
+    <result column="TARGET_CI_ID" jdbcType="DECIMAL" property="targetCiId" />
+    <result column="TARGET_CI_BM" jdbcType="VARCHAR" property="targetCiBm" />
+    <result column="TARGET_TYPE_BM" jdbcType="VARCHAR" property="targetTypeBm" />
+    <result column="TARGET_TYPE_ID" jdbcType="DECIMAL" property="targetTypeId" />
+    <result column="CJR_ID" jdbcType="BIGINT" property="cjrId" />
+    <result column="CJSJ" jdbcType="TIMESTAMP" property="cjsj" />
+    <result column="XGR_ID" jdbcType="BIGINT" property="xgrId" />
+    <result column="XGSJ" jdbcType="TIMESTAMP" property="xgsj" />
+    <result column="YXBZ" jdbcType="INTEGER" property="yxbz" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ID, REL_ID, REL_NAME, REL_DESC, SOURCE_ID, OWENR_ID, ORG_ID, SOURCE_CI_ID, SOURCE_CI_BM, 
+    SOURCE_TYPE_BM, SOURCE_TYPE_ID, TARGET_CI_ID, TARGET_CI_BM, TARGET_TYPE_BM, TARGET_TYPE_ID, 
+    CJR_ID, CJSJ, XGR_ID, XGSJ, YXBZ
+  </sql>
+  <select id="selectByExample" parameterType="com.integration.generator.entity.IomCiDataRelExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from iom_ci_data_rel
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from iom_ci_data_rel
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from iom_ci_data_rel
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.integration.generator.entity.IomCiDataRelExample">
+    delete from iom_ci_data_rel
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.integration.generator.entity.IomCiDataRel">
+    insert into iom_ci_data_rel (ID, REL_ID, REL_NAME, 
+      REL_DESC, SOURCE_ID, OWENR_ID, 
+      ORG_ID, SOURCE_CI_ID, SOURCE_CI_BM, 
+      SOURCE_TYPE_BM, SOURCE_TYPE_ID, TARGET_CI_ID, 
+      TARGET_CI_BM, TARGET_TYPE_BM, TARGET_TYPE_ID, 
+      CJR_ID, CJSJ, XGR_ID, 
+      XGSJ, YXBZ)
+    values (#{id,jdbcType=DECIMAL}, #{relId,jdbcType=VARCHAR}, #{relName,jdbcType=VARCHAR}, 
+      #{relDesc,jdbcType=CHAR}, #{sourceId,jdbcType=INTEGER}, #{owenrId,jdbcType=INTEGER}, 
+      #{orgId,jdbcType=INTEGER}, #{sourceCiId,jdbcType=DECIMAL}, #{sourceCiBm,jdbcType=VARCHAR}, 
+      #{sourceTypeBm,jdbcType=VARCHAR}, #{sourceTypeId,jdbcType=DECIMAL}, #{targetCiId,jdbcType=DECIMAL}, 
+      #{targetCiBm,jdbcType=VARCHAR}, #{targetTypeBm,jdbcType=VARCHAR}, #{targetTypeId,jdbcType=DECIMAL}, 
+      #{cjrId,jdbcType=BIGINT}, #{cjsj,jdbcType=TIMESTAMP}, #{xgrId,jdbcType=BIGINT}, 
+      #{xgsj,jdbcType=TIMESTAMP}, #{yxbz,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.integration.generator.entity.IomCiDataRel">
+    insert into iom_ci_data_rel
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="relId != null">
+        REL_ID,
+      </if>
+      <if test="relName != null">
+        REL_NAME,
+      </if>
+      <if test="relDesc != null">
+        REL_DESC,
+      </if>
+      <if test="sourceId != null">
+        SOURCE_ID,
+      </if>
+      <if test="owenrId != null">
+        OWENR_ID,
+      </if>
+      <if test="orgId != null">
+        ORG_ID,
+      </if>
+      <if test="sourceCiId != null">
+        SOURCE_CI_ID,
+      </if>
+      <if test="sourceCiBm != null">
+        SOURCE_CI_BM,
+      </if>
+      <if test="sourceTypeBm != null">
+        SOURCE_TYPE_BM,
+      </if>
+      <if test="sourceTypeId != null">
+        SOURCE_TYPE_ID,
+      </if>
+      <if test="targetCiId != null">
+        TARGET_CI_ID,
+      </if>
+      <if test="targetCiBm != null">
+        TARGET_CI_BM,
+      </if>
+      <if test="targetTypeBm != null">
+        TARGET_TYPE_BM,
+      </if>
+      <if test="targetTypeId != null">
+        TARGET_TYPE_ID,
+      </if>
+      <if test="cjrId != null">
+        CJR_ID,
+      </if>
+      <if test="cjsj != null">
+        CJSJ,
+      </if>
+      <if test="xgrId != null">
+        XGR_ID,
+      </if>
+      <if test="xgsj != null">
+        XGSJ,
+      </if>
+      <if test="yxbz != null">
+        YXBZ,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="relId != null">
+        #{relId,jdbcType=VARCHAR},
+      </if>
+      <if test="relName != null">
+        #{relName,jdbcType=VARCHAR},
+      </if>
+      <if test="relDesc != null">
+        #{relDesc,jdbcType=CHAR},
+      </if>
+      <if test="sourceId != null">
+        #{sourceId,jdbcType=INTEGER},
+      </if>
+      <if test="owenrId != null">
+        #{owenrId,jdbcType=INTEGER},
+      </if>
+      <if test="orgId != null">
+        #{orgId,jdbcType=INTEGER},
+      </if>
+      <if test="sourceCiId != null">
+        #{sourceCiId,jdbcType=DECIMAL},
+      </if>
+      <if test="sourceCiBm != null">
+        #{sourceCiBm,jdbcType=VARCHAR},
+      </if>
+      <if test="sourceTypeBm != null">
+        #{sourceTypeBm,jdbcType=VARCHAR},
+      </if>
+      <if test="sourceTypeId != null">
+        #{sourceTypeId,jdbcType=DECIMAL},
+      </if>
+      <if test="targetCiId != null">
+        #{targetCiId,jdbcType=DECIMAL},
+      </if>
+      <if test="targetCiBm != null">
+        #{targetCiBm,jdbcType=VARCHAR},
+      </if>
+      <if test="targetTypeBm != null">
+        #{targetTypeBm,jdbcType=VARCHAR},
+      </if>
+      <if test="targetTypeId != null">
+        #{targetTypeId,jdbcType=DECIMAL},
+      </if>
+      <if test="cjrId != null">
+        #{cjrId,jdbcType=BIGINT},
+      </if>
+      <if test="cjsj != null">
+        #{cjsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="xgrId != null">
+        #{xgrId,jdbcType=BIGINT},
+      </if>
+      <if test="xgsj != null">
+        #{xgsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="yxbz != null">
+        #{yxbz,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.integration.generator.entity.IomCiDataRelExample" resultType="java.lang.Long">
+    select count(*) from iom_ci_data_rel
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update iom_ci_data_rel
+    <set>
+      <if test="record.id != null">
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.relId != null">
+        REL_ID = #{record.relId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.relName != null">
+        REL_NAME = #{record.relName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.relDesc != null">
+        REL_DESC = #{record.relDesc,jdbcType=CHAR},
+      </if>
+      <if test="record.sourceId != null">
+        SOURCE_ID = #{record.sourceId,jdbcType=INTEGER},
+      </if>
+      <if test="record.owenrId != null">
+        OWENR_ID = #{record.owenrId,jdbcType=INTEGER},
+      </if>
+      <if test="record.orgId != null">
+        ORG_ID = #{record.orgId,jdbcType=INTEGER},
+      </if>
+      <if test="record.sourceCiId != null">
+        SOURCE_CI_ID = #{record.sourceCiId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.sourceCiBm != null">
+        SOURCE_CI_BM = #{record.sourceCiBm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sourceTypeBm != null">
+        SOURCE_TYPE_BM = #{record.sourceTypeBm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sourceTypeId != null">
+        SOURCE_TYPE_ID = #{record.sourceTypeId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.targetCiId != null">
+        TARGET_CI_ID = #{record.targetCiId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.targetCiBm != null">
+        TARGET_CI_BM = #{record.targetCiBm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.targetTypeBm != null">
+        TARGET_TYPE_BM = #{record.targetTypeBm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.targetTypeId != null">
+        TARGET_TYPE_ID = #{record.targetTypeId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.cjrId != null">
+        CJR_ID = #{record.cjrId,jdbcType=BIGINT},
+      </if>
+      <if test="record.cjsj != null">
+        CJSJ = #{record.cjsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.xgrId != null">
+        XGR_ID = #{record.xgrId,jdbcType=BIGINT},
+      </if>
+      <if test="record.xgsj != null">
+        XGSJ = #{record.xgsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.yxbz != null">
+        YXBZ = #{record.yxbz,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update iom_ci_data_rel
+    set ID = #{record.id,jdbcType=DECIMAL},
+      REL_ID = #{record.relId,jdbcType=VARCHAR},
+      REL_NAME = #{record.relName,jdbcType=VARCHAR},
+      REL_DESC = #{record.relDesc,jdbcType=CHAR},
+      SOURCE_ID = #{record.sourceId,jdbcType=INTEGER},
+      OWENR_ID = #{record.owenrId,jdbcType=INTEGER},
+      ORG_ID = #{record.orgId,jdbcType=INTEGER},
+      SOURCE_CI_ID = #{record.sourceCiId,jdbcType=DECIMAL},
+      SOURCE_CI_BM = #{record.sourceCiBm,jdbcType=VARCHAR},
+      SOURCE_TYPE_BM = #{record.sourceTypeBm,jdbcType=VARCHAR},
+      SOURCE_TYPE_ID = #{record.sourceTypeId,jdbcType=DECIMAL},
+      TARGET_CI_ID = #{record.targetCiId,jdbcType=DECIMAL},
+      TARGET_CI_BM = #{record.targetCiBm,jdbcType=VARCHAR},
+      TARGET_TYPE_BM = #{record.targetTypeBm,jdbcType=VARCHAR},
+      TARGET_TYPE_ID = #{record.targetTypeId,jdbcType=DECIMAL},
+      CJR_ID = #{record.cjrId,jdbcType=BIGINT},
+      CJSJ = #{record.cjsj,jdbcType=TIMESTAMP},
+      XGR_ID = #{record.xgrId,jdbcType=BIGINT},
+      XGSJ = #{record.xgsj,jdbcType=TIMESTAMP},
+      YXBZ = #{record.yxbz,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.integration.generator.entity.IomCiDataRel">
+    update iom_ci_data_rel
+    <set>
+      <if test="relId != null">
+        REL_ID = #{relId,jdbcType=VARCHAR},
+      </if>
+      <if test="relName != null">
+        REL_NAME = #{relName,jdbcType=VARCHAR},
+      </if>
+      <if test="relDesc != null">
+        REL_DESC = #{relDesc,jdbcType=CHAR},
+      </if>
+      <if test="sourceId != null">
+        SOURCE_ID = #{sourceId,jdbcType=INTEGER},
+      </if>
+      <if test="owenrId != null">
+        OWENR_ID = #{owenrId,jdbcType=INTEGER},
+      </if>
+      <if test="orgId != null">
+        ORG_ID = #{orgId,jdbcType=INTEGER},
+      </if>
+      <if test="sourceCiId != null">
+        SOURCE_CI_ID = #{sourceCiId,jdbcType=DECIMAL},
+      </if>
+      <if test="sourceCiBm != null">
+        SOURCE_CI_BM = #{sourceCiBm,jdbcType=VARCHAR},
+      </if>
+      <if test="sourceTypeBm != null">
+        SOURCE_TYPE_BM = #{sourceTypeBm,jdbcType=VARCHAR},
+      </if>
+      <if test="sourceTypeId != null">
+        SOURCE_TYPE_ID = #{sourceTypeId,jdbcType=DECIMAL},
+      </if>
+      <if test="targetCiId != null">
+        TARGET_CI_ID = #{targetCiId,jdbcType=DECIMAL},
+      </if>
+      <if test="targetCiBm != null">
+        TARGET_CI_BM = #{targetCiBm,jdbcType=VARCHAR},
+      </if>
+      <if test="targetTypeBm != null">
+        TARGET_TYPE_BM = #{targetTypeBm,jdbcType=VARCHAR},
+      </if>
+      <if test="targetTypeId != null">
+        TARGET_TYPE_ID = #{targetTypeId,jdbcType=DECIMAL},
+      </if>
+      <if test="cjrId != null">
+        CJR_ID = #{cjrId,jdbcType=BIGINT},
+      </if>
+      <if test="cjsj != null">
+        CJSJ = #{cjsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="xgrId != null">
+        XGR_ID = #{xgrId,jdbcType=BIGINT},
+      </if>
+      <if test="xgsj != null">
+        XGSJ = #{xgsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="yxbz != null">
+        YXBZ = #{yxbz,jdbcType=INTEGER},
+      </if>
+      <if test="domainId != null">
+        DOMAIN_ID = #{domainId},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.integration.generator.entity.IomCiDataRel">
+    update iom_ci_data_rel
+    set REL_ID = #{relId,jdbcType=VARCHAR},
+      REL_NAME = #{relName,jdbcType=VARCHAR},
+      REL_DESC = #{relDesc,jdbcType=CHAR},
+      SOURCE_ID = #{sourceId,jdbcType=INTEGER},
+      OWENR_ID = #{owenrId,jdbcType=INTEGER},
+      ORG_ID = #{orgId,jdbcType=INTEGER},
+      SOURCE_CI_ID = #{sourceCiId,jdbcType=DECIMAL},
+      SOURCE_CI_BM = #{sourceCiBm,jdbcType=VARCHAR},
+      SOURCE_TYPE_BM = #{sourceTypeBm,jdbcType=VARCHAR},
+      SOURCE_TYPE_ID = #{sourceTypeId,jdbcType=DECIMAL},
+      TARGET_CI_ID = #{targetCiId,jdbcType=DECIMAL},
+      TARGET_CI_BM = #{targetCiBm,jdbcType=VARCHAR},
+      TARGET_TYPE_BM = #{targetTypeBm,jdbcType=VARCHAR},
+      TARGET_TYPE_ID = #{targetTypeId,jdbcType=DECIMAL},
+      CJR_ID = #{cjrId,jdbcType=BIGINT},
+      CJSJ = #{cjsj,jdbcType=TIMESTAMP},
+      XGR_ID = #{xgrId,jdbcType=BIGINT},
+      XGSJ = #{xgsj,jdbcType=TIMESTAMP},
+      YXBZ = #{yxbz,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

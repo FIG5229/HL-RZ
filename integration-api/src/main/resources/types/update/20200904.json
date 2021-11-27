@@ -1,0 +1,59 @@
+[{
+	"type": "iom_emv_event_process",
+	"source": {
+		"properties": {
+			"id": {
+				"type": "long"
+			},
+			"serial_id": {
+				"type": "text",
+				"fielddata": true
+			},
+			"source_id": {
+				"type": "text",
+				"fielddata": true
+			},
+			"process_rule": {
+				"type": "keyword"
+			},
+			"rule_type": {
+				"type": "text",
+				"fielddata": true
+			},
+			"process_type": {
+				"type": "text",
+				"fielddata": true
+			},
+			"process_uid": {
+				"type": "text",
+				"fielddata": true
+			},
+			"process_info": {
+				"type": "keyword"
+			},
+			"process_time": {
+				"type": "date",
+				"format": "yyyy-MM-dd HH:mm:ss"
+			},
+			"cjsj": {
+				"type": "date",
+				"format": "yyyy-MM-dd HH:mm:ss"
+			},
+			"domain_id": {
+				"type": "keyword"
+			},
+			"xgsj": {
+				"type": "date",
+				"format": "yyyy-MM-dd HH:mm:ss"
+			},
+			"process_name": {
+				"type": "keyword"
+			}
+		}
+	},
+	"settings": {
+		"index": {
+			"max_result_window": "2000000000"
+		}
+	}
+}]

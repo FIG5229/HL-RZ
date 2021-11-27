@@ -1,0 +1,882 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.integration.dao.CiTypeRelDao">
+
+
+    <insert id="insertByBatch" parameterType="java.util.List">
+        INSERT INTO IOMCI.iom_ci_type_rel (
+			ID,
+			REL_ID,
+			SOURCE_TYPE_ID,
+			TARGET_TYPE_ID,
+			CJR_ID,
+			DJSJ,
+			XGR_ID,
+			XGSJ,
+			YXBZ,
+			DOMAIN_ID
+		)
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.id},
+            #{item.relId},
+            #{item.sourceTypeId},
+            #{item.targetTypeId},
+            #{item.cjrId},
+            #{item.djsj},
+            #{item.xgrId},
+            #{item.xgsj},
+            #{item.yxbz},
+            #{item.domainId}
+            )
+        </foreach>
+
+    </insert>
+
+	<select id="selectInvalidFocus" resultType="Long">
+		SELECT
+			 iom_ci_type_focus_rel.id
+		FROM
+			iom_ci_type_focus_rel
+		WHERE
+			id NOT IN (
+				SELECT
+					 iom_ci_type_focus_rel.id
+				FROM
+					iom_ci_type_focus_rel
+				inner JOIN iom_ci_type_rel ON iom_ci_type_rel.REL_ID = iom_ci_type_focus_rel.RLT_ID
+				AND iom_ci_type_rel.SOURCE_TYPE_ID = iom_ci_type_focus_rel.SOURCE_TYPE_ID
+				AND iom_ci_type_rel.TARGET_TYPE_ID = iom_ci_type_focus_rel.TARGET_TYPE_ID
+				AND iom_ci_type_rel.YXBZ = 1
+				AND iom_ci_type_focus_rel.YXBZ = 1
+			)
+	</select>
+
+    <update id="updateYXBZ" >
+		update
+		IOMCI.iom_ci_type_rel
+		set YXBZ =0
+	</update>
+    
+    <select id="getSourceTypeIdAndTargetTypeId" parameterType="String" resultType="com.integration.generator.entity.IomCiTypeRel">
+        SELECT  
+        	ID,
+			REL_ID relId,
+			SOURCE_TYPE_ID sourceTypeId,
+			TARGET_TYPE_ID targetTypeId,
+			CJR_ID cjrId,
+			DJSJ,
+			XGR_ID xgrId,
+			XGSJ,
+			YXBZ
+        FROM iom_ci_type_rel WHERE ((SOURCE_TYPE_ID = #{source_type_id} and TARGET_TYPE_ID = #{target_type_id}) or ( SOURCE_TYPE_ID = #{target_type_id} and TARGET_TYPE_ID = #{source_type_id})) and yxbz=1		     
+    </select>
+    
+    <select id="getCiTypeRelByTypeId" parameterType="String" resultType="Map">
+        SELECT
+			iom_ci_type_rel.id,
+			iom_ci_type_rel.REL_ID relId,
+			iom_ci_rel.LINE_NAME relName,
+			iom_ci_type_rel.SOURCE_TYPE_ID sourceTypeId,
+			aa.CI_TYPE_MC sourceTypeName,
+			iom_ci_type_rel.TARGET_TYPE_ID targetTypeId,
+			bb.CI_TYPE_MC targetTypeName,
+			iom_ci_type_rel.CJR_ID cjrId,
+			iom_ci_type_rel.DJSJ,
+			iom_ci_type_rel.XGR_ID xgrId,
+			iom_ci_type_rel.XGSJ,
+			iom_ci_type_rel.YXBZ
+		FROM
+			iom_ci_type_rel
+		LEFT JOIN iom_ci_type aa ON aa.id = SOURCE_TYPE_ID
+		LEFT JOIN iom_ci_type bb ON bb.id = TARGET_TYPE_ID
+		LEFT JOIN iom_ci_rel ON iom_ci_rel.id = iom_ci_type_rel.REL_ID
+        WHERE (iom_ci_type_rel.SOURCE_TYPE_ID = #{typeId} or iom_ci_type_rel.TARGET_TYPE_ID = #{typeId}) and iom_ci_type_rel.yxbz=1
+        <if test="domainId != null and domainId !=''"> and iom_ci_type_rel.domain_id in (${domainId})</if>
+    </select>
+    
+    <select id="checkCiType" resultType="Long">
+    	SELECT
+			COUNT(1)
+		FROM
+			iom_ci_type_rel
+		INNER JOIN (
+			SELECT
+				CI_TYPE_ID
+			FROM
+				iom_ci_info
+			WHERE
+				CI_CODE = #{sourceBm}
+			AND YXBZ = 1
+		) sou ON sou.CI_TYPE_ID = iom_ci_type_rel.SOURCE_TYPE_ID
+		INNER JOIN (
+			SELECT
+				CI_TYPE_ID
+			FROM
+				iom_ci_info
+			WHERE
+				CI_CODE = #{targetBm}
+			AND YXBZ = 1
+		) tar ON tar.CI_TYPE_ID = iom_ci_type_rel.TARGET_TYPE_ID
+		AND REL_ID = #{relId}
+		AND YXBZ = 1
+    </select>
+    
+    <select id="selectRelTypeIds" resultType="Map">
+		SELECT
+			iom_ci_type.CI_TYPE_BM name,
+			tt.typeId,
+			tt.num
+		FROM
+			iom_ci_type
+		INNER JOIN (
+			SELECT
+		
+			IF (
+				iom_ci_type_rel.SOURCE_TYPE_ID = #{typeId},
+				iom_ci_type_rel.TARGET_TYPE_ID,
+				iom_ci_type_rel.SOURCE_TYPE_ID
+			) typeId,
+			COUNT(
+				DISTINCT
+				IF (
+					iom_ci_data_rel.SOURCE_CI_BM = #{ciCode},
+					iom_ci_data_rel.TARGET_CI_BM,
+					iom_ci_data_rel.SOURCE_CI_BM
+				)
+			) num
+		FROM
+			iom_ci_type_rel
+		LEFT JOIN iom_ci_data_rel ON iom_ci_data_rel.SOURCE_TYPE_ID = iom_ci_type_rel.SOURCE_TYPE_ID
+		AND iom_ci_data_rel.TARGET_TYPE_ID = iom_ci_type_rel.TARGET_TYPE_ID
+		AND iom_ci_data_rel.REL_ID = iom_ci_type_rel.REL_ID
+		AND iom_ci_type_rel.YXBZ = 1
+		AND iom_ci_data_rel.YXBZ = 1
+		WHERE
+			iom_ci_type_rel.SOURCE_TYPE_ID = #{typeId}
+		OR iom_ci_type_rel.TARGET_TYPE_ID = #{typeId}
+		GROUP BY
+			typeId
+		) tt ON tt.typeId = iom_ci_type.ID
+		AND iom_ci_type.YXBZ = 1
+		ORDER BY
+			iom_ci_type.sort
+    </select>
+    
+    <select id="selectCiIds" resultType="String">
+	    SELECT DISTINCT
+		IF (
+			iom_ci_data_rel.SOURCE_CI_BM = #{ciCode},
+			iom_ci_data_rel.TARGET_CI_BM,
+			iom_ci_data_rel.SOURCE_CI_BM
+		) ciCode
+		FROM
+			iom_ci_data_rel
+		WHERE
+			(
+				(
+					iom_ci_data_rel.SOURCE_TYPE_ID = #{typeId1}
+					AND iom_ci_data_rel.TARGET_TYPE_ID = #{typeId2}
+				)
+				OR (
+					iom_ci_data_rel.SOURCE_TYPE_ID = #{typeId2}
+					AND iom_ci_data_rel.TARGET_TYPE_ID = #{typeId1}
+				)
+			)
+			AND (
+				iom_ci_data_rel.SOURCE_CI_BM = #{ciCode}
+				OR iom_ci_data_rel.TARGET_CI_BM = #{ciCode}
+			)
+		<if test=" relId!=null and relId!='' ">
+			AND REL_ID = #{relId}
+		</if>
+		AND YXBZ = 1
+    </select>
+    
+    
+    
+    <select id="selectCiAndType" resultType="map">
+    	SELECT
+			iom_ci_info.id,
+			iom_ci_info.CI_CODE ciCode,
+			iom_ci_info.CI_CODE ciCode,
+			IFNULL(iom_ci_info.CI_NAME,iom_ci_info.CI_CODE) as ciName,
+			iom_ci_info.CI_DESC ciDesc,
+			iom_ci_info.CI_TYPE_ID ciTypeId,
+			iom_ci_type.CI_TYPE_BM ciTypeBm,
+			iom_ci_type.CI_TYPE_ICON ciTypeIcon,
+			iom_ci_icon.ICON_FULL_NAME imageFullName
+		FROM
+			iom_ci_info
+		LEFT JOIN iom_ci_type ON iom_ci_type.id = iom_ci_info.CI_TYPE_ID
+		LEFT JOIN iom_ci_icon ON iom_ci_type.CI_TYPE_ICON=iom_ci_icon.ICON_PATH
+		WHERE
+			iom_ci_info.YXBZ = 1
+		and iom_ci_info.CI_CODE in
+		<foreach collection="ids" item="item" index="index" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+    </select>
+    
+    <select id="getCiDataRelByCiIdAndTypeId" resultType="Map">
+    	SELECT
+			ID id,
+			REL_ID relId,
+			REL_NAME relName,
+			REL_DESC relDesc,
+			SOURCE_ID sourceId,
+			OWENR_ID owenrId,
+			ORG_ID orgId,
+			SOURCE_CI_ID sourceCiId,
+			SOURCE_CI_BM sourceCiBm,
+			SOURCE_TYPE_BM sourceTypeBm,
+			SOURCE_TYPE_ID sourceTypeId,
+			TARGET_CI_ID targetCiId,
+			TARGET_CI_BM targetCiBm,
+			TARGET_TYPE_BM targetTypeBm,
+			TARGET_TYPE_ID targetTypeId,
+			CJR_ID cjrId,
+			DOMAIN_ID domainId,
+			CJSJ cjsj,
+			XGR_ID xgrId,
+			XGSJ xgsj,
+			YXBZ yxbz
+		FROM
+			iom_ci_data_rel
+		WHERE
+			iom_ci_data_rel.YXBZ = 1
+		<if test=" sourceCiIdList != null and sourceCiIdList != '' ">
+            AND iom_ci_data_rel.SOURCE_CI_ID IN
+            <foreach item="sourceCiId" index="index" collection="sourceCiIdList" open="(" separator="," close=")">
+                #{sourceCiId}
+            </foreach>
+        </if>
+        <if test=" targetCiIdList != null and targetCiIdList != '' ">
+            AND iom_ci_data_rel.TARGET_CI_ID IN
+            <foreach item="targetCiId" index="index" collection="targetCiIdList" open="(" separator="," close=")">
+                #{targetCiId}
+            </foreach>
+        </if>
+        <if test=" relId != null and relId != '' ">
+            AND iom_ci_data_rel.REL_ID=#{relId}
+        </if>
+        <if test=" targetTypeId != null and targetTypeId != '' ">
+            AND iom_ci_data_rel.TARGET_TYPE_ID=#{targetTypeId}
+        </if>
+        <if test=" sourceTypeId != null and sourceTypeId != '' ">
+            AND iom_ci_data_rel.SOURCE_TYPE_ID=#{sourceTypeId}
+        </if>
+        
+    </select>
+    
+        <select id="getWorldMapCiSingleRels" resultType="Map">
+    	SELECT
+			a.ID id,
+			a.REL_ID relId,
+			a.REL_NAME relName,
+			a.REL_DESC relDesc,
+			a.SOURCE_ID sourceId,
+			a.OWENR_ID owenrId,
+			a.ORG_ID orgId,
+			a.SOURCE_CI_ID sourceCiId,
+			a.SOURCE_CI_BM sourceCiBm,
+			a.source_ci_bm as sourceCiCode,
+            IFNULL(b.ci_name,b.ci_code) as sourceCiName,
+			a.SOURCE_TYPE_BM sourceTypeBm,
+			a.SOURCE_TYPE_ID sourceTypeId,
+			a.TARGET_CI_ID targetCiId,
+			a.TARGET_CI_BM targetCiBm,
+			a.target_ci_bm as targetCiCode,
+            IFNULL(c.ci_name,c.ci_code) as targetCiName,
+			a.TARGET_TYPE_BM targetTypeBm,
+			a.TARGET_TYPE_ID targetTypeId,
+			a.CJR_ID cjrId,
+			a.DOMAIN_ID domainId,
+			a.CJSJ cjsj,
+			a.XGR_ID xgrId,
+			a.XGSJ xgsj,
+			a.YXBZ yxbz
+		FROM
+			iom_ci_data_rel a
+			left join iom_ci_info b on a.source_ci_bm=b.ci_code
+            left join iom_ci_info c on a.target_ci_bm=c.ci_code
+		WHERE
+			a.YXBZ = 1	
+		<if test=" sourceCiCodeList != null and sourceCiCodeList != '' ">
+            AND a.SOURCE_CI_BM IN
+            <foreach item="sourceCiCode" index="index" collection="sourceCiCodeList" open="(" separator="," close=")">
+                #{sourceCiCode}
+            </foreach>
+        </if>
+        <if test=" relIdList != null and relIdList != '' ">
+            AND a.REL_ID IN
+            <foreach item="relId" index="index" collection="relIdList" open="(" separator="," close=")">
+                ${relId}
+            </foreach>
+        </if>
+        <if test=" targetTypeName != null and targetTypeName != '' ">
+            AND a.TARGET_TYPE_BM = #{targetTypeName}
+        </if>
+        
+        
+        
+    </select>
+    
+    <select id="getImpactAnalysisRelDatasOptimize" resultType="Map">
+    	SELECT
+			a.ID id,
+			a.REL_ID relId,
+			a.REL_NAME relName,
+			a.REL_DESC relDesc,
+			a.SOURCE_ID sourceId,
+			a.OWENR_ID owenrId,
+			a.ORG_ID orgId,
+			a.SOURCE_CI_ID sourceCiId,
+			a.SOURCE_CI_BM sourceCiBm,
+			TRIM(a.SOURCE_CI_BM) as sourceCiCode,
+			IFNULL(b.ci_name,b.ci_code) as sourceCiName,
+			a.SOURCE_TYPE_BM sourceTypeBm,
+			a.SOURCE_TYPE_ID sourceTypeId,
+			a.TARGET_CI_ID targetCiId,
+			a.TARGET_CI_BM targetCiBm,
+			TRIM(a.TARGET_CI_BM) as targetCiCode,
+			IFNULL(c.ci_name,c.ci_code) as targetCiName,
+			a.TARGET_TYPE_BM targetTypeBm,
+			a.TARGET_TYPE_ID targetTypeId,
+			a.CJR_ID cjrId,
+			a.DOMAIN_ID domainId,
+			a.CJSJ cjsj,
+			a.XGR_ID xgrId,
+			a.XGSJ xgsj,
+			a.YXBZ yxbz
+		FROM
+			iom_ci_data_rel as a
+		left join iom_ci_info b on a.SOURCE_CI_BM=b.ci_code
+        left join iom_ci_info c on a.TARGET_CI_BM=c.ci_code
+		WHERE
+			a.YXBZ = 1
+		<if test=" domainId != null and domainId != '' ">
+            AND a.DOMAIN_ID = #{domainId}
+        </if>
+		<if test=" sourceCiCodeList != null and sourceCiCodeList != '' ">
+            AND a.SOURCE_CI_BM IN
+            <foreach item="sourceCiCode" index="index" collection="sourceCiCodeList" open="(" separator="," close=")">
+                #{sourceCiCode}
+            </foreach>
+        </if>
+        <if test=" targetCiCodeList != null and targetCiCodeList != '' ">
+            AND a.TARGET_CI_BM IN
+            <foreach item="targetCiCode" index="index" collection="targetCiCodeList" open="(" separator="," close=")">
+                #{targetCiCode}
+            </foreach>
+        </if>
+        <if test=" relIdList != null and relIdList != '' ">
+            AND a.REL_ID IN
+            <foreach item="relId" index="index" collection="relIdList" open="(" separator="," close=")">
+                ${relId}
+            </foreach>
+        </if>
+        <if test=" sourceTypeId != null and sourceTypeId != '' ">
+            AND a.SOURCE_TYPE_ID = #{sourceTypeId}
+        </if>
+        <if test=" targetTypeId != null and targetTypeId != '' ">
+            AND a.TARGET_TYPE_ID = #{targetTypeId}
+        </if>
+    </select>
+    
+        <select id="getImpactAnalysisRelDatasSelf" resultType="Map">
+    	SELECT
+			a.ID id,
+			a.REL_ID relId,
+			a.REL_NAME relName,
+			a.REL_DESC relDesc,
+			a.SOURCE_ID sourceId,
+			a.OWENR_ID owenrId,
+			a.ORG_ID orgId,
+			a.SOURCE_CI_ID sourceCiId,
+			a.SOURCE_CI_BM sourceCiBm,
+			a.SOURCE_CI_BM sourceCiCode,
+			IFNULL(b.ci_name,b.ci_code) as sourceCiName,
+			a.SOURCE_TYPE_BM sourceTypeBm,
+			a.SOURCE_TYPE_ID sourceTypeId,
+			a.TARGET_CI_ID targetCiId,
+			a.TARGET_CI_BM targetCiBm,
+			a.TARGET_CI_BM targetCiCode,
+			IFNULL(c.ci_name,c.ci_code) as targetCiName,
+			a.TARGET_TYPE_BM targetTypeBm,
+			a.TARGET_TYPE_ID targetTypeId,
+			a.CJR_ID cjrId,
+			a.DOMAIN_ID domainId,
+			a.CJSJ cjsj,
+			a.XGR_ID xgrId,
+			a.XGSJ xgsj,
+			a.YXBZ yxbz
+		FROM
+			iom_ci_data_rel as a
+			left join iom_ci_info b on a.SOURCE_CI_BM=b.ci_code
+            left join iom_ci_info c on a.TARGET_CI_BM=c.ci_code
+		WHERE
+			a.YXBZ = 1
+		<if test=" domainId != null and domainId != '' ">
+            AND a.DOMAIN_ID=#{domainId}
+        </if>
+		<if test=" sourceCiCodeList != null and sourceCiCodeList != '' ">
+            AND (a.SOURCE_CI_BM IN
+            <foreach item="sourceCiCode" index="index" collection="sourceCiCodeList" open="(" separator="," close=")">
+                #{sourceCiCode}
+            </foreach>
+        </if>
+        <if test=" targetCiCodeList != null and targetCiCodeList != '' ">
+            OR a.TARGET_CI_BM IN
+            <foreach item="targetCiCode" index="index" collection="targetCiCodeList" open="(" separator="," close=")">
+                #{targetCiCode}
+            </foreach>
+            )
+        </if>
+        <if test=" relIdList != null and relIdList != '' ">
+            AND a.REL_ID IN
+            <foreach item="relId" index="index" collection="relIdList" open="(" separator="," close=")">
+                ${relId}
+            </foreach>
+        </if>
+        <if test=" sourceTypeId != null and sourceTypeId != '' ">
+            AND a.SOURCE_TYPE_ID = #{sourceTypeId}
+        </if>
+        <if test=" targetTypeId != null and targetTypeId != '' ">
+            AND a.TARGET_TYPE_ID = #{targetTypeId}
+        </if>
+    </select>
+    
+    <select id="getWorldMapCiSingleRelsUp" resultType="Map">
+    	SELECT
+			ID id,
+			REL_ID relId,
+			REL_NAME relName,
+			REL_DESC relDesc,
+			SOURCE_ID sourceId,
+			OWENR_ID owenrId,
+			ORG_ID orgId,
+			SOURCE_CI_ID sourceCiId,
+			SOURCE_CI_BM sourceCiBm,
+			a.source_ci_bm as sourceCiCode,
+            IFNULL(b.ci_name,b.ci_code) as sourceCiName,
+			SOURCE_TYPE_BM sourceTypeBm,
+			SOURCE_TYPE_ID sourceTypeId,
+			TARGET_CI_ID targetCiId,
+			TARGET_CI_BM targetCiBm,
+			a.target_ci_bm as targetCiCode,
+            IFNULL(c.ci_name,c.ci_code) as targetCiName,
+			TARGET_TYPE_BM targetTypeBm,
+			TARGET_TYPE_ID targetTypeId,
+			CJR_ID cjrId,
+			DOMAIN_ID domainId,
+			CJSJ cjsj,
+			XGR_ID xgrId,
+			XGSJ xgsj,
+			YXBZ yxbz
+		FROM
+			iom_ci_data_rel a
+			left join iom_ci_info b on a.source_ci_bm=b.ci_code
+            left join iom_ci_info c on a.target_ci_bm=c.ci_code
+		WHERE
+			a.YXBZ = 1
+		<if test=" targetCiCodeList != null and targetCiCodeList != '' ">
+            AND a.TARGET_CI_BM IN
+            <foreach item="targetCiCode" index="index" collection="targetCiCodeList" open="(" separator="," close=")">
+                #{targetCiCode}
+            </foreach>
+        </if>
+        <if test=" relIdList != null and relIdList != '' ">
+            AND a.REL_ID IN
+            <foreach item="relId" index="index" collection="relIdList" open="(" separator="," close=")">
+                ${relId}
+            </foreach>
+        </if>
+        <if test=" sourceTypeName != null and sourceTypeName != '' ">
+            AND a.SOURCE_TYPE_BM = #{sourceTypeName}
+        </if>
+    </select>
+    
+    <select id="getCiDataRelByCiId" resultType="Map">
+       SELECT
+			ID id,
+			REL_ID relId,
+			REL_NAME relName,
+			REL_DESC relDesc,
+			SOURCE_ID sourceId,
+			OWENR_ID owenrId,
+			ORG_ID orgId,
+			SOURCE_CI_ID sourceCiId,
+			SOURCE_CI_BM sourceCiBm,
+			SOURCE_TYPE_BM sourceTypeBm,
+			SOURCE_TYPE_ID sourceTypeId,
+			TARGET_CI_ID targetCiId,
+			TARGET_CI_BM targetCiBm,
+			TARGET_TYPE_BM targetTypeBm,
+			TARGET_TYPE_ID targetTypeId,
+			CJR_ID cjrId,
+			DOMAIN_ID domainId,
+			CJSJ cjsj,
+			XGR_ID xgrId,
+			XGSJ xgsj,
+			YXBZ yxbz
+		FROM
+			iom_ci_data_rel
+		WHERE
+			iom_ci_data_rel.YXBZ = 1
+		<if test=" ciId != null and ciId != '' ">
+            AND iom_ci_data_rel.SOURCE_CI_ID=#{ciId}
+        </if>
+        <if test=" targetTypeId != null and targetTypeId != '' ">
+            AND iom_ci_data_rel.TARGET_TYPE_ID=#{targetTypeId}
+        </if>
+        
+        <if test=" relId != null and relId != '' ">
+            AND iom_ci_data_rel.REL_ID=#{relId}
+        </if>			
+    </select>
+    
+     <select id="getCiDataRelBySourceIdAndTargetId" resultType="Map">
+          SELECT
+			ID id,
+			REL_ID relId,
+			REL_NAME relName,
+			REL_DESC relDesc,
+			SOURCE_ID sourceId,
+			OWENR_ID owenrId,
+			ORG_ID orgId,
+			SOURCE_CI_ID sourceCiId,
+			SOURCE_CI_BM sourceCiBm,
+			SOURCE_TYPE_BM sourceTypeBm,
+			SOURCE_TYPE_ID sourceTypeId,
+			TARGET_CI_ID targetCiId,
+			TARGET_CI_BM targetCiBm,
+			TARGET_TYPE_BM targetTypeBm,
+			TARGET_TYPE_ID targetTypeId,
+			CJR_ID cjrId,
+			DOMAIN_ID domainId,
+			CJSJ cjsj,
+			XGR_ID xgrId,
+			XGSJ xgsj,
+			YXBZ yxbz
+		FROM
+			iom_ci_data_rel
+		WHERE
+			iom_ci_data_rel.YXBZ = 1        
+		<if test=" sourceTypeId != null and sourceTypeId != '' ">
+            AND iom_ci_data_rel.SOURCE_TYPE_ID=#{sourceTypeId}
+        </if>
+		<if test=" targetTypeId != null and targetTypeId != '' ">
+            AND iom_ci_data_rel.TARGET_TYPE_ID=#{targetTypeId}
+        </if>
+        <if test=" relId != null and relId != '' ">
+            AND iom_ci_data_rel.REL_ID=#{relId}
+        </if>
+     </select>
+     
+     <select id="getCiDataRelBySourceIdAndTargetIdAndCiIds" resultType="Map">
+          SELECT
+			ID id,
+			REL_ID relId,
+			REL_NAME relName,
+			REL_DESC relDesc,
+			SOURCE_ID sourceId,
+			OWENR_ID owenrId,
+			ORG_ID orgId,
+			SOURCE_CI_ID sourceCiId,
+			SOURCE_CI_BM sourceCiBm,
+			SOURCE_TYPE_BM sourceTypeBm,
+			SOURCE_TYPE_ID sourceTypeId,
+			TARGET_CI_ID targetCiId,
+			TARGET_CI_BM targetCiBm,
+			TARGET_TYPE_BM targetTypeBm,
+			TARGET_TYPE_ID targetTypeId,
+			CJR_ID cjrId,
+			DOMAIN_ID domainId,
+			CJSJ cjsj,
+			XGR_ID xgrId,
+			XGSJ xgsj,
+			YXBZ yxbz
+		FROM
+			iom_ci_data_rel
+		WHERE
+			iom_ci_data_rel.YXBZ = 1        
+		<if test=" sourceTypeId != null and sourceTypeId != '' ">
+            AND iom_ci_data_rel.SOURCE_TYPE_ID=#{sourceTypeId}
+        </if>
+		<if test=" targetTypeId != null and targetTypeId != '' ">
+            AND iom_ci_data_rel.TARGET_TYPE_ID=#{targetTypeId}
+        </if>
+        <if test=" relId != null and relId != '' ">
+            AND iom_ci_data_rel.REL_ID=#{relId}
+        </if>
+        AND iom_ci_data_rel.TARGET_CI_ID IN (
+	       SELECT
+		      TARGET_CI_ID targetCiId
+	       FROM
+		      iom_ci_data_rel
+	       WHERE
+		      iom_ci_data_rel.YXBZ = 1
+	       <if test=" sourceTypeId != null and sourceTypeId != '' ">
+            AND iom_ci_data_rel.SOURCE_TYPE_ID=#{sourceTypeId}
+        </if>
+		<if test=" targetTypeId != null and targetTypeId != '' ">
+            AND iom_ci_data_rel.TARGET_TYPE_ID=#{targetTypeId}
+        </if>
+        <if test=" relId != null and relId != '' ">
+            AND iom_ci_data_rel.REL_ID=#{relId}
+        </if>
+        <if test=" ciCodeList != null and ciCodeList != '' ">
+            AND iom_ci_data_rel.SOURCE_CI_BM IN
+            <foreach item="ciCode" index="index" collection="ciCodeList" open="(" separator="," close=")">
+                #{ciCode}
+            </foreach>
+        </if>
+         
+        )
+     </select>
+     
+     <select id="getCiDataRelBySourceIdAndTargetIdAndCiIdsDown" resultType="Map">
+          SELECT
+			ID id,
+			REL_ID relId,
+			REL_NAME relName,
+			REL_DESC relDesc,
+			SOURCE_ID sourceId,
+			OWENR_ID owenrId,
+			ORG_ID orgId,
+			SOURCE_CI_ID sourceCiId,
+			SOURCE_CI_BM sourceCiBm,
+			SOURCE_TYPE_BM sourceTypeBm,
+			SOURCE_TYPE_ID sourceTypeId,
+			TARGET_CI_ID targetCiId,
+			TARGET_CI_BM targetCiBm,
+			TARGET_TYPE_BM targetTypeBm,
+			TARGET_TYPE_ID targetTypeId,
+			CJR_ID cjrId,
+			DOMAIN_ID domainId,
+			CJSJ cjsj,
+			XGR_ID xgrId,
+			XGSJ xgsj,
+			YXBZ yxbz
+		FROM
+			iom_ci_data_rel
+		WHERE
+			iom_ci_data_rel.YXBZ = 1        
+		<if test=" sourceTypeId != null and sourceTypeId != '' ">
+            AND iom_ci_data_rel.SOURCE_TYPE_ID=#{sourceTypeId}
+        </if>
+		<if test=" targetTypeId != null and targetTypeId != '' ">
+            AND iom_ci_data_rel.TARGET_TYPE_ID=#{targetTypeId}
+        </if>
+        <if test=" relId != null and relId != '' ">
+            AND iom_ci_data_rel.REL_ID=#{relId}
+        </if>
+        AND iom_ci_data_rel.TARGET_CI_ID IN (
+	       SELECT
+		      TARGET_CI_ID targetCiId
+	       FROM
+		      iom_ci_data_rel
+	       WHERE
+		      iom_ci_data_rel.YXBZ = 1
+	       <if test=" sourceTypeId != null and sourceTypeId != '' ">
+            AND iom_ci_data_rel.SOURCE_TYPE_ID=#{sourceTypeId}
+        </if>
+		<if test=" targetTypeId != null and targetTypeId != '' ">
+            AND iom_ci_data_rel.TARGET_TYPE_ID=#{targetTypeId}
+        </if>
+        <if test=" relId != null and relId != '' ">
+            AND iom_ci_data_rel.REL_ID=#{relId}
+        </if>
+        <if test=" ciCodeList != null and ciCodeList != '' ">
+            AND iom_ci_data_rel.TARGET_CI_BM IN
+            <foreach item="ciCode" index="index" collection="ciCodeList" open="(" separator="," close=")">
+                #{ciCode}
+            </foreach>
+        </if>
+        )
+     </select>
+        
+     <select id="getCiDataRelByTargetIdAndSourceIdAndCiIds" resultType="Map">
+          SELECT
+			ID id,
+			REL_ID relId,
+			REL_NAME relName,
+			REL_DESC relDesc,
+			SOURCE_ID sourceId,
+			OWENR_ID owenrId,
+			ORG_ID orgId,
+			SOURCE_CI_ID sourceCiId,
+			SOURCE_CI_BM sourceCiBm,
+			SOURCE_TYPE_BM sourceTypeBm,
+			SOURCE_TYPE_ID sourceTypeId,
+			TARGET_CI_ID targetCiId,
+			TARGET_CI_BM targetCiBm,
+			TARGET_TYPE_BM targetTypeBm,
+			TARGET_TYPE_ID targetTypeId,
+			CJR_ID cjrId,
+			DOMAIN_ID domainId,
+			CJSJ cjsj,
+			XGR_ID xgrId,
+			XGSJ xgsj,
+			YXBZ yxbz
+		FROM
+			iom_ci_data_rel
+		WHERE
+			iom_ci_data_rel.YXBZ = 1        
+		<if test=" sourceTypeId != null and sourceTypeId != '' ">
+            AND iom_ci_data_rel.SOURCE_TYPE_ID=#{sourceTypeId}
+        </if>
+		<if test=" targetTypeId != null and targetTypeId != '' ">
+            AND iom_ci_data_rel.TARGET_TYPE_ID=#{targetTypeId}
+        </if>
+        <if test=" relId != null and relId != '' ">
+            AND iom_ci_data_rel.REL_ID=#{relId}
+        </if>
+        AND iom_ci_data_rel.SOURCE_CI_ID IN (
+	       SELECT
+		      SOURCE_CI_ID sourceCiId
+	       FROM
+		      iom_ci_data_rel
+	       WHERE
+		      iom_ci_data_rel.YXBZ = 1
+	       <if test=" sourceTypeId != null and sourceTypeId != '' ">
+            AND iom_ci_data_rel.SOURCE_TYPE_ID=#{sourceTypeId}
+        </if>
+		<if test=" targetTypeId != null and targetTypeId != '' ">
+            AND iom_ci_data_rel.TARGET_TYPE_ID=#{targetTypeId}
+        </if>
+        <if test=" relId != null and relId != '' ">
+            AND iom_ci_data_rel.REL_ID=#{relId}
+        </if>
+        <if test=" ciCodeList != null and ciCodeList != '' ">
+            AND iom_ci_data_rel.TARGET_CI_BM IN
+            <foreach item="ciCode" index="index" collection="ciCodeList" open="(" separator="," close=")">
+                #{"ciCode"}
+            </foreach>
+        </if>
+        )
+     </select>
+     
+     <select id="getCiDataRelByTargetIdAndSourceIdAndCiIdsUp" resultType="Map">
+          SELECT
+			ID id,
+			REL_ID relId,
+			REL_NAME relName,
+			REL_DESC relDesc,
+			SOURCE_ID sourceId,
+			OWENR_ID owenrId,
+			ORG_ID orgId,
+			SOURCE_CI_ID sourceCiId,
+			SOURCE_CI_BM sourceCiBm,
+			SOURCE_TYPE_BM sourceTypeBm,
+			SOURCE_TYPE_ID sourceTypeId,
+			TARGET_CI_ID targetCiId,
+			TARGET_CI_BM targetCiBm,
+			TARGET_TYPE_BM targetTypeBm,
+			TARGET_TYPE_ID targetTypeId,
+			CJR_ID cjrId,
+			DOMAIN_ID domainId,
+			CJSJ cjsj,
+			XGR_ID xgrId,
+			XGSJ xgsj,
+			YXBZ yxbz
+		FROM
+			iom_ci_data_rel
+		WHERE
+			iom_ci_data_rel.YXBZ = 1        
+		<if test=" sourceTypeId != null and sourceTypeId != '' ">
+            AND iom_ci_data_rel.SOURCE_TYPE_ID=#{sourceTypeId}
+        </if>
+		<if test=" targetTypeId != null and targetTypeId != '' ">
+            AND iom_ci_data_rel.TARGET_TYPE_ID=#{targetTypeId}
+        </if>
+        <if test=" relId != null and relId != '' ">
+            AND iom_ci_data_rel.REL_ID=#{relId}
+        </if>
+        AND iom_ci_data_rel.SOURCE_CI_ID IN (
+	       SELECT
+		      SOURCE_CI_ID sourceCiId
+	       FROM
+		      iom_ci_data_rel
+	       WHERE
+		      iom_ci_data_rel.YXBZ = 1
+	       <if test=" sourceTypeId != null and sourceTypeId != '' ">
+            AND iom_ci_data_rel.SOURCE_TYPE_ID=#{sourceTypeId}
+        </if>
+		<if test=" targetTypeId != null and targetTypeId != '' ">
+            AND iom_ci_data_rel.TARGET_TYPE_ID=#{targetTypeId}
+        </if>
+        <if test=" relId != null and relId != '' ">
+            AND iom_ci_data_rel.REL_ID=#{relId}
+        </if>
+        <if test=" ciCodeList != null and ciCodeList != '' ">
+            AND iom_ci_data_rel.SOURCE_CI_BM IN
+            <foreach item="ciCode" index="index" collection="ciCodeList" open="(" separator="," close=")">
+                #{ciCode}
+            </foreach>
+        </if>
+        )
+     </select>
+     
+     <select id="getCiDataRelBySelf" resultType="Map">
+          SELECT
+			iom_ci_type_rel.id,
+			iom_ci_type_rel.REL_ID relId,
+			iom_ci_rel.LINE_NAME relName,
+			iom_ci_type_rel.SOURCE_TYPE_ID sourceTypeId,
+			aa.CI_TYPE_MC sourceTypeName,
+			iom_ci_type_rel.TARGET_TYPE_ID targetTypeId,
+			bb.CI_TYPE_MC targetTypeName,
+			iom_ci_type_rel.CJR_ID cjrId,
+			iom_ci_type_rel.DJSJ,
+			iom_ci_type_rel.XGR_ID xgrId,
+			iom_ci_type_rel.XGSJ,
+			iom_ci_type_rel.YXBZ
+		FROM
+			iom_ci_type_rel
+		LEFT JOIN iom_ci_type aa ON aa.id = SOURCE_TYPE_ID
+		LEFT JOIN iom_ci_type bb ON bb.id = TARGET_TYPE_ID
+		LEFT JOIN iom_ci_rel ON iom_ci_rel.id = iom_ci_type_rel.REL_ID
+		WHERE
+			iom_ci_type_rel.YXBZ = 1        
+		<if test=" typeId != null and typeId != '' ">
+            AND iom_ci_type_rel.SOURCE_TYPE_ID=#{typeId}
+        </if>
+        <if test=" typeId != null and typeId != '' ">
+            AND iom_ci_type_rel.TARGET_TYPE_ID=#{typeId}
+        </if>
+		
+     </select>
+     
+     <select id="getCiTypeFocusRelBySelf" resultType="Map">
+          SELECT
+			ID id,
+			TYPE_ID typeId,
+			SOURCE_TYPE_ID sourceTypeId,
+			TARGET_TYPE_ID targetTypeId,
+			RLT_ID rltId,
+			CJR_ID cjrId,
+			CJSJ cjsj,
+			XGR_ID xgrId,
+			XGSJ xgsj,
+			YXBZ yxbz
+		FROM
+			iom_ci_type_focus_rel
+		WHERE
+			iom_ci_type_focus_rel.YXBZ = 1        
+		<if test=" typeId != null and typeId != '' ">
+            AND iom_ci_type_focus_rel.SOURCE_TYPE_ID=#{typeId}
+        </if>
+        <if test=" typeId != null and typeId != '' ">
+            AND iom_ci_type_focus_rel.TARGET_TYPE_ID=#{typeId}
+        </if>
+		<if test=" relId != null and relId != '' ">
+            AND iom_ci_type_focus_rel.RLT_ID=#{relId}
+        </if>
+     </select>
+    
+</mapper>

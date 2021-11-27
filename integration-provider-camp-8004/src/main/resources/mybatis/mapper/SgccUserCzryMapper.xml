@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.integration.dao.SgccUserCzryMapper">
+  <resultMap id="BaseResultMap" type="com.integration.entity.SgccUserCzry">
+    <result column="id" jdbcType="DECIMAL" property="id" />
+    <result column="sgcc_user_id" jdbcType="VARCHAR" property="sgccUserId" />
+    <result column="czry_id" jdbcType="DECIMAL" property="czryId" />
+    <result column="cjr_id" jdbcType="DECIMAL" property="cjrId" />
+    <result column="cjsj" jdbcType="TIMESTAMP" property="cjsj" />
+  </resultMap>
+  <insert id="insert" parameterType="com.integration.entity.SgccUserCzry">
+    insert into iom_camp_sgcc_user_czry (id, sgcc_user_id, czry_id, 
+      cjr_id, cjsj)
+    values (#{id,jdbcType=DECIMAL}, #{sgccUserId,jdbcType=VARCHAR}, #{czryId,jdbcType=DECIMAL}, 
+      #{cjrId,jdbcType=DECIMAL}, #{cjsj,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.integration.entity.SgccUserCzry">
+    insert into iom_camp_sgcc_user_czry
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="sgccUserId != null">
+        sgcc_user_id,
+      </if>
+      <if test="czryId != null">
+        czry_id,
+      </if>
+      <if test="cjrId != null">
+        cjr_id,
+      </if>
+      <if test="cjsj != null">
+        cjsj,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="sgccUserId != null">
+        #{sgccUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="czryId != null">
+        #{czryId,jdbcType=DECIMAL},
+      </if>
+      <if test="cjrId != null">
+        #{cjrId,jdbcType=DECIMAL},
+      </if>
+      <if test="cjsj != null">
+        #{cjsj,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+
+  <select id="selectList" parameterType="com.integration.entity.SgccUserCzry" resultMap="BaseResultMap">
+    select
+    *
+    from iom_camp_sgcc_user_czry
+    <where>
+      <if test="sgccUserId != null">
+        and sgcc_user_id = #{sgccUserId,jdbcType=VARCHAR}
+      </if>
+      <if test="czryId != null">
+        and czry_id = #{czryId,jdbcType=DECIMAL}
+      </if>
+    </where>
+  </select>
+
+  <delete id="deleteByParam" parameterType="com.integration.entity.SgccUserCzry">
+    delete from iom_camp_sgcc_user_czry
+    <where>
+      <if test="sgccUserId != null">
+        and sgcc_user_id = #{sgccUserId,jdbcType=VARCHAR}
+      </if>
+      <if test="czryId != null">
+        and czry_id = #{czryId,jdbcType=DECIMAL}
+      </if>
+    </where>
+  </delete>
+</mapper>

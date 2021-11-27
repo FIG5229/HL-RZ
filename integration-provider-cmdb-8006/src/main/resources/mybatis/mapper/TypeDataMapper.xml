@@ -1,0 +1,3713 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.integration.dao.TypeDataDao">
+    <delete id="deleteDataByidTrue" parameterType="java.util.List">
+        <foreach collection="list" item="id" index="index" open="" close="" separator=";">
+            delete from
+            IOMCI.IOM_CI_INFO
+            <where>
+                ID = #{id}
+            </where>
+        </foreach>
+    </delete>
+    <delete id="deleteDataByidstrue" parameterType="java.util.List">
+        <foreach collection="list" item="id" index="index" open="" close="" separator=";">
+            delete from
+            IOMCI.IOM_CI_TYPE_DATA
+            <where>
+                ID = #{id}
+            </where>
+        </foreach>
+    </delete>
+
+    <select id="findEmv" resultType="map" parameterType="hashmap">
+		select * from IOMEMV.simulation_emv LIMIT 0,100
+	</select>
+
+    <select id="findPmv" resultType="map" parameterType="hashmap">
+		select * from IOMPMV.simulation_pmv LIMIT 0,100
+	</select>
+
+    <update id="deleteDataByTid" parameterType="list">
+        update IOMCI.IOM_CI_INFO set YXBZ=0 WHERE CI_TYPE_ID IN
+        <foreach collection="list" index="index" item="item" open="("
+                 separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+
+    <select id="pkExists" parameterType="string" resultType="integer">
+		${sql}
+	</select>
+
+    <update id="deleteData" parameterType="string">
+		update
+		IOMCI.IOM_CI_INFO
+		set YXBZ=0 WHERE ID=#{dataId}
+	</update>
+
+    <update id="deleteDataByids" parameterType="java.util.List">
+
+        <foreach collection="list" item="id" index="index" open="" close="" separator=";">
+            update
+            IOMCI.IOM_CI_INFO
+            <set>
+                YXBZ=0
+            </set>
+            <where>
+                ID = #{id}
+            </where>
+        </foreach>
+
+    </update>
+
+    <update id="updateDatas" parameterType="list">
+
+        <foreach collection="list" index="index" item="item" separator=";">
+            update IOMCI.IOM_CI_TYPE_DATA a
+            <set>
+                <if test="null != item.data_1 ">
+                    a.data_1 = #{item.data_1},
+                </if>
+                <if test="null != item.data_2 ">
+                    a.data_2 = #{item.data_2},
+                </if>
+                <if test="null != item.data_3 ">
+                    a.data_3 = #{item.data_3},
+                </if>
+                <if test="null != item.data_4 ">
+                    a.data_4 = #{item.data_4},
+                </if>
+                <if test="null != item.data_5 ">
+                    a.data_5 = #{item.data_5},
+                </if>
+                <if test="null != item.data_6 ">
+                    a.data_6 = #{item.data_6},
+                </if>
+                <if test="null != item.data_7 ">
+                    a.data_7 = #{item.data_7},
+                </if>
+                <if test="null != item.data_8 ">
+                    a.data_8 = #{item.data_8},
+                </if>
+                <if test="null != item.data_9 ">
+                    a.data_9 = #{item.data_9},
+                </if>
+                <if test="null != item.data_10 ">
+                    a.data_10 = #{item.data_10},
+                </if>
+                <if test="null != item.data_11 ">
+                    a.data_11 = #{item.data_11},
+                </if>
+                <if test="null != item.data_12 ">
+                    a.data_12 = #{item.data_12},
+                </if>
+                <if test="null != item.data_13 ">
+                    a.data_13 = #{item.data_13},
+                </if>
+                <if test="null != item.data_14 ">
+                    a.data_14 = #{item.data_14},
+                </if>
+                <if test="null != item.data_15 ">
+                    a.data_15 = #{item.data_15},
+                </if>
+                <if test="null != item.data_16 ">
+                    a.data_16 = #{item.data_16},
+                </if>
+                <if test="null != item.data_17 ">
+                    a.data_17 = #{item.data_17},
+                </if>
+                <if test="null != item.data_18 ">
+                    a.data_18 = #{item.data_18},
+                </if>
+                <if test="null != item.data_19">
+                    a.data_19 = #{item.data_19},
+                </if>
+                <if test="null != item.data_20">
+                    a.data_20 = #{item.data_20},
+                </if>
+                <if test="null != item.data_21 ">
+                    a.data_21 = #{item.data_21},
+                </if>
+                <if test="null != item.data_22 ">
+                    a.data_22 = #{item.data_22},
+                </if>
+                <if test="null != item.data_23 ">
+                    a.data_23 = #{item.data_23},
+                </if>
+                <if test="null != item.data_24 ">
+                    a.data_24 = #{item.data_24},
+                </if>
+                <if test="null != item.data_25 ">
+                    a.data_25 = #{item.data_25},
+                </if>
+                <if test="null != item.data_26 ">
+                    a.data_26 = #{item.data_26},
+                </if>
+                <if test="null != item.data_27 ">
+                    a.data_27 = #{item.data_27},
+                </if>
+                <if test="null != item.data_28 ">
+                    a.data_28 = #{item.data_28},
+                </if>
+                <if test="null != item.data_29 ">
+                    a.data_29 = #{item.data_29},
+                </if>
+                <if test="null != item.data_30 ">
+                    a.data_30 = #{item.data_30},
+                </if>
+                <if test="null != item.data_31 ">
+                    a.data_31 = #{item.data_31},
+                </if>
+                <if test="null != item.data_32 ">
+                    a.data_32 = #{item.data_32},
+                </if>
+                <if test="null != item.data_33 ">
+                    a.data_33 = #{item.data_33},
+                </if>
+                <if test="null != item.data_34 ">
+                    a.data_34 = #{item.data_34},
+                </if>
+                <if test="null != item.data_35 ">
+                    a.data_35 = #{item.data_35},
+                </if>
+                <if test="null != item.data_36 ">a.data_36= #{item.data_36},</if>
+                <if test="null != item.data_37 ">a.data_37= #{item.data_37},</if>
+                <if test="null != item.data_38 ">a.data_38= #{item.data_38},</if>
+                <if test="null != item.data_39 ">a.data_39= #{item.data_39},</if>
+                <if test="null != item.data_40 ">a.data_40= #{item.data_40},</if>
+                <if test="null != item.data_41 ">a.data_41= #{item.data_41},</if>
+                <if test="null != item.data_42 ">a.data_42= #{item.data_42},</if>
+                <if test="null != item.data_43 ">a.data_43= #{item.data_43},</if>
+                <if test="null != item.data_44 ">a.data_44= #{item.data_44},</if>
+                <if test="null != item.data_45 ">a.data_45= #{item.data_45},</if>
+                <if test="null != item.data_46 ">a.data_46= #{item.data_46},</if>
+                <if test="null != item.data_47 ">a.data_47= #{item.data_47},</if>
+                <if test="null != item.data_48 ">a.data_48= #{item.data_48},</if>
+                <if test="null != item.data_49 ">a.data_49= #{item.data_49},</if>
+                <if test="null != item.data_50 ">a.data_50= #{item.data_50},</if>
+                <if test="null != item.data_51 ">a.data_51= #{item.data_51},</if>
+                <if test="null != item.data_52 ">a.data_52= #{item.data_52},</if>
+                <if test="null != item.data_53 ">a.data_53= #{item.data_53},</if>
+                <if test="null != item.data_54 ">a.data_54= #{item.data_54},</if>
+                <if test="null != item.data_55 ">a.data_55= #{item.data_55},</if>
+                <if test="null != item.data_56 ">a.data_56= #{item.data_56},</if>
+                <if test="null != item.data_57 ">a.data_57= #{item.data_57},</if>
+                <if test="null != item.data_58 ">a.data_58= #{item.data_58},</if>
+                <if test="null != item.data_59 ">a.data_59= #{item.data_59},</if>
+                <if test="null != item.data_60 ">a.data_60= #{item.data_60},</if>
+                <if test="null != item.data_61 ">a.data_61= #{item.data_61},</if>
+                <if test="null != item.data_62 ">a.data_62= #{item.data_62},</if>
+                <if test="null != item.data_63 ">a.data_63= #{item.data_63},</if>
+                <if test="null != item.data_64 ">a.data_64= #{item.data_64},</if>
+                <if test="null != item.data_65 ">a.data_65= #{item.data_65},</if>
+                <if test="null != item.data_66 ">a.data_66= #{item.data_66},</if>
+                <if test="null != item.data_67 ">a.data_67= #{item.data_67},</if>
+                <if test="null != item.data_68 ">a.data_68= #{item.data_68},</if>
+                <if test="null != item.data_69 ">a.data_69= #{item.data_69},</if>
+                <if test="null != item.data_70 ">a.data_70= #{item.data_70},</if>
+                <if test="null != item.data_71 ">a.data_71= #{item.data_71},</if>
+                <if test="null != item.data_72 ">a.data_72= #{item.data_72},</if>
+                <if test="null != item.data_73 ">a.data_73= #{item.data_73},</if>
+                <if test="null != item.data_74 ">a.data_74= #{item.data_74},</if>
+                <if test="null != item.data_75 ">a.data_75= #{item.data_75},</if>
+                <if test="null != item.data_76 ">a.data_76= #{item.data_76},</if>
+                <if test="null != item.data_77 ">a.data_77= #{item.data_77},</if>
+                <if test="null != item.data_78 ">a.data_78= #{item.data_78},</if>
+                <if test="null != item.data_79 ">a.data_79= #{item.data_79},</if>
+                <if test="null != item.data_80 ">a.data_80= #{item.data_80},</if>
+                <if test="null != item.data_81 ">a.data_81= #{item.data_81},</if>
+                <if test="null != item.data_82 ">a.data_82= #{item.data_82},</if>
+                <if test="null != item.data_83 ">a.data_83= #{item.data_83},</if>
+                <if test="null != item.data_84 ">a.data_84= #{item.data_84},</if>
+                <if test="null != item.data_85 ">a.data_85= #{item.data_85},</if>
+                <if test="null != item.data_86 ">a.data_86= #{item.data_86},</if>
+                <if test="null != item.data_87 ">a.data_87= #{item.data_87},</if>
+                <if test="null != item.data_88 ">a.data_88= #{item.data_88},</if>
+                <if test="null != item.data_89 ">a.data_89= #{item.data_89},</if>
+                <if test="null != item.data_90 ">a.data_90= #{item.data_90},</if>
+                <if test="null != item.data_91 ">a.data_91= #{item.data_91},</if>
+                <if test="null != item.data_92 ">a.data_92= #{item.data_92},</if>
+                <if test="null != item.data_93 ">a.data_93= #{item.data_93},</if>
+                <if test="null != item.data_94 ">a.data_94= #{item.data_94},</if>
+                <if test="null != item.data_95 ">a.data_95= #{item.data_95},</if>
+                <if test="null != item.data_96 ">a.data_96= #{item.data_96},</if>
+                <if test="null != item.data_97 ">a.data_97= #{item.data_97},</if>
+                <if test="null != item.data_98 ">a.data_98= #{item.data_98},</if>
+                <if test="null != item.data_99 ">a.data_99= #{item.data_99},</if>
+                <if test="null != item.data_100 ">a.data_100= #{item.data_100},</if>
+                <if test="null != item.data_101 ">a.data_101= #{item.data_101},</if>
+                <if test="null != item.data_102 ">a.data_102= #{item.data_102},</if>
+                <if test="null != item.data_103 ">a.data_103= #{item.data_103},</if>
+                <if test="null != item.data_104 ">a.data_104= #{item.data_104},</if>
+                <if test="null != item.data_105 ">a.data_105= #{item.data_105},</if>
+                <if test="null != item.data_106 ">a.data_106= #{item.data_106},</if>
+                <if test="null != item.data_107 ">a.data_107= #{item.data_107},</if>
+                <if test="null != item.data_108 ">a.data_108= #{item.data_108},</if>
+                <if test="null != item.data_109 ">a.data_109= #{item.data_109},</if>
+                <if test="null != item.data_110 ">a.data_110= #{item.data_110},</if>
+                <if test="null != item.data_111 ">a.data_111= #{item.data_111},</if>
+                <if test="null != item.data_112 ">a.data_112= #{item.data_112},</if>
+                <if test="null != item.data_113 ">a.data_113= #{item.data_113},</if>
+                <if test="null != item.data_114 ">a.data_114= #{item.data_114},</if>
+                <if test="null != item.data_115 ">a.data_115= #{item.data_115},</if>
+                <if test="null != item.data_116 ">a.data_116= #{item.data_116},</if>
+                <if test="null != item.data_117 ">a.data_117= #{item.data_117},</if>
+                <if test="null != item.data_118 ">a.data_118= #{item.data_118},</if>
+                <if test="null != item.data_119 ">a.data_119= #{item.data_119},</if>
+                <if test="null != item.data_120 ">a.data_120= #{item.data_120},</if>
+                <if test="null != item.data_121 ">a.data_121= #{item.data_121},</if>
+                <if test="null != item.data_122 ">a.data_122= #{item.data_122},</if>
+                <if test="null != item.data_123 ">a.data_123= #{item.data_123},</if>
+                <if test="null != item.data_124 ">a.data_124= #{item.data_124},</if>
+                <if test="null != item.data_125 ">a.data_125= #{item.data_125},</if>
+                <if test="null != item.data_126 ">a.data_126= #{item.data_126},</if>
+                <if test="null != item.data_127 ">a.data_127= #{item.data_127},</if>
+                <if test="null != item.data_128 ">a.data_128= #{item.data_128},</if>
+                <if test="null != item.data_129 ">a.data_129= #{item.data_129},</if>
+                <if test="null != item.data_130 ">a.data_130= #{item.data_130},</if>
+                <if test="null != item.data_131 ">a.data_131= #{item.data_131},</if>
+                <if test="null != item.data_132 ">a.data_132= #{item.data_132},</if>
+                <if test="null != item.data_133 ">a.data_133= #{item.data_133},</if>
+                <if test="null != item.data_134 ">a.data_134= #{item.data_134},</if>
+                <if test="null != item.data_135 ">a.data_135= #{item.data_135},</if>
+                <if test="null != item.data_136 ">a.data_136= #{item.data_136},</if>
+                <if test="null != item.data_137 ">a.data_137= #{item.data_137},</if>
+                <if test="null != item.data_138 ">a.data_138= #{item.data_138},</if>
+                <if test="null != item.data_139 ">a.data_139= #{item.data_139},</if>
+                <if test="null != item.data_140 ">a.data_140= #{item.data_140},</if>
+                <if test="null != item.data_141 ">a.data_141= #{item.data_141},</if>
+                <if test="null != item.data_142 ">a.data_142= #{item.data_142},</if>
+                <if test="null != item.data_143 ">a.data_143= #{item.data_143},</if>
+                <if test="null != item.data_144 ">a.data_144= #{item.data_144},</if>
+                <if test="null != item.data_145 ">a.data_145= #{item.data_145},</if>
+                <if test="null != item.data_146 ">a.data_146= #{item.data_146},</if>
+                <if test="null != item.data_147 ">a.data_147= #{item.data_147},</if>
+                <if test="null != item.data_148 ">a.data_148= #{item.data_148},</if>
+                <if test="null != item.data_149 ">a.data_149= #{item.data_149},</if>
+                <if test="null != item.data_150 ">a.data_150= #{item.data_150},</if>
+                <if test="null != item.data_151 ">a.data_151= #{item.data_151},</if>
+                <if test="null != item.data_152 ">a.data_152= #{item.data_152},</if>
+                <if test="null != item.data_153 ">a.data_153= #{item.data_153},</if>
+                <if test="null != item.data_154 ">a.data_154= #{item.data_154},</if>
+                <if test="null != item.data_155 ">a.data_155= #{item.data_155},</if>
+                <if test="null != item.data_156 ">a.data_156= #{item.data_156},</if>
+                <if test="null != item.data_157 ">a.data_157= #{item.data_157},</if>
+                <if test="null != item.data_158 ">a.data_158= #{item.data_158},</if>
+                <if test="null != item.data_159 ">a.data_159= #{item.data_159},</if>
+                <if test="null != item.data_160 ">a.data_160= #{item.data_160},</if>
+                <if test="null != item.data_161 ">a.data_161= #{item.data_161},</if>
+                <if test="null != item.data_162 ">a.data_162= #{item.data_162},</if>
+                <if test="null != item.data_163 ">a.data_163= #{item.data_163},</if>
+                <if test="null != item.data_164 ">a.data_164= #{item.data_164},</if>
+                <if test="null != item.data_165 ">a.data_165= #{item.data_165},</if>
+                <if test="null != item.data_166 ">a.data_166= #{item.data_166},</if>
+                <if test="null != item.data_167 ">a.data_167= #{item.data_167},</if>
+                <if test="null != item.data_168 ">a.data_168= #{item.data_168},</if>
+                <if test="null != item.data_169 ">a.data_169= #{item.data_169},</if>
+                <if test="null != item.data_170 ">a.data_170= #{item.data_170},</if>
+                <if test="null != item.data_171 ">a.data_171= #{item.data_171},</if>
+                <if test="null != item.data_172 ">a.data_172= #{item.data_172},</if>
+                <if test="null != item.data_173 ">a.data_173= #{item.data_173},</if>
+                <if test="null != item.data_174 ">a.data_174= #{item.data_174},</if>
+                <if test="null != item.data_175 ">a.data_175= #{item.data_175},</if>
+                <if test="null != item.data_176 ">a.data_176= #{item.data_176},</if>
+                <if test="null != item.data_177 ">a.data_177= #{item.data_177},</if>
+                <if test="null != item.data_178 ">a.data_178= #{item.data_178},</if>
+                <if test="null != item.data_179 ">a.data_179= #{item.data_179},</if>
+                <if test="null != item.data_180 ">a.data_180= #{item.data_180},</if>
+                <if test="null != item.data_181 ">a.data_181= #{item.data_181},</if>
+                <if test="null != item.data_182 ">a.data_182= #{item.data_182},</if>
+                <if test="null != item.data_183 ">a.data_183= #{item.data_183},</if>
+                <if test="null != item.data_184 ">a.data_184= #{item.data_184},</if>
+                <if test="null != item.data_185 ">a.data_185= #{item.data_185},</if>
+                <if test="null != item.data_186 ">a.data_186= #{item.data_186},</if>
+                <if test="null != item.data_187 ">a.data_187= #{item.data_187},</if>
+                <if test="null != item.data_188 ">a.data_188= #{item.data_188},</if>
+                <if test="null != item.data_189 ">a.data_189= #{item.data_189},</if>
+                <if test="null != item.data_190 ">a.data_190= #{item.data_190},</if>
+                <if test="null != item.data_191 ">a.data_191= #{item.data_191},</if>
+                <if test="null != item.data_192 ">a.data_192= #{item.data_192},</if>
+                <if test="null != item.data_193 ">a.data_193= #{item.data_193},</if>
+                <if test="null != item.data_194 ">a.data_194= #{item.data_194},</if>
+                <if test="null != item.data_195 ">a.data_195= #{item.data_195},</if>
+                <if test="null != item.data_196 ">a.data_196= #{item.data_196},</if>
+                <if test="null != item.data_197 ">a.data_197= #{item.data_197},</if>
+                <if test="null != item.data_198 ">a.data_198= #{item.data_198},</if>
+                <if test="null != item.data_199 ">a.data_199= #{item.data_199},</if>
+                <if test="null != item.domain_id">
+                    a.domain_id = #{item.domain_id},
+                </if>
+            </set>
+            WHERE a.id=#{item.id}
+        </foreach>
+    </update>
+
+    <insert id="importExcelData" parameterType="list">
+        INSERT INTO IOMCI.IOM_CI_TYPE_DATA
+        (
+        `ID`,
+        `CI_TYPE_ID`,
+        `DOMAIN_ID`,
+        `DATA_1`,
+        `DATA_2`,
+        `DATA_3`,
+        `DATA_4`,
+        `DATA_5`,
+        `DATA_6`,
+        `DATA_7`,
+        `DATA_8`,
+        `DATA_9`,
+        `DATA_10`,
+        `DATA_11`,
+        `DATA_12`,
+        `DATA_13`,
+        `DATA_14`,
+        `DATA_15`,
+        `DATA_16`,
+        `DATA_17`,
+        `DATA_18`,
+        `DATA_19`,
+        `DATA_20`,
+        `DATA_21`,
+        `DATA_22`,
+        `DATA_23`,
+        `DATA_24`,
+        `DATA_25`,
+        `DATA_26`,
+        `DATA_27`,
+        `DATA_28`,
+        `DATA_29`,
+        `DATA_30`,
+        `DATA_31`,
+        `DATA_32`,
+        `DATA_33`,
+        `DATA_34`,
+        `DATA_35`,
+        `DATA_36`,
+        `DATA_37`,
+        `DATA_38`,
+        `DATA_39`,
+        `DATA_40`,
+        `DATA_41`,
+        `DATA_42`,
+        `DATA_43`,
+        `DATA_44`,
+        `DATA_45`,
+        `DATA_46`,
+        `DATA_47`,
+        `DATA_48`,
+        `DATA_49`,
+        `DATA_50`,
+        `DATA_51`,
+        `DATA_52`,
+        `DATA_53`,
+        `DATA_54`,
+        `DATA_55`,
+        `DATA_56`,
+        `DATA_57`,
+        `DATA_58`,
+        `DATA_59`,
+        `DATA_60`,
+        `DATA_61`,
+        `DATA_62`,
+        `DATA_63`,
+        `DATA_64`,
+        `DATA_65`,
+        `DATA_66`,
+        `DATA_67`,
+        `DATA_68`,
+        `DATA_69`,
+        `DATA_70`,
+        `DATA_71`,
+        `DATA_72`,
+        `DATA_73`,
+        `DATA_74`,
+        `DATA_75`,
+        `DATA_76`,
+        `DATA_77`,
+        `DATA_78`,
+        `DATA_79`,
+        `DATA_80`,
+        `DATA_81`,
+        `DATA_82`,
+        `DATA_83`,
+        `DATA_84`,
+        `DATA_85`,
+        `DATA_86`,
+        `DATA_87`,
+        `DATA_88`,
+        `DATA_89`,
+        `DATA_90`,
+        `DATA_91`,
+        `DATA_92`,
+        `DATA_93`,
+        `DATA_94`,
+        `DATA_95`,
+        `DATA_96`,
+        `DATA_97`,
+        `DATA_98`,
+        `DATA_99`,
+        `DATA_100`,
+        `DATA_101`,
+        `DATA_102`,
+        `DATA_103`,
+        `DATA_104`,
+        `DATA_105`,
+        `DATA_106`,
+        `DATA_107`,
+        `DATA_108`,
+        `DATA_109`,
+        `DATA_110`,
+        `DATA_111`,
+        `DATA_112`,
+        `DATA_113`,
+        `DATA_114`,
+        `DATA_115`,
+        `DATA_116`,
+        `DATA_117`,
+        `DATA_118`,
+        `DATA_119`,
+        `DATA_120`,
+        `DATA_121`,
+        `DATA_122`,
+        `DATA_123`,
+        `DATA_124`,
+        `DATA_125`,
+        `DATA_126`,
+        `DATA_127`,
+        `DATA_128`,
+        `DATA_129`,
+        `DATA_130`,
+        `DATA_131`,
+        `DATA_132`,
+        `DATA_133`,
+        `DATA_134`,
+        `DATA_135`,
+        `DATA_136`,
+        `DATA_137`,
+        `DATA_138`,
+        `DATA_139`,
+        `DATA_140`,
+        `DATA_141`,
+        `DATA_142`,
+        `DATA_143`,
+        `DATA_144`,
+        `DATA_145`,
+        `DATA_146`,
+        `DATA_147`,
+        `DATA_148`,
+        `DATA_149`,
+        `DATA_150`,
+        `DATA_151`,
+        `DATA_152`,
+        `DATA_153`,
+        `DATA_154`,
+        `DATA_155`,
+        `DATA_156`,
+        `DATA_157`,
+        `DATA_158`,
+        `DATA_159`,
+        `DATA_160`,
+        `DATA_161`,
+        `DATA_162`,
+        `DATA_163`,
+        `DATA_164`,
+        `DATA_165`,
+        `DATA_166`,
+        `DATA_167`,
+        `DATA_168`,
+        `DATA_169`,
+        `DATA_170`,
+        `DATA_171`,
+        `DATA_172`,
+        `DATA_173`,
+        `DATA_174`,
+        `DATA_175`,
+        `DATA_176`,
+        `DATA_177`,
+        `DATA_178`,
+        `DATA_179`,
+        `DATA_180`,
+        `DATA_181`,
+        `DATA_182`,
+        `DATA_183`,
+        `DATA_184`,
+        `DATA_185`,
+        `DATA_186`,
+        `DATA_187`,
+        `DATA_188`,
+        `DATA_189`,
+        `DATA_190`,
+        `DATA_191`,
+        `DATA_192`,
+        `DATA_193`,
+        `DATA_194`,
+        `DATA_195`,
+        `DATA_196`,
+        `DATA_197`,
+        `DATA_198`,
+        `DATA_199`
+        )
+        VALUES
+        <foreach collection="dataList" item="typeData" separator=",">
+            (#{typeData.id}, #{typeData.ci_type_id},#{typeData.domain_id}, #{typeData.data_1},
+            #{typeData.data_2},#{typeData.data_3},#{typeData.data_4},#{typeData.data_5},#{typeData.data_6},#{typeData.data_7},#{typeData.data_8},
+            #{typeData.data_9},#{typeData.data_10},#{typeData.data_11},#{typeData.data_12},#{typeData.data_13},#{typeData.data_14},#{typeData.data_15},#{typeData.data_16},
+            #{typeData.data_17},#{typeData.data_18},#{typeData.data_19},#{typeData.data_20},#{typeData.data_21},#{typeData.data_22},#{typeData.data_23},#{typeData.data_24},
+            #{typeData.data_25},#{typeData.data_26},#{typeData.data_27},#{typeData.data_28},#{typeData.data_29},#{typeData.data_30},#{typeData.data_31},#{typeData.data_32},
+            #{typeData.data_33},#{typeData.data_34},#{typeData.data_35},
+            #{typeData.data_36},
+            #{typeData.data_37},
+            #{typeData.data_38},
+            #{typeData.data_39},
+            #{typeData.data_40},
+            #{typeData.data_41},
+            #{typeData.data_42},
+            #{typeData.data_43},
+            #{typeData.data_44},
+            #{typeData.data_45},
+            #{typeData.data_46},
+            #{typeData.data_47},
+            #{typeData.data_48},
+            #{typeData.data_49},
+            #{typeData.data_50},
+            #{typeData.data_51},
+            #{typeData.data_52},
+            #{typeData.data_53},
+            #{typeData.data_54},
+            #{typeData.data_55},
+            #{typeData.data_56},
+            #{typeData.data_57},
+            #{typeData.data_58},
+            #{typeData.data_59},
+            #{typeData.data_60},
+            #{typeData.data_61},
+            #{typeData.data_62},
+            #{typeData.data_63},
+            #{typeData.data_64},
+            #{typeData.data_65},
+            #{typeData.data_66},
+            #{typeData.data_67},
+            #{typeData.data_68},
+            #{typeData.data_69},
+            #{typeData.data_70},
+            #{typeData.data_71},
+            #{typeData.data_72},
+            #{typeData.data_73},
+            #{typeData.data_74},
+            #{typeData.data_75},
+            #{typeData.data_76},
+            #{typeData.data_77},
+            #{typeData.data_78},
+            #{typeData.data_79},
+            #{typeData.data_80},
+            #{typeData.data_81},
+            #{typeData.data_82},
+            #{typeData.data_83},
+            #{typeData.data_84},
+            #{typeData.data_85},
+            #{typeData.data_86},
+            #{typeData.data_87},
+            #{typeData.data_88},
+            #{typeData.data_89},
+            #{typeData.data_90},
+            #{typeData.data_91},
+            #{typeData.data_92},
+            #{typeData.data_93},
+            #{typeData.data_94},
+            #{typeData.data_95},
+            #{typeData.data_96},
+            #{typeData.data_97},
+            #{typeData.data_98},
+            #{typeData.data_99},
+            #{typeData.data_100},
+            #{typeData.data_101},
+            #{typeData.data_102},
+            #{typeData.data_103},
+            #{typeData.data_104},
+            #{typeData.data_105},
+            #{typeData.data_106},
+            #{typeData.data_107},
+            #{typeData.data_108},
+            #{typeData.data_109},
+            #{typeData.data_110},
+            #{typeData.data_111},
+            #{typeData.data_112},
+            #{typeData.data_113},
+            #{typeData.data_114},
+            #{typeData.data_115},
+            #{typeData.data_116},
+            #{typeData.data_117},
+            #{typeData.data_118},
+            #{typeData.data_119},
+            #{typeData.data_120},
+            #{typeData.data_121},
+            #{typeData.data_122},
+            #{typeData.data_123},
+            #{typeData.data_124},
+            #{typeData.data_125},
+            #{typeData.data_126},
+            #{typeData.data_127},
+            #{typeData.data_128},
+            #{typeData.data_129},
+            #{typeData.data_130},
+            #{typeData.data_131},
+            #{typeData.data_132},
+            #{typeData.data_133},
+            #{typeData.data_134},
+            #{typeData.data_135},
+            #{typeData.data_136},
+            #{typeData.data_137},
+            #{typeData.data_138},
+            #{typeData.data_139},
+            #{typeData.data_140},
+            #{typeData.data_141},
+            #{typeData.data_142},
+            #{typeData.data_143},
+            #{typeData.data_144},
+            #{typeData.data_145},
+            #{typeData.data_146},
+            #{typeData.data_147},
+            #{typeData.data_148},
+            #{typeData.data_149},
+            #{typeData.data_150},
+            #{typeData.data_151},
+            #{typeData.data_152},
+            #{typeData.data_153},
+            #{typeData.data_154},
+            #{typeData.data_155},
+            #{typeData.data_156},
+            #{typeData.data_157},
+            #{typeData.data_158},
+            #{typeData.data_159},
+            #{typeData.data_160},
+            #{typeData.data_161},
+            #{typeData.data_162},
+            #{typeData.data_163},
+            #{typeData.data_164},
+            #{typeData.data_165},
+            #{typeData.data_166},
+            #{typeData.data_167},
+            #{typeData.data_168},
+            #{typeData.data_169},
+            #{typeData.data_170},
+            #{typeData.data_171},
+            #{typeData.data_172},
+            #{typeData.data_173},
+            #{typeData.data_174},
+            #{typeData.data_175},
+            #{typeData.data_176},
+            #{typeData.data_177},
+            #{typeData.data_178},
+            #{typeData.data_179},
+            #{typeData.data_180},
+            #{typeData.data_181},
+            #{typeData.data_182},
+            #{typeData.data_183},
+            #{typeData.data_184},
+            #{typeData.data_185},
+            #{typeData.data_186},
+            #{typeData.data_187},
+            #{typeData.data_188},
+            #{typeData.data_189},
+            #{typeData.data_190},
+            #{typeData.data_191},
+            #{typeData.data_192},
+            #{typeData.data_193},
+            #{typeData.data_194},
+            #{typeData.data_195},
+            #{typeData.data_196},
+            #{typeData.data_197},
+            #{typeData.data_198},
+            #{typeData.data_199})
+        </foreach>
+
+    </insert>
+
+    <select id="findPkValue" resultType="string">
+        SELECT ${mp} FROM IOMCI.IOM_CI_TYPE_DATA WHERE ID in (
+        <foreach collection="ids" item="id" separator=",">
+            #{id}
+        </foreach>
+        )
+    </select>
+
+
+    <insert id="addData" parameterType="typedata">
+		insert into
+		IOMCI.IOM_CI_TYPE_DATA (
+		`ID`,
+        `CI_TYPE_ID`,
+        `DATA_1`,
+        `DATA_2`,
+        `DATA_3`,
+        `DATA_4`,
+        `DATA_5`,
+        `DATA_6`,
+        `DATA_7`,
+        `DATA_8`,
+        `DATA_9`,
+        `DATA_10`,
+        `DATA_11`,
+        `DATA_12`,
+        `DATA_13`,
+        `DATA_14`,
+        `DATA_15`,
+        `DATA_16`,
+        `DATA_17`,
+        `DATA_18`,
+        `DATA_19`,
+        `DATA_20`,
+        `DATA_21`,
+        `DATA_22`,
+        `DATA_23`,
+        `DATA_24`,
+        `DATA_25`,
+        `DATA_26`,
+        `DATA_27`,
+        `DATA_28`,
+        `DATA_29`,
+        `DATA_30`,
+        `DATA_31`,
+        `DATA_32`,
+        `DATA_33`,
+        `DATA_34`,
+        `DATA_35`,
+        `DOMAIN_ID`,
+        `DATA_36`,
+        `DATA_37`,
+        `DATA_38`,
+        `DATA_39`,
+        `DATA_40`,
+        `DATA_41`,
+        `DATA_42`,
+        `DATA_43`,
+        `DATA_44`,
+        `DATA_45`,
+        `DATA_46`,
+        `DATA_47`,
+        `DATA_48`,
+        `DATA_49`,
+        `DATA_50`,
+        `DATA_51`,
+        `DATA_52`,
+        `DATA_53`,
+        `DATA_54`,
+        `DATA_55`,
+        `DATA_56`,
+        `DATA_57`,
+        `DATA_58`,
+        `DATA_59`,
+        `DATA_60`,
+        `DATA_61`,
+        `DATA_62`,
+        `DATA_63`,
+        `DATA_64`,
+        `DATA_65`,
+        `DATA_66`,
+        `DATA_67`,
+        `DATA_68`,
+        `DATA_69`,
+        `DATA_70`,
+        `DATA_71`,
+        `DATA_72`,
+        `DATA_73`,
+        `DATA_74`,
+        `DATA_75`,
+        `DATA_76`,
+        `DATA_77`,
+        `DATA_78`,
+        `DATA_79`,
+        `DATA_80`,
+        `DATA_81`,
+        `DATA_82`,
+        `DATA_83`,
+        `DATA_84`,
+        `DATA_85`,
+        `DATA_86`,
+        `DATA_87`,
+        `DATA_88`,
+        `DATA_89`,
+        `DATA_90`,
+        `DATA_91`,
+        `DATA_92`,
+        `DATA_93`,
+        `DATA_94`,
+        `DATA_95`,
+        `DATA_96`,
+        `DATA_97`,
+        `DATA_98`,
+        `DATA_99`,
+        `DATA_100`,
+        `DATA_101`,
+        `DATA_102`,
+        `DATA_103`,
+        `DATA_104`,
+        `DATA_105`,
+        `DATA_106`,
+        `DATA_107`,
+        `DATA_108`,
+        `DATA_109`,
+        `DATA_110`,
+        `DATA_111`,
+        `DATA_112`,
+        `DATA_113`,
+        `DATA_114`,
+        `DATA_115`,
+        `DATA_116`,
+        `DATA_117`,
+        `DATA_118`,
+        `DATA_119`,
+        `DATA_120`,
+        `DATA_121`,
+        `DATA_122`,
+        `DATA_123`,
+        `DATA_124`,
+        `DATA_125`,
+        `DATA_126`,
+        `DATA_127`,
+        `DATA_128`,
+        `DATA_129`,
+        `DATA_130`,
+        `DATA_131`,
+        `DATA_132`,
+        `DATA_133`,
+        `DATA_134`,
+        `DATA_135`,
+        `DATA_136`,
+        `DATA_137`,
+        `DATA_138`,
+        `DATA_139`,
+        `DATA_140`,
+        `DATA_141`,
+        `DATA_142`,
+        `DATA_143`,
+        `DATA_144`,
+        `DATA_145`,
+        `DATA_146`,
+        `DATA_147`,
+        `DATA_148`,
+        `DATA_149`,
+        `DATA_150`,
+        `DATA_151`,
+        `DATA_152`,
+        `DATA_153`,
+        `DATA_154`,
+        `DATA_155`,
+        `DATA_156`,
+        `DATA_157`,
+        `DATA_158`,
+        `DATA_159`,
+        `DATA_160`,
+        `DATA_161`,
+        `DATA_162`,
+        `DATA_163`,
+        `DATA_164`,
+        `DATA_165`,
+        `DATA_166`,
+        `DATA_167`,
+        `DATA_168`,
+        `DATA_169`,
+        `DATA_170`,
+        `DATA_171`,
+        `DATA_172`,
+        `DATA_173`,
+        `DATA_174`,
+        `DATA_175`,
+        `DATA_176`,
+        `DATA_177`,
+        `DATA_178`,
+        `DATA_179`,
+        `DATA_180`,
+        `DATA_181`,
+        `DATA_182`,
+        `DATA_183`,
+        `DATA_184`,
+        `DATA_185`,
+        `DATA_186`,
+        `DATA_187`,
+        `DATA_188`,
+        `DATA_189`,
+        `DATA_190`,
+        `DATA_191`,
+        `DATA_192`,
+        `DATA_193`,
+        `DATA_194`,
+        `DATA_195`,
+        `DATA_196`,
+        `DATA_197`,
+        `DATA_198`,
+        `DATA_199`
+		)VALUES
+		(#{id},#{ci_type_id},#{data_1},#{data_2},#{data_3},#{data_4},#{data_5},#{data_6},#{data_7},#{data_8},#{data_9},#{data_10},#{data_11},#{data_12},#{data_13},#{data_14},#{data_15},#{data_16},#{data_17},#{data_18},#{data_19},#{data_20},#{data_21},#{data_22},#{data_23},#{data_24},#{data_25},#{data_26},#{data_27},#{data_28},#{data_29},#{data_30},#{data_31},#{data_32},#{data_33},#{data_34},#{data_35},
+		#{domain_id},
+		#{data_36},
+        #{data_37},
+        #{data_38},
+        #{data_39},
+        #{data_40},
+        #{data_41},
+        #{data_42},
+        #{data_43},
+        #{data_44},
+        #{data_45},
+        #{data_46},
+        #{data_47},
+        #{data_48},
+        #{data_49},
+        #{data_50},
+        #{data_51},
+        #{data_52},
+        #{data_53},
+        #{data_54},
+        #{data_55},
+        #{data_56},
+        #{data_57},
+        #{data_58},
+        #{data_59},
+        #{data_60},
+        #{data_61},
+        #{data_62},
+        #{data_63},
+        #{data_64},
+        #{data_65},
+        #{data_66},
+        #{data_67},
+        #{data_68},
+        #{data_69},
+        #{data_70},
+        #{data_71},
+        #{data_72},
+        #{data_73},
+        #{data_74},
+        #{data_75},
+        #{data_76},
+        #{data_77},
+        #{data_78},
+        #{data_79},
+        #{data_80},
+        #{data_81},
+        #{data_82},
+        #{data_83},
+        #{data_84},
+        #{data_85},
+        #{data_86},
+        #{data_87},
+        #{data_88},
+        #{data_89},
+        #{data_90},
+        #{data_91},
+        #{data_92},
+        #{data_93},
+        #{data_94},
+        #{data_95},
+        #{data_96},
+        #{data_97},
+        #{data_98},
+        #{data_99},
+        #{data_100},
+        #{data_101},
+        #{data_102},
+        #{data_103},
+        #{data_104},
+        #{data_105},
+        #{data_106},
+        #{data_107},
+        #{data_108},
+        #{data_109},
+        #{data_110},
+        #{data_111},
+        #{data_112},
+        #{data_113},
+        #{data_114},
+        #{data_115},
+        #{data_116},
+        #{data_117},
+        #{data_118},
+        #{data_119},
+        #{data_120},
+        #{data_121},
+        #{data_122},
+        #{data_123},
+        #{data_124},
+        #{data_125},
+        #{data_126},
+        #{data_127},
+        #{data_128},
+        #{data_129},
+        #{data_130},
+        #{data_131},
+        #{data_132},
+        #{data_133},
+        #{data_134},
+        #{data_135},
+        #{data_136},
+        #{data_137},
+        #{data_138},
+        #{data_139},
+        #{data_140},
+        #{data_141},
+        #{data_142},
+        #{data_143},
+        #{data_144},
+        #{data_145},
+        #{data_146},
+        #{data_147},
+        #{data_148},
+        #{data_149},
+        #{data_150},
+        #{data_151},
+        #{data_152},
+        #{data_153},
+        #{data_154},
+        #{data_155},
+        #{data_156},
+        #{data_157},
+        #{data_158},
+        #{data_159},
+        #{data_160},
+        #{data_161},
+        #{data_162},
+        #{data_163},
+        #{data_164},
+        #{data_165},
+        #{data_166},
+        #{data_167},
+        #{data_168},
+        #{data_169},
+        #{data_170},
+        #{data_171},
+        #{data_172},
+        #{data_173},
+        #{data_174},
+        #{data_175},
+        #{data_176},
+        #{data_177},
+        #{data_178},
+        #{data_179},
+        #{data_180},
+        #{data_181},
+        #{data_182},
+        #{data_183},
+        #{data_184},
+        #{data_185},
+        #{data_186},
+        #{data_187},
+        #{data_188},
+        #{data_189},
+        #{data_190},
+        #{data_191},
+        #{data_192},
+        #{data_193},
+        #{data_194},
+        #{data_195},
+        #{data_196},
+        #{data_197},
+        #{data_198},
+        #{data_199})
+	</insert>
+
+    <update id="updateData" parameterType="typedata">
+        UPDATE IOMCI.IOM_CI_TYPE_DATA a
+        <set>
+
+            <if test="null != ci_type_id ">
+                a.ci_type_id = #{ci_type_id},
+            </if>
+            <if test="null != data_1 ">
+                a.data_1 = #{data_1},
+            </if>
+            <if test="null != data_2 ">
+                a.data_2 = #{data_2},
+            </if>
+            <if test="null != data_3 ">
+                a.data_3 = #{data_3},
+            </if>
+            <if test="null != data_4 ">
+                a.data_4 = #{data_4},
+            </if>
+            <if test="null != data_5 ">
+                a.data_5 = #{data_5},
+            </if>
+            <if test="null != data_6 ">
+                a.data_6 = #{data_6},
+            </if>
+            <if test="null != data_7 ">
+                a.data_7 = #{data_7},
+            </if>
+            <if test="null != data_8 ">
+                a.data_8 = #{data_8},
+            </if>
+            <if test="null != data_9 ">
+                a.data_9 = #{data_9},
+            </if>
+            <if test="null != data_10 ">
+                a.data_10 = #{data_10},
+            </if>
+            <if test="null != data_11 ">
+                a.data_11 = #{data_11},
+            </if>
+            <if test="null != data_12 ">
+                a.data_12 = #{data_12},
+            </if>
+            <if test="null != data_13 ">
+                a.data_13 = #{data_13},
+            </if>
+            <if test="null != data_14 ">
+                a.data_14 = #{data_14},
+            </if>
+            <if test="null != data_15 ">
+                a.data_15 = #{data_15},
+            </if>
+            <if test="null != data_16 ">
+                a.data_16 = #{data_16},
+            </if>
+            <if test="null != data_17 ">
+                a.data_17 = #{data_17},
+            </if>
+            <if test="null != data_18 ">
+                a.data_18 = #{data_18},
+            </if>
+            <if test="null != data_19">
+                a.data_19 = #{data_19},
+            </if>
+            <if test="null != data_20">
+                a.data_20 = #{data_20},
+            </if>
+            <if test="null != data_21 ">
+                a.data_21 = #{data_21},
+            </if>
+            <if test="null != data_22 ">
+                a.data_22 = #{data_22},
+            </if>
+            <if test="null != data_23 ">
+                a.data_23 = #{data_23},
+            </if>
+            <if test="null != data_24 ">
+                a.data_24 = #{data_24},
+            </if>
+            <if test="null != data_25 ">
+                a.data_25 = #{data_25},
+            </if>
+            <if test="null != data_26 ">
+                a.data_26 = #{data_26},
+            </if>
+            <if test="null != data_27 ">
+                a.data_27 = #{data_27},
+            </if>
+            <if test="null != data_28 ">
+                a.data_28 = #{data_28},
+            </if>
+            <if test="null != data_29 ">
+                a.data_29 = #{data_29},
+            </if>
+            <if test="null != data_30 ">
+                a.data_30 = #{data_30},
+            </if>
+            <if test="null != data_31 ">
+                a.data_31 = #{data_31},
+            </if>
+            <if test="null != data_32 ">
+                a.data_32 = #{data_32},
+            </if>
+            <if test="null != data_33 ">
+                a.data_33 = #{data_33},
+            </if>
+            <if test="null != data_34 ">
+                a.data_34 = #{data_34},
+            </if>
+            <if test="null != data_35 ">
+                a.data_35 = #{data_35},
+            </if>
+            <if test="null != data_36 ">a.data_36= #{data_36},</if>
+            <if test="null != data_37 ">a.data_37= #{data_37},</if>
+            <if test="null != data_38 ">a.data_38= #{data_38},</if>
+            <if test="null != data_39 ">a.data_39= #{data_39},</if>
+            <if test="null != data_40 ">a.data_40= #{data_40},</if>
+            <if test="null != data_41 ">a.data_41= #{data_41},</if>
+            <if test="null != data_42 ">a.data_42= #{data_42},</if>
+            <if test="null != data_43 ">a.data_43= #{data_43},</if>
+            <if test="null != data_44 ">a.data_44= #{data_44},</if>
+            <if test="null != data_45 ">a.data_45= #{data_45},</if>
+            <if test="null != data_46 ">a.data_46= #{data_46},</if>
+            <if test="null != data_47 ">a.data_47= #{data_47},</if>
+            <if test="null != data_48 ">a.data_48= #{data_48},</if>
+            <if test="null != data_49 ">a.data_49= #{data_49},</if>
+            <if test="null != data_50 ">a.data_50= #{data_50},</if>
+            <if test="null != data_51 ">a.data_51= #{data_51},</if>
+            <if test="null != data_52 ">a.data_52= #{data_52},</if>
+            <if test="null != data_53 ">a.data_53= #{data_53},</if>
+            <if test="null != data_54 ">a.data_54= #{data_54},</if>
+            <if test="null != data_55 ">a.data_55= #{data_55},</if>
+            <if test="null != data_56 ">a.data_56= #{data_56},</if>
+            <if test="null != data_57 ">a.data_57= #{data_57},</if>
+            <if test="null != data_58 ">a.data_58= #{data_58},</if>
+            <if test="null != data_59 ">a.data_59= #{data_59},</if>
+            <if test="null != data_60 ">a.data_60= #{data_60},</if>
+            <if test="null != data_61 ">a.data_61= #{data_61},</if>
+            <if test="null != data_62 ">a.data_62= #{data_62},</if>
+            <if test="null != data_63 ">a.data_63= #{data_63},</if>
+            <if test="null != data_64 ">a.data_64= #{data_64},</if>
+            <if test="null != data_65 ">a.data_65= #{data_65},</if>
+            <if test="null != data_66 ">a.data_66= #{data_66},</if>
+            <if test="null != data_67 ">a.data_67= #{data_67},</if>
+            <if test="null != data_68 ">a.data_68= #{data_68},</if>
+            <if test="null != data_69 ">a.data_69= #{data_69},</if>
+            <if test="null != data_70 ">a.data_70= #{data_70},</if>
+            <if test="null != data_71 ">a.data_71= #{data_71},</if>
+            <if test="null != data_72 ">a.data_72= #{data_72},</if>
+            <if test="null != data_73 ">a.data_73= #{data_73},</if>
+            <if test="null != data_74 ">a.data_74= #{data_74},</if>
+            <if test="null != data_75 ">a.data_75= #{data_75},</if>
+            <if test="null != data_76 ">a.data_76= #{data_76},</if>
+            <if test="null != data_77 ">a.data_77= #{data_77},</if>
+            <if test="null != data_78 ">a.data_78= #{data_78},</if>
+            <if test="null != data_79 ">a.data_79= #{data_79},</if>
+            <if test="null != data_80 ">a.data_80= #{data_80},</if>
+            <if test="null != data_81 ">a.data_81= #{data_81},</if>
+            <if test="null != data_82 ">a.data_82= #{data_82},</if>
+            <if test="null != data_83 ">a.data_83= #{data_83},</if>
+            <if test="null != data_84 ">a.data_84= #{data_84},</if>
+            <if test="null != data_85 ">a.data_85= #{data_85},</if>
+            <if test="null != data_86 ">a.data_86= #{data_86},</if>
+            <if test="null != data_87 ">a.data_87= #{data_87},</if>
+            <if test="null != data_88 ">a.data_88= #{data_88},</if>
+            <if test="null != data_89 ">a.data_89= #{data_89},</if>
+            <if test="null != data_90 ">a.data_90= #{data_90},</if>
+            <if test="null != data_91 ">a.data_91= #{data_91},</if>
+            <if test="null != data_92 ">a.data_92= #{data_92},</if>
+            <if test="null != data_93 ">a.data_93= #{data_93},</if>
+            <if test="null != data_94 ">a.data_94= #{data_94},</if>
+            <if test="null != data_95 ">a.data_95= #{data_95},</if>
+            <if test="null != data_96 ">a.data_96= #{data_96},</if>
+            <if test="null != data_97 ">a.data_97= #{data_97},</if>
+            <if test="null != data_98 ">a.data_98= #{data_98},</if>
+            <if test="null != data_99 ">a.data_99= #{data_99},</if>
+            <if test="null != data_100 ">a.data_100= #{data_100},</if>
+            <if test="null != data_101 ">a.data_101= #{data_101},</if>
+            <if test="null != data_102 ">a.data_102= #{data_102},</if>
+            <if test="null != data_103 ">a.data_103= #{data_103},</if>
+            <if test="null != data_104 ">a.data_104= #{data_104},</if>
+            <if test="null != data_105 ">a.data_105= #{data_105},</if>
+            <if test="null != data_106 ">a.data_106= #{data_106},</if>
+            <if test="null != data_107 ">a.data_107= #{data_107},</if>
+            <if test="null != data_108 ">a.data_108= #{data_108},</if>
+            <if test="null != data_109 ">a.data_109= #{data_109},</if>
+            <if test="null != data_110 ">a.data_110= #{data_110},</if>
+            <if test="null != data_111 ">a.data_111= #{data_111},</if>
+            <if test="null != data_112 ">a.data_112= #{data_112},</if>
+            <if test="null != data_113 ">a.data_113= #{data_113},</if>
+            <if test="null != data_114 ">a.data_114= #{data_114},</if>
+            <if test="null != data_115 ">a.data_115= #{data_115},</if>
+            <if test="null != data_116 ">a.data_116= #{data_116},</if>
+            <if test="null != data_117 ">a.data_117= #{data_117},</if>
+            <if test="null != data_118 ">a.data_118= #{data_118},</if>
+            <if test="null != data_119 ">a.data_119= #{data_119},</if>
+            <if test="null != data_120 ">a.data_120= #{data_120},</if>
+            <if test="null != data_121 ">a.data_121= #{data_121},</if>
+            <if test="null != data_122 ">a.data_122= #{data_122},</if>
+            <if test="null != data_123 ">a.data_123= #{data_123},</if>
+            <if test="null != data_124 ">a.data_124= #{data_124},</if>
+            <if test="null != data_125 ">a.data_125= #{data_125},</if>
+            <if test="null != data_126 ">a.data_126= #{data_126},</if>
+            <if test="null != data_127 ">a.data_127= #{data_127},</if>
+            <if test="null != data_128 ">a.data_128= #{data_128},</if>
+            <if test="null != data_129 ">a.data_129= #{data_129},</if>
+            <if test="null != data_130 ">a.data_130= #{data_130},</if>
+            <if test="null != data_131 ">a.data_131= #{data_131},</if>
+            <if test="null != data_132 ">a.data_132= #{data_132},</if>
+            <if test="null != data_133 ">a.data_133= #{data_133},</if>
+            <if test="null != data_134 ">a.data_134= #{data_134},</if>
+            <if test="null != data_135 ">a.data_135= #{data_135},</if>
+            <if test="null != data_136 ">a.data_136= #{data_136},</if>
+            <if test="null != data_137 ">a.data_137= #{data_137},</if>
+            <if test="null != data_138 ">a.data_138= #{data_138},</if>
+            <if test="null != data_139 ">a.data_139= #{data_139},</if>
+            <if test="null != data_140 ">a.data_140= #{data_140},</if>
+            <if test="null != data_141 ">a.data_141= #{data_141},</if>
+            <if test="null != data_142 ">a.data_142= #{data_142},</if>
+            <if test="null != data_143 ">a.data_143= #{data_143},</if>
+            <if test="null != data_144 ">a.data_144= #{data_144},</if>
+            <if test="null != data_145 ">a.data_145= #{data_145},</if>
+            <if test="null != data_146 ">a.data_146= #{data_146},</if>
+            <if test="null != data_147 ">a.data_147= #{data_147},</if>
+            <if test="null != data_148 ">a.data_148= #{data_148},</if>
+            <if test="null != data_149 ">a.data_149= #{data_149},</if>
+            <if test="null != data_150 ">a.data_150= #{data_150},</if>
+            <if test="null != data_151 ">a.data_151= #{data_151},</if>
+            <if test="null != data_152 ">a.data_152= #{data_152},</if>
+            <if test="null != data_153 ">a.data_153= #{data_153},</if>
+            <if test="null != data_154 ">a.data_154= #{data_154},</if>
+            <if test="null != data_155 ">a.data_155= #{data_155},</if>
+            <if test="null != data_156 ">a.data_156= #{data_156},</if>
+            <if test="null != data_157 ">a.data_157= #{data_157},</if>
+            <if test="null != data_158 ">a.data_158= #{data_158},</if>
+            <if test="null != data_159 ">a.data_159= #{data_159},</if>
+            <if test="null != data_160 ">a.data_160= #{data_160},</if>
+            <if test="null != data_161 ">a.data_161= #{data_161},</if>
+            <if test="null != data_162 ">a.data_162= #{data_162},</if>
+            <if test="null != data_163 ">a.data_163= #{data_163},</if>
+            <if test="null != data_164 ">a.data_164= #{data_164},</if>
+            <if test="null != data_165 ">a.data_165= #{data_165},</if>
+            <if test="null != data_166 ">a.data_166= #{data_166},</if>
+            <if test="null != data_167 ">a.data_167= #{data_167},</if>
+            <if test="null != data_168 ">a.data_168= #{data_168},</if>
+            <if test="null != data_169 ">a.data_169= #{data_169},</if>
+            <if test="null != data_170 ">a.data_170= #{data_170},</if>
+            <if test="null != data_171 ">a.data_171= #{data_171},</if>
+            <if test="null != data_172 ">a.data_172= #{data_172},</if>
+            <if test="null != data_173 ">a.data_173= #{data_173},</if>
+            <if test="null != data_174 ">a.data_174= #{data_174},</if>
+            <if test="null != data_175 ">a.data_175= #{data_175},</if>
+            <if test="null != data_176 ">a.data_176= #{data_176},</if>
+            <if test="null != data_177 ">a.data_177= #{data_177},</if>
+            <if test="null != data_178 ">a.data_178= #{data_178},</if>
+            <if test="null != data_179 ">a.data_179= #{data_179},</if>
+            <if test="null != data_180 ">a.data_180= #{data_180},</if>
+            <if test="null != data_181 ">a.data_181= #{data_181},</if>
+            <if test="null != data_182 ">a.data_182= #{data_182},</if>
+            <if test="null != data_183 ">a.data_183= #{data_183},</if>
+            <if test="null != data_184 ">a.data_184= #{data_184},</if>
+            <if test="null != data_185 ">a.data_185= #{data_185},</if>
+            <if test="null != data_186 ">a.data_186= #{data_186},</if>
+            <if test="null != data_187 ">a.data_187= #{data_187},</if>
+            <if test="null != data_188 ">a.data_188= #{data_188},</if>
+            <if test="null != data_189 ">a.data_189= #{data_189},</if>
+            <if test="null != data_190 ">a.data_190= #{data_190},</if>
+            <if test="null != data_191 ">a.data_191= #{data_191},</if>
+            <if test="null != data_192 ">a.data_192= #{data_192},</if>
+            <if test="null != data_193 ">a.data_193= #{data_193},</if>
+            <if test="null != data_194 ">a.data_194= #{data_194},</if>
+            <if test="null != data_195 ">a.data_195= #{data_195},</if>
+            <if test="null != data_196 ">a.data_196= #{data_196},</if>
+            <if test="null != data_197 ">a.data_197= #{data_197},</if>
+            <if test="null != data_198 ">a.data_198= #{data_198},</if>
+            <if test="null != data_199 ">a.data_199= #{data_199},</if>
+            <if test="null != domain_id ">
+                a.domain_id = #{domain_id},
+            </if>
+        </set>
+        WHERE a.id=#{id}
+    </update>
+
+    <select id="findDataById" parameterType="string" resultType="typedata">
+        SELECT
+        data.*
+        FROM
+        IOMCI.IOM_CI_TYPE_DATA data
+        LEFT JOIN iomci.iom_ci_info info ON info.id = data.id
+        WHERE
+        info.CI_CODE=#{did}
+        <if test="domainId !=null and domainId !=''">AND data.DOMAIN_ID in (${domainId})</if>
+	</select>
+
+	<select id="findCiTypeIdByCiId"  resultType="Map">
+        SELECT iom_ci_info.ID,iom_ci_info.CI_TYPE_ID,iom_ci_info.CI_CODE,IFNULL(iom_ci_info.CI_NAME,iom_ci_info.CI_CODE) as ciName FROM iom_ci_info
+        where iom_ci_info.CI_CODE in
+        <foreach collection="list" index="index" item="item" open="("
+                 separator="," close=")">
+            #{item}
+        </foreach>
+	</select>
+
+    <select id="findDataByMp" parameterType="string" resultType="string">
+		${sql}
+	</select>
+
+    <select id="findConfigInfoPage" resultType="java.util.LinkedHashMap">
+		SELECT
+		CI_TYPE_MC,
+		I.CI_CODE as ciCode,
+        IFNULL(I.CI_NAME,I.CI_CODE) as ciName,
+		concat(D.ID) as ci_id,
+		concat(D.CI_TYPE_ID) as TYPE_ID,
+        DATA_1,DATA_2,DATA_3,DATA_4,DATA_5,DATA_6,DATA_7,DATA_8,DATA_9,
+        DATA_10,DATA_11,DATA_12,DATA_13,DATA_14,DATA_15,DATA_16,DATA_17,
+        DATA_18,DATA_19,DATA_20,DATA_21,DATA_22,DATA_23,DATA_24,DATA_25,
+        DATA_26,DATA_27,DATA_28,DATA_29,DATA_30,DATA_31,DATA_32,DATA_33,
+        DATA_34,DATA_35,
+        DATA_36,
+        DATA_37,
+        DATA_38,
+        DATA_39,
+        DATA_40,
+        DATA_41,
+        DATA_42,
+        DATA_43,
+        DATA_44,
+        DATA_45,
+        DATA_46,
+        DATA_47,
+        DATA_48,
+        DATA_49,
+        DATA_50,
+        DATA_51,
+        DATA_52,
+        DATA_53,
+        DATA_54,
+        DATA_55,
+        DATA_56,
+        DATA_57,
+        DATA_58,
+        DATA_59,
+        DATA_60,
+        DATA_61,
+        DATA_62,
+        DATA_63,
+        DATA_64,
+        DATA_65,
+        DATA_66,
+        DATA_67,
+        DATA_68,
+        DATA_69,
+        DATA_70,
+        DATA_71,
+        DATA_72,
+        DATA_73,
+        DATA_74,
+        DATA_75,
+        DATA_76,
+        DATA_77,
+        DATA_78,
+        DATA_79,
+        DATA_80,
+        DATA_81,
+        DATA_82,
+        DATA_83,
+        DATA_84,
+        DATA_85,
+        DATA_86,
+        DATA_87,
+        DATA_88,
+        DATA_89,
+        DATA_90,
+        DATA_91,
+        DATA_92,
+        DATA_93,
+        DATA_94,
+        DATA_95,
+        DATA_96,
+        DATA_97,
+        DATA_98,
+        DATA_99,
+        DATA_100,
+        DATA_101,
+        DATA_102,
+        DATA_103,
+        DATA_104,
+        DATA_105,
+        DATA_106,
+        DATA_107,
+        DATA_108,
+        DATA_109,
+        DATA_110,
+        DATA_111,
+        DATA_112,
+        DATA_113,
+        DATA_114,
+        DATA_115,
+        DATA_116,
+        DATA_117,
+        DATA_118,
+        DATA_119,
+        DATA_120,
+        DATA_121,
+        DATA_122,
+        DATA_123,
+        DATA_124,
+        DATA_125,
+        DATA_126,
+        DATA_127,
+        DATA_128,
+        DATA_129,
+        DATA_130,
+        DATA_131,
+        DATA_132,
+        DATA_133,
+        DATA_134,
+        DATA_135,
+        DATA_136,
+        DATA_137,
+        DATA_138,
+        DATA_139,
+        DATA_140,
+        DATA_141,
+        DATA_142,
+        DATA_143,
+        DATA_144,
+        DATA_145,
+        DATA_146,
+        DATA_147,
+        DATA_148,
+        DATA_149,
+        DATA_150,
+        DATA_151,
+        DATA_152,
+        DATA_153,
+        DATA_154,
+        DATA_155,
+        DATA_156,
+        DATA_157,
+        DATA_158,
+        DATA_159,
+        DATA_160,
+        DATA_161,
+        DATA_162,
+        DATA_163,
+        DATA_164,
+        DATA_165,
+        DATA_166,
+        DATA_167,
+        DATA_168,
+        DATA_169,
+        DATA_170,
+        DATA_171,
+        DATA_172,
+        DATA_173,
+        DATA_174,
+        DATA_175,
+        DATA_176,
+        DATA_177,
+        DATA_178,
+        DATA_179,
+        DATA_180,
+        DATA_181,
+        DATA_182,
+        DATA_183,
+        DATA_184,
+        DATA_185,
+        DATA_186,
+        DATA_187,
+        DATA_188,
+        DATA_189,
+        DATA_190,
+        DATA_191,
+        DATA_192,
+        DATA_193,
+        DATA_194,
+        DATA_195,
+        DATA_196,
+        DATA_197,
+        DATA_198,
+        DATA_199,
+        T.CI_TYPE_ICON as CI_TYPE_ICON
+		FROM
+		IOMCI.IOM_CI_TYPE AS T
+        INNER JOIN IOMCI.IOM_CI_TYPE_DATA D ON T.ID = D.CI_TYPE_ID  <if test="domainId !=null and domainId !=''"> AND D.DOMAIN_ID in (${domainId})</if>
+        INNER JOIN IOMCI.IOM_CI_INFO I ON D.ID = I.ID  AND I.YXBZ = 1 <if test="domainId !=null and domainId !=''"> AND I.DOMAIN_ID in (${domainId})</if>
+        WHERE
+        T.YXBZ=1
+        <if test="tidList != null and tidList.length !=0">
+            AND D.CI_TYPE_ID in
+            <foreach collection="tidList" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="domainId !=null and domainId !=''">AND T.DOMAIN_ID in (${domainId})</if>
+        <if test="ciPropertyList !=null and ciPropertyList.length !=0">
+            <foreach collection="ciPropertyList" index="index" item="item">
+                <if test="index == 0">
+                    AND I.ATTRS_STR like CONCAT('%',#{item},'%')
+                </if>
+                <if test="index > 0">
+                    OR I.ATTRS_STR like CONCAT('%',#{item},'%')
+                </if>
+            </foreach>
+        </if>
+        <if test="typeIdList != null and typeIdList.size >0">
+            AND D.CI_TYPE_ID not in
+            <foreach collection="typeIdList" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+		order by D.id desc
+	</select>
+
+	<select id="findConfigItemByCiCode" resultType="Map">
+        SELECT
+	        iom_ci_info.ID id,
+	        iom_ci_info.CI_CODE ciCode,
+            IFNULL(iom_ci_info.CI_NAME,iom_ci_info.CI_CODE) ciName,
+	        iom_ci_info.CI_DESC ciDesc,
+	        iom_ci_info.CI_TYPE_ID ciTypeId,
+	        iom_ci_info.SOURCE_ID sourceId,
+	        iom_ci_info.OWNER_ID ownerId,
+	        iom_ci_info.ORG_ID orgId,
+	        iom_ci_info.CI_VERSION ciVersion,
+	        iom_ci_info.CJR_ID cjrId,
+	        iom_ci_info.CJSJ cjsj,
+	        iom_ci_info.XGR_ID xgrId,
+	        iom_ci_info.XGSJ xgsj,
+	        iom_ci_info.YXBZ yxbz,
+	        iom_ci_info.DOMAIN_ID domainId
+         FROM
+	        iom_ci_info
+         where
+         iom_ci_info.YXBZ=1
+         <if test=" domainId != null and domainId != '' ">
+             and iom_ci_info.DOMAIN_ID in (${domainId})
+         </if>
+         <if test=" ciName != null and ciName != '' ">
+             and (iom_ci_info.CI_CODE like CONCAT('%',#{ciName},'%') or iom_ci_info.CI_NAME like CONCAT('%',#{ciName},'%'))
+         </if>
+	</select>
+
+    <select id="findHumpConfigInfoPage" resultType="java.util.LinkedHashMap">
+        SELECT
+        CI_TYPE_MC ciTypeMc,I.CI_CODE ciCode,IFNULL(I.CI_NAME,I.CI_CODE) ciName,concat(D.ID) as ciId,concat(D.CI_TYPE_ID) as typeId,
+        DATA_1,DATA_2,DATA_3,DATA_4,DATA_5,DATA_6,DATA_7,DATA_8,DATA_9,
+        DATA_10,DATA_11,DATA_12,DATA_13,DATA_14,DATA_15,DATA_16,DATA_17,
+        DATA_18,DATA_19,DATA_20,DATA_21,DATA_22,DATA_23,DATA_24,DATA_25,
+        DATA_26,DATA_27,DATA_28,DATA_29,DATA_30,DATA_31,DATA_32,DATA_33,
+        DATA_34,DATA_35
+        DATA_36,
+        DATA_37,
+        DATA_38,
+        DATA_39,
+        DATA_40,
+        DATA_41,
+        DATA_42,
+        DATA_43,
+        DATA_44,
+        DATA_45,
+        DATA_46,
+        DATA_47,
+        DATA_48,
+        DATA_49,
+        DATA_50,
+        DATA_51,
+        DATA_52,
+        DATA_53,
+        DATA_54,
+        DATA_55,
+        DATA_56,
+        DATA_57,
+        DATA_58,
+        DATA_59,
+        DATA_60,
+        DATA_61,
+        DATA_62,
+        DATA_63,
+        DATA_64,
+        DATA_65,
+        DATA_66,
+        DATA_67,
+        DATA_68,
+        DATA_69,
+        DATA_70,
+        DATA_71,
+        DATA_72,
+        DATA_73,
+        DATA_74,
+        DATA_75,
+        DATA_76,
+        DATA_77,
+        DATA_78,
+        DATA_79,
+        DATA_80,
+        DATA_81,
+        DATA_82,
+        DATA_83,
+        DATA_84,
+        DATA_85,
+        DATA_86,
+        DATA_87,
+        DATA_88,
+        DATA_89,
+        DATA_90,
+        DATA_91,
+        DATA_92,
+        DATA_93,
+        DATA_94,
+        DATA_95,
+        DATA_96,
+        DATA_97,
+        DATA_98,
+        DATA_99,
+        DATA_100,
+        DATA_101,
+        DATA_102,
+        DATA_103,
+        DATA_104,
+        DATA_105,
+        DATA_106,
+        DATA_107,
+        DATA_108,
+        DATA_109,
+        DATA_110,
+        DATA_111,
+        DATA_112,
+        DATA_113,
+        DATA_114,
+        DATA_115,
+        DATA_116,
+        DATA_117,
+        DATA_118,
+        DATA_119,
+        DATA_120,
+        DATA_121,
+        DATA_122,
+        DATA_123,
+        DATA_124,
+        DATA_125,
+        DATA_126,
+        DATA_127,
+        DATA_128,
+        DATA_129,
+        DATA_130,
+        DATA_131,
+        DATA_132,
+        DATA_133,
+        DATA_134,
+        DATA_135,
+        DATA_136,
+        DATA_137,
+        DATA_138,
+        DATA_139,
+        DATA_140,
+        DATA_141,
+        DATA_142,
+        DATA_143,
+        DATA_144,
+        DATA_145,
+        DATA_146,
+        DATA_147,
+        DATA_148,
+        DATA_149,
+        DATA_150,
+        DATA_151,
+        DATA_152,
+        DATA_153,
+        DATA_154,
+        DATA_155,
+        DATA_156,
+        DATA_157,
+        DATA_158,
+        DATA_159,
+        DATA_160,
+        DATA_161,
+        DATA_162,
+        DATA_163,
+        DATA_164,
+        DATA_165,
+        DATA_166,
+        DATA_167,
+        DATA_168,
+        DATA_169,
+        DATA_170,
+        DATA_171,
+        DATA_172,
+        DATA_173,
+        DATA_174,
+        DATA_175,
+        DATA_176,
+        DATA_177,
+        DATA_178,
+        DATA_179,
+        DATA_180,
+        DATA_181,
+        DATA_182,
+        DATA_183,
+        DATA_184,
+        DATA_185,
+        DATA_186,
+        DATA_187,
+        DATA_188,
+        DATA_189,
+        DATA_190,
+        DATA_191,
+        DATA_192,
+        DATA_193,
+        DATA_194,
+        DATA_195,
+        DATA_196,
+        DATA_197,
+        DATA_198,
+        DATA_199
+        FROM
+        IOMCI.IOM_CI_TYPE AS T
+        INNER JOIN IOMCI.IOM_CI_TYPE_DATA D ON T.ID = D.CI_TYPE_ID  <if test="domainId !=null and domainId!=''"> AND D.DOMAIN_ID in (${domainId})</if>
+        INNER JOIN IOMCI.IOM_CI_INFO I ON D.ID = I.ID  AND I.YXBZ = 1 <if test="domainId !=null and domainId!=''"> AND I.DOMAIN_ID in (${domainId})</if>
+        WHERE
+        T.YXBZ=1
+        <if test="tidList != null and tidList.length !=0">
+            AND D.CI_TYPE_ID in
+            <foreach collection="tidList" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="domainId !=null and domainId !=''">AND T.DOMAIN_ID in (${domainId})</if>
+        <if test="ciPropertyList !=null and ciPropertyList.length !=0">
+        <foreach collection="ciPropertyList" index="index" item="item">
+            <if test="index == 0">
+                AND I.ATTRS_STR like CONCAT('%',#{item},'%')
+            </if>
+            <if test="index > 0">
+                OR I.ATTRS_STR like CONCAT('%',#{item},'%')
+            </if>
+        </foreach>
+        </if>
+        order by D.id desc
+    </select>
+
+	<select id="findConfigInfoCount" resultType="int">
+
+		SELECT
+		count(1) num
+		FROM
+		IOMCI.IOM_CI_TYPE AS T
+        INNER JOIN IOMCI.IOM_CI_TYPE_DATA D ON T.ID = D.CI_TYPE_ID  <if test="domainId !=null  and domainId!=''"> AND D.DOMAIN_ID in (${domainId})</if>
+        INNER JOIN IOMCI.IOM_CI_INFO I ON D.ID = I.ID  AND I.YXBZ = 1 <if test="domainId !=null and domainId!=''"> AND I.DOMAIN_ID in (${domainId})</if>
+        WHERE
+        T.YXBZ=1
+        <if test="tidList != null and tidList.length !=0">
+            AND D.CI_TYPE_ID in
+            <foreach collection="tidList" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="domainId !=null and domainId !=''">AND T.DOMAIN_ID in (${domainId})</if>
+        <if test="ciPropertyList !=null and ciPropertyList.length !=0">
+            <foreach collection="ciPropertyList" index="index" item="item">
+                <if test="index == 0">
+                    AND I.ATTRS_STR like CONCAT('%',#{item},'%')
+                </if>
+                <if test="index > 0">
+                    OR I.ATTRS_STR like CONCAT('%',#{item},'%')
+                </if>
+            </foreach>
+        </if>
+        <if test="typeIdList != null and typeIdList.size >0">
+            AND D.CI_TYPE_ID not in
+            <foreach collection="typeIdList" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+		order by D.id desc
+	</select>
+
+    <select id="findRelCITypeByCIId" resultType="map">
+
+		select distinct
+		(select CI_TYPE_MC from IOMCI.IOM_CI_TYPE where id=
+		IOMCI.IOM_CI_TYPE_DATA.CI_TYPE_ID) as CI_TYPE_MC , CI_TYPE_ID
+		from IOMCI.IOM_CI_TYPE_DATA
+		where id in (select TARGET_CI_ID
+		from
+		IOMCI.IOM_CI_DATA_REL
+		where SOURCE_CI_ID=#{id})
+	</select>
+    <select id="findRelCIDataByCIIdAndCIType" parameterType="string"
+            resultType="map">
+		${sql}
+	</select>
+
+    <select id="finDataByTypeId" parameterType="string" resultType="typedata">
+		select D.id,
+		DATA_1,DATA_2,DATA_3,DATA_4,DATA_5,DATA_6,DATA_7,DATA_8,DATA_9,DATA_10,DATA_11,DATA_12,DATA_13,DATA_14,DATA_15,DATA_16,DATA_17,DATA_18,DATA_19,DATA_20,DATA_21,DATA_22,DATA_23,DATA_24,DATA_25,DATA_26,DATA_27,DATA_28,DATA_29,DATA_30,DATA_31,DATA_32,DATA_33,DATA_34,DATA_35,
+		DATA_36,
+        DATA_37,
+        DATA_38,
+        DATA_39,
+        DATA_40,
+        DATA_41,
+        DATA_42,
+        DATA_43,
+        DATA_44,
+        DATA_45,
+        DATA_46,
+        DATA_47,
+        DATA_48,
+        DATA_49,
+        DATA_50,
+        DATA_51,
+        DATA_52,
+        DATA_53,
+        DATA_54,
+        DATA_55,
+        DATA_56,
+        DATA_57,
+        DATA_58,
+        DATA_59,
+        DATA_60,
+        DATA_61,
+        DATA_62,
+        DATA_63,
+        DATA_64,
+        DATA_65,
+        DATA_66,
+        DATA_67,
+        DATA_68,
+        DATA_69,
+        DATA_70,
+        DATA_71,
+        DATA_72,
+        DATA_73,
+        DATA_74,
+        DATA_75,
+        DATA_76,
+        DATA_77,
+        DATA_78,
+        DATA_79,
+        DATA_80,
+        DATA_81,
+        DATA_82,
+        DATA_83,
+        DATA_84,
+        DATA_85,
+        DATA_86,
+        DATA_87,
+        DATA_88,
+        DATA_89,
+        DATA_90,
+        DATA_91,
+        DATA_92,
+        DATA_93,
+        DATA_94,
+        DATA_95,
+        DATA_96,
+        DATA_97,
+        DATA_98,
+        DATA_99,
+        DATA_100,
+        DATA_101,
+        DATA_102,
+        DATA_103,
+        DATA_104,
+        DATA_105,
+        DATA_106,
+        DATA_107,
+        DATA_108,
+        DATA_109,
+        DATA_110,
+        DATA_111,
+        DATA_112,
+        DATA_113,
+        DATA_114,
+        DATA_115,
+        DATA_116,
+        DATA_117,
+        DATA_118,
+        DATA_119,
+        DATA_120,
+        DATA_121,
+        DATA_122,
+        DATA_123,
+        DATA_124,
+        DATA_125,
+        DATA_126,
+        DATA_127,
+        DATA_128,
+        DATA_129,
+        DATA_130,
+        DATA_131,
+        DATA_132,
+        DATA_133,
+        DATA_134,
+        DATA_135,
+        DATA_136,
+        DATA_137,
+        DATA_138,
+        DATA_139,
+        DATA_140,
+        DATA_141,
+        DATA_142,
+        DATA_143,
+        DATA_144,
+        DATA_145,
+        DATA_146,
+        DATA_147,
+        DATA_148,
+        DATA_149,
+        DATA_150,
+        DATA_151,
+        DATA_152,
+        DATA_153,
+        DATA_154,
+        DATA_155,
+        DATA_156,
+        DATA_157,
+        DATA_158,
+        DATA_159,
+        DATA_160,
+        DATA_161,
+        DATA_162,
+        DATA_163,
+        DATA_164,
+        DATA_165,
+        DATA_166,
+        DATA_167,
+        DATA_168,
+        DATA_169,
+        DATA_170,
+        DATA_171,
+        DATA_172,
+        DATA_173,
+        DATA_174,
+        DATA_175,
+        DATA_176,
+        DATA_177,
+        DATA_178,
+        DATA_179,
+        DATA_180,
+        DATA_181,
+        DATA_182,
+        DATA_183,
+        DATA_184,
+        DATA_185,
+        DATA_186,
+        DATA_187,
+        DATA_188,
+        DATA_189,
+        DATA_190,
+        DATA_191,
+        DATA_192,
+        DATA_193,
+        DATA_194,
+        DATA_195,
+        DATA_196,
+        DATA_197,
+        DATA_198,
+        DATA_199
+		from IOMCI.IOM_CI_TYPE_DATA as D,IOMCI.IOM_CI_INFO AS I WHERE
+		I.ID=D.id and I.YXBZ = 1 AND D.CI_TYPE_ID=#{tid}
+	</select>
+
+    <select id="findDataByCiIDAndAttrId" resultType="string" parameterType="string">
+		select ${attrId} from iom_ci_type_data where ID = #{ciId}
+	</select>
+
+    <select id="findDataByVal" resultType="DataIndex">
+        select * from iomci.iom_ci_type_data_index where IDX in <foreach collection="list" item="item" open="(" separator="," close=")">
+        #{item.id}
+    </foreach>
+    </select>
+    <select id="findDataByTid" parameterType="map" resultType="TypeData">
+        select * from iomci.iom_ci_type_data where ID = #{ci_id} and CI_TYPE_ID = #{tid}
+    </select>
+
+    <select id="findDataInfo" parameterType="string" resultType="string">
+        ${sql}
+    </select>
+
+    <select id="findCiInfoById" parameterType="list" resultType="info">
+    	select * from iomci.iom_ci_info where id in
+       	<foreach collection="list" index="index" item="item" open="("
+                 separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="findCiTypeInfo" parameterType="list" resultType="map">
+        select id as ci_id, CI_TYPE_ID as ci_type_id,CI_CODE as ci_code,IFNULL(CI_NAME,CI_CODE) ci_name,(select CI_TYPE_BM from iomci.iom_ci_type as type where id = info.CI_TYPE_ID) as ci_type_bm,(select CI_TYPE_MC from iomci.iom_ci_type as type where id = info.CI_TYPE_ID) as ci_type_mc  from iomci.iom_ci_info as info where id in
+       	<foreach collection="list" index="index" item="item" open="("
+                 separator="," close=")">
+            #{item}
+        </foreach>
+        and info.yxbz=1
+    </select>
+
+    <select id="findCiDataInfo" parameterType="string" resultType="java.util.LinkedHashMap">
+        select
+        DATA_1,
+		DATA_2,
+		DATA_3,
+		DATA_4,
+		DATA_5,
+		DATA_6,
+		DATA_7,
+		DATA_8,
+		DATA_9,
+		DATA_10,
+		DATA_11,
+		DATA_12,
+		DATA_13,
+		DATA_14,
+		DATA_15,
+		DATA_16,
+		DATA_17,
+		DATA_18,
+		DATA_19,
+		DATA_20,
+		DATA_21,
+		DATA_22,
+		DATA_23,
+		DATA_24,
+		DATA_25,
+		DATA_26,
+		DATA_27,
+		DATA_28,
+		DATA_29,
+		DATA_30,
+		DATA_31,
+		DATA_32,
+		DATA_33,
+		DATA_34,
+		DATA_35,
+		DATA_36,
+        DATA_37,
+        DATA_38,
+        DATA_39,
+        DATA_40,
+        DATA_41,
+        DATA_42,
+        DATA_43,
+        DATA_44,
+        DATA_45,
+        DATA_46,
+        DATA_47,
+        DATA_48,
+        DATA_49,
+        DATA_50,
+        DATA_51,
+        DATA_52,
+        DATA_53,
+        DATA_54,
+        DATA_55,
+        DATA_56,
+        DATA_57,
+        DATA_58,
+        DATA_59,
+        DATA_60,
+        DATA_61,
+        DATA_62,
+        DATA_63,
+        DATA_64,
+        DATA_65,
+        DATA_66,
+        DATA_67,
+        DATA_68,
+        DATA_69,
+        DATA_70,
+        DATA_71,
+        DATA_72,
+        DATA_73,
+        DATA_74,
+        DATA_75,
+        DATA_76,
+        DATA_77,
+        DATA_78,
+        DATA_79,
+        DATA_80,
+        DATA_81,
+        DATA_82,
+        DATA_83,
+        DATA_84,
+        DATA_85,
+        DATA_86,
+        DATA_87,
+        DATA_88,
+        DATA_89,
+        DATA_90,
+        DATA_91,
+        DATA_92,
+        DATA_93,
+        DATA_94,
+        DATA_95,
+        DATA_96,
+        DATA_97,
+        DATA_98,
+        DATA_99,
+        DATA_100,
+        DATA_101,
+        DATA_102,
+        DATA_103,
+        DATA_104,
+        DATA_105,
+        DATA_106,
+        DATA_107,
+        DATA_108,
+        DATA_109,
+        DATA_110,
+        DATA_111,
+        DATA_112,
+        DATA_113,
+        DATA_114,
+        DATA_115,
+        DATA_116,
+        DATA_117,
+        DATA_118,
+        DATA_119,
+        DATA_120,
+        DATA_121,
+        DATA_122,
+        DATA_123,
+        DATA_124,
+        DATA_125,
+        DATA_126,
+        DATA_127,
+        DATA_128,
+        DATA_129,
+        DATA_130,
+        DATA_131,
+        DATA_132,
+        DATA_133,
+        DATA_134,
+        DATA_135,
+        DATA_136,
+        DATA_137,
+        DATA_138,
+        DATA_139,
+        DATA_140,
+        DATA_141,
+        DATA_142,
+        DATA_143,
+        DATA_144,
+        DATA_145,
+        DATA_146,
+        DATA_147,
+        DATA_148,
+        DATA_149,
+        DATA_150,
+        DATA_151,
+        DATA_152,
+        DATA_153,
+        DATA_154,
+        DATA_155,
+        DATA_156,
+        DATA_157,
+        DATA_158,
+        DATA_159,
+        DATA_160,
+        DATA_161,
+        DATA_162,
+        DATA_163,
+        DATA_164,
+        DATA_165,
+        DATA_166,
+        DATA_167,
+        DATA_168,
+        DATA_169,
+        DATA_170,
+        DATA_171,
+        DATA_172,
+        DATA_173,
+        DATA_174,
+        DATA_175,
+        DATA_176,
+        DATA_177,
+        DATA_178,
+        DATA_179,
+        DATA_180,
+        DATA_181,
+        DATA_182,
+        DATA_183,
+        DATA_184,
+        DATA_185,
+        DATA_186,
+        DATA_187,
+        DATA_188,
+        DATA_189,
+        DATA_190,
+        DATA_191,
+        DATA_192,
+        DATA_193,
+        DATA_194,
+        DATA_195,
+        DATA_196,
+        DATA_197,
+        DATA_198,
+        DATA_199
+		 from iom_ci_type_data where id = #{id}
+    </select>
+
+    <select id="getBMByCiTypeId" resultType="int">
+        select count(*) from iomci.iom_ci_info where CI_CODE = #{bm} and yxbz = 1
+    </select>
+     <update id="deleteDataByTypeAndCI" parameterType="String">
+        UPDATE IOMCI.IOM_CI_TYPE_DATA
+        set
+        ${dataNo}=''
+        WHERE ID =#{ci_id} and CI_TYPE_ID=#{ci_id};
+    </update>
+
+    <select id="getCiDataRelDownBySourceIdAndTargetId" resultType="Map">
+         select
+           a.ID id,
+	       a.REL_ID relId,
+	       a.REL_NAME relName,
+	       a.REL_DESC relDesc,
+	       a.SOURCE_ID sourceId,
+	       a.OWENR_ID owenrId,
+	       a.ORG_ID orgId,
+	       a.SOURCE_CI_ID sourceCiId,
+	       a.SOURCE_CI_BM sourceCiBm,
+	       a.SOURCE_CI_BM sourceCiCode,
+		   IFNULL(b.ci_name,b.ci_code) as sourceCiName,
+	       a.SOURCE_TYPE_BM sourceTypeBm,
+	       a.SOURCE_TYPE_ID sourceTypeId,
+	       a.TARGET_CI_ID targetCiId,
+	       a.TARGET_CI_BM targetCiBm,
+	       a.TARGET_CI_BM targetCiCode,
+		   IFNULL(c.ci_name,c.ci_code) as targetCiName,
+	       a.TARGET_TYPE_BM targetTypeBm,
+	       a.TARGET_TYPE_ID targetTypeId,
+	       a.CJR_ID cjrId,
+	       a.CJSJ cjsj,
+	       a.XGR_ID xgrId,
+	       a.XGSJ xgsj,
+	       a.YXBZ yxbz
+	     from
+	       iom_ci_data_rel as a
+	       left join iom_ci_info b on a.SOURCE_CI_BM=b.ci_code
+           left join iom_ci_info c on a.TARGET_CI_BM=c.ci_code
+	     where
+	       a.YXBZ=1
+	     <if test=" relList != null and relList != '' ">
+            AND a.REL_ID IN
+            <foreach item="rel" index="index" collection="relList" open="(" separator="," close=")">
+                ${rel}
+            </foreach>
+        </if>
+
+        <if test=" targetTypeIdList != null and targetTypeIdList != '' ">
+            AND a.TARGET_TYPE_ID IN
+            <foreach item="targetType" index="index" collection="targetTypeIdList" open="(" separator="," close=")">
+                ${targetType}
+            </foreach>
+        </if>
+        <if test=" sourceCiBmList != null and sourceCiBmList != '' ">
+            AND a.SOURCE_CI_BM IN
+            <foreach item="sourceCiBm" index="index" collection="sourceCiBmList" open="(" separator="," close=")">
+                #{sourceCiBm}
+            </foreach>
+        </if>
+    </select>
+
+    <select id="getCiDataRelByImpactAnalysisAndRootCauseAnalysisSource" resultType="Map">
+         select
+           ID id,
+	       REL_ID relId,
+	       REL_NAME relName,
+	       REL_DESC relDesc,
+	       SOURCE_ID sourceId,
+	       OWENR_ID owenrId,
+	       ORG_ID orgId,
+	       SOURCE_CI_ID sourceCiId,
+	       SOURCE_CI_BM sourceCiBm,
+	       SOURCE_TYPE_BM sourceTypeBm,
+	       SOURCE_TYPE_ID sourceTypeId,
+	       TARGET_CI_ID targetCiId,
+	       TARGET_CI_BM targetCiBm,
+	       TARGET_TYPE_BM targetTypeBm,
+	       TARGET_TYPE_ID targetTypeId,
+	       CJR_ID cjrId,
+	       CJSJ cjsj,
+	       XGR_ID xgrId,
+	       XGSJ xgsj,
+	       YXBZ yxbz
+	     from
+	       iom_ci_data_rel
+	     where
+	       YXBZ=1
+	     <if test=" relList != null and relList != '' ">
+            AND REL_ID IN
+            <foreach item="rel" index="index" collection="relList" open="(" separator="," close=")">
+                ${rel}
+            </foreach>
+        </if>
+
+        <if test=" targetTypeIdList != null and targetTypeIdList != '' ">
+            AND TARGET_TYPE_ID IN
+            <foreach item="targetType" index="index" collection="targetTypeIdList" open="(" separator="," close=")">
+                ${targetType}
+            </foreach>
+        </if>
+
+        <if test=" sourceTypeIdList != null and sourceTypeIdList != '' ">
+            AND SOURCE_TYPE_ID IN
+            <foreach item="sourceType" index="index" collection="sourceTypeIdList" open="(" separator="," close=")">
+                ${sourceType}
+            </foreach>
+        </if>
+        <!--
+        <if test=" sourceCiBm != null and sourceCiBm != '' ">
+            AND (SOURCE_CI_BM =#{sourceCiBm}
+        </if>
+        <if test=" targetCiBm != null and targetCiBm != '' ">
+            OR TARGET_CI_BM =#{targetCiBm})
+        </if>
+         -->
+
+        <if test=" sourceCiBmList != null and sourceCiBmList != '' ">
+            AND (SOURCE_CI_BM IN
+            <foreach item="sourceCiBm" index="index" collection="sourceCiBmList" open="(" separator="," close=")">
+                #{sourceCiBm}
+            </foreach>
+        </if>
+
+
+        <if test=" targetCiBmList != null and targetCiBmList != '' ">
+            OR TARGET_CI_BM IN
+            <foreach item="targetCiBm" index="index" collection="targetCiBmList" open="(" separator="," close=")">
+                #{targetCiBm}
+            </foreach>
+            )
+        </if>
+
+
+    </select>
+
+        <select id="getCiDataRelByImpactAnalysisAndRootCauseAnalysisTarget" resultType="Map">
+         select
+           ID id,
+	       REL_ID relId,
+	       REL_NAME relName,
+	       REL_DESC relDesc,
+	       SOURCE_ID sourceId,
+	       OWENR_ID owenrId,
+	       ORG_ID orgId,
+	       SOURCE_CI_ID sourceCiId,
+	       SOURCE_CI_BM sourceCiBm,
+	       SOURCE_TYPE_BM sourceTypeBm,
+	       SOURCE_TYPE_ID sourceTypeId,
+	       TARGET_CI_ID targetCiId,
+	       TARGET_CI_BM targetCiBm,
+	       TARGET_TYPE_BM targetTypeBm,
+	       TARGET_TYPE_ID targetTypeId,
+	       CJR_ID cjrId,
+	       CJSJ cjsj,
+	       XGR_ID xgrId,
+	       XGSJ xgsj,
+	       YXBZ yxbz
+	     from
+	       iom_ci_data_rel
+	     where
+	       YXBZ=1
+	     <if test=" relList != null and relList != '' ">
+            AND REL_ID IN
+            <foreach item="rel" index="index" collection="relList" open="(" separator="," close=")">
+                ${rel}
+            </foreach>
+        </if>
+
+        <if test=" targetTypeIdList != null and targetTypeIdList != '' ">
+            AND TARGET_TYPE_ID IN
+            <foreach item="targetType" index="index" collection="targetTypeIdList" open="(" separator="," close=")">
+                ${targetType}
+            </foreach>
+        </if>
+
+        <if test=" sourceTypeIdList != null and sourceTypeIdList != '' ">
+            AND SOURCE_TYPE_ID IN
+            <foreach item="sourceType" index="index" collection="sourceTypeIdList" open="(" separator="," close=")">
+                ${sourceType}
+            </foreach>
+        </if>
+        <if test=" targetCiBm != null and targetCiBm != '' ">
+            AND TARGET_CI_BM =#{targetCiBm}
+        </if>
+
+
+    </select>
+
+    <select id="getCiSingleRelsByStartCiIdAndEndCiId" resultType="Map">
+         select
+           ID id,
+	       REL_ID relId,
+	       REL_NAME relName,
+	       REL_DESC relDesc,
+	       SOURCE_ID sourceId,
+	       OWENR_ID owenrId,
+	       ORG_ID orgId,
+	       SOURCE_CI_ID sourceCiId,
+	       SOURCE_CI_BM sourceCiBm,
+	       SOURCE_TYPE_BM sourceTypeBm,
+	       SOURCE_TYPE_ID sourceTypeId,
+	       TARGET_CI_ID targetCiId,
+	       TARGET_CI_BM targetCiBm,
+	       TARGET_TYPE_BM targetTypeBm,
+	       TARGET_TYPE_ID targetTypeId,
+	       CJR_ID cjrId,
+	       CJSJ cjsj,
+	       XGR_ID xgrId,
+	       XGSJ xgsj,
+	       YXBZ yxbz
+	     from
+	       iom_ci_data_rel
+	     where
+	       YXBZ=1
+        <if test=" sourceCiIdList != null and sourceCiIdList != '' ">
+            AND SOURCE_CI_ID IN
+            <foreach item="sourceCiId" index="index" collection="sourceCiIdList" open="(" separator="," close=")">
+                ${sourceCiId}
+            </foreach>
+        </if>
+    </select>
+
+    <select id="getCiDataRelUpBySourceIdAndTargetId" resultType="Map">
+         select
+           a.ID id,
+	       a.REL_ID relId,
+	       a.REL_NAME relName,
+	       a.REL_DESC relDesc,
+	       a.SOURCE_ID sourceId,
+	       a.OWENR_ID owenrId,
+	       a.ORG_ID orgId,
+	       a.SOURCE_CI_ID sourceCiId,
+	       a.SOURCE_CI_BM sourceCiBm,
+	       a.SOURCE_CI_BM as sourceCiCode,
+	       IFNULL(b.ci_name,b.ci_code) as sourceCiName,
+	       a.SOURCE_TYPE_BM sourceTypeBm,
+	       a.SOURCE_TYPE_ID sourceTypeId,
+	       a.TARGET_CI_ID targetCiId,
+	       a.TARGET_CI_BM targetCiBm,
+	       a.TARGET_CI_BM as targetCiCode,
+	       IFNULL(c.ci_name,c.ci_code) as targetCiName,
+	       a.TARGET_TYPE_BM targetTypeBm,
+	       a.TARGET_TYPE_ID targetTypeId,
+	       a.CJR_ID cjrId,
+	       a.CJSJ cjsj,
+	       a.XGR_ID xgrId,
+	       a.XGSJ xgsj,
+	       a.YXBZ yxbz
+	     from
+	       iom_ci_data_rel a
+	       left join iom_ci_info b on a.source_ci_bm=b.ci_code
+           left join iom_ci_info c on a.target_ci_bm=c.ci_code
+	     where
+	       a.YXBZ=1
+	     <if test=" relList != null and relList != '' ">
+            AND a.REL_ID IN
+            <foreach item="rel" index="index" collection="relList" open="(" separator="," close=")">
+                ${rel}
+            </foreach>
+        </if>
+
+        <if test=" sourceTypeIdList != null and sourceTypeIdList != '' ">
+            AND a.SOURCE_TYPE_ID IN
+            <foreach item="sourceType" index="index" collection="sourceTypeIdList" open="(" separator="," close=")">
+                ${sourceType}
+            </foreach>
+        </if>
+        <if test=" targetCiBmList != null and targetCiBmList != '' ">
+            AND a.TARGET_CI_BM IN
+            <foreach item="targetCiBm" index="index" collection="targetCiBmList" open="(" separator="," close=")">
+                #{targetCiBm}
+            </foreach>
+        </if>
+    </select>
+
+    <select id="queryCiTypeRelBySourceIdAndTargetId" resultType="Map">
+       SELECT
+	     rel.ID id,
+	     rel.REL_ID relId,
+	     rel.SOURCE_TYPE_ID sourceTypeId,
+	     rel.TARGET_TYPE_ID targetTypeId,
+	     rel.CJR_ID cjrId,
+	     rel.DJSJ cjsj,
+	     rel.XGR_ID xgrId,
+	     rel.XGSJ xgsj,
+	     rel.YXBZ yxbz,
+	     type1.CI_TYPE_BM sourceTypeBm,
+	     type2.CI_TYPE_BM targetTypeBm,
+	     cirel.LINE_NAME relName
+       FROM
+	     iom_ci_type_rel rel
+         LEFT JOIN iom_ci_type type1 ON rel.SOURCE_TYPE_ID = type1.ID
+         LEFT JOIN iom_ci_type type2 ON rel.TARGET_TYPE_ID = type2.ID
+         LEFT JOIN iom_ci_rel cirel ON cirel.ID = rel.REL_ID
+       WHERE
+	     rel.YXBZ = 1
+	   <if test=" sourceTypeIdList != null and sourceTypeIdList != '' ">
+            AND rel.SOURCE_TYPE_ID IN
+            <foreach item="sourceType" index="index" collection="sourceTypeIdList" open="(" separator="," close=")">
+                ${sourceType}
+            </foreach>
+        </if>
+        <if test=" targetTypeIdList != null and targetTypeIdList != '' ">
+            AND rel.TARGET_TYPE_ID IN
+            <foreach item="targetType" index="index" collection="targetTypeIdList" open="(" separator="," close=")">
+                ${targetType}
+            </foreach>
+        </if>
+    </select>
+
+    <select id="queryCiTypeRelBySourceIdAndTargetIdUp" resultType="Map">
+       SELECT
+	     rel.ID id,
+	     rel.REL_ID relId,
+	     rel.SOURCE_TYPE_ID sourceTypeId,
+	     rel.TARGET_TYPE_ID targetTypeId,
+	     rel.CJR_ID cjrId,
+	     rel.DJSJ cjsj,
+	     rel.XGR_ID xgrId,
+	     rel.XGSJ xgsj,
+	     rel.YXBZ yxbz,
+	     type1.CI_TYPE_BM sourceTypeBm,
+	     type2.CI_TYPE_BM targetTypeBm,
+	     cirel.LINE_NAME relName
+       FROM
+	     iom_ci_type_rel rel
+         LEFT JOIN iom_ci_type type1 ON rel.SOURCE_TYPE_ID = type1.ID
+         LEFT JOIN iom_ci_type type2 ON rel.TARGET_TYPE_ID = type2.ID
+         LEFT JOIN iom_ci_rel cirel ON cirel.ID = rel.REL_ID
+       WHERE
+	     rel.YXBZ = 1
+        <if test=" targetTypeIdList != null and targetTypeIdList != '' ">
+            AND rel.TARGET_TYPE_ID IN
+            <foreach item="targetType" index="index" collection="targetTypeIdList" open="(" separator="," close=")">
+                ${targetType}
+            </foreach>
+        </if>
+        <if test=" sourceTypeIdList != null and sourceTypeIdList != '' ">
+            AND rel.SOURCE_TYPE_ID IN
+            <foreach item="sourceType" index="index" collection="sourceTypeIdList" open="(" separator="," close=")">
+                ${sourceType}
+            </foreach>
+        </if>
+    </select>
+
+    <select id="queryCiTypeRelBySourceIdAndTargetIdDown" resultType="Map">
+       SELECT
+	     rel.ID id,
+	     rel.REL_ID relId,
+	     rel.SOURCE_TYPE_ID sourceTypeId,
+	     rel.TARGET_TYPE_ID targetTypeId,
+	     rel.CJR_ID cjrId,
+	     rel.DJSJ cjsj,
+	     rel.XGR_ID xgrId,
+	     rel.XGSJ xgsj,
+	     rel.YXBZ yxbz,
+	     type1.CI_TYPE_BM sourceTypeBm,
+	     type2.CI_TYPE_BM targetTypeBm,
+	     cirel.LINE_NAME relName
+       FROM
+	     iom_ci_type_rel rel
+         LEFT JOIN iom_ci_type type1 ON rel.SOURCE_TYPE_ID = type1.ID
+         LEFT JOIN iom_ci_type type2 ON rel.TARGET_TYPE_ID = type2.ID
+         LEFT JOIN iom_ci_rel cirel ON cirel.ID = rel.REL_ID
+       WHERE
+	     rel.YXBZ = 1
+        <if test=" sourceTypeIdList != null and sourceTypeIdList != '' ">
+            AND rel.SOURCE_TYPE_ID IN
+            <foreach item="sourceType" index="index" collection="sourceTypeIdList" open="(" separator="," close=")">
+                ${sourceType}
+            </foreach>
+        </if>
+        <if test=" targetTypeIdList != null and targetTypeIdList != '' ">
+            AND rel.TARGET_TYPE_ID IN
+            <foreach item="targetType" index="index" collection="targetTypeIdList" open="(" separator="," close=")">
+                ${targetType}
+            </foreach>
+        </if>
+    </select>
+
+    <select id="findCiIdByMap" resultType="map">
+        SELECT GROUP_CONCAT(DISTINCT ID) as ciIds<if test="groupName != null and groupName != ''">,${groupName} as zhi</if> FROM `iom_ci_type_data` WHERE CI_TYPE_ID = #{ciClassId} and ${ciClassName} = #{source} <if test="groupName !=null and groupName != ''"> GROUP BY ${groupName}</if>
+    </select>
+    <select id="finDataByidAndItem" resultType="java.lang.String">
+        select ${mpCiItem} from iom_ci_type_data where id=#{ciId}
+    </select>
+    <select id="findConfigInfoNoPageHump" resultType="java.util.LinkedHashMap">
+        SELECT
+        CI_TYPE_MC ciTypeMc,I.CI_CODE ciCode,IFNULL(I.CI_NAME,I.CI_CODE) ciName,concat(D.ID) as ciId,concat(D.CI_TYPE_ID) as typeId,
+        DATA_1,DATA_2,DATA_3,DATA_4,DATA_5,DATA_6,DATA_7,DATA_8,DATA_9,
+        DATA_10,DATA_11,DATA_12,DATA_13,DATA_14,DATA_15,DATA_16,DATA_17,
+        DATA_18,DATA_19,DATA_20,DATA_21,DATA_22,DATA_23,DATA_24,DATA_25,
+        DATA_26,DATA_27,DATA_28,DATA_29,DATA_30,DATA_31,DATA_32,DATA_33,
+        DATA_34,DATA_35,
+        DATA_36,
+        DATA_37,
+        DATA_38,
+        DATA_39,
+        DATA_40,
+        DATA_41,
+        DATA_42,
+        DATA_43,
+        DATA_44,
+        DATA_45,
+        DATA_46,
+        DATA_47,
+        DATA_48,
+        DATA_49,
+        DATA_50,
+        DATA_51,
+        DATA_52,
+        DATA_53,
+        DATA_54,
+        DATA_55,
+        DATA_56,
+        DATA_57,
+        DATA_58,
+        DATA_59,
+        DATA_60,
+        DATA_61,
+        DATA_62,
+        DATA_63,
+        DATA_64,
+        DATA_65,
+        DATA_66,
+        DATA_67,
+        DATA_68,
+        DATA_69,
+        DATA_70,
+        DATA_71,
+        DATA_72,
+        DATA_73,
+        DATA_74,
+        DATA_75,
+        DATA_76,
+        DATA_77,
+        DATA_78,
+        DATA_79,
+        DATA_80,
+        DATA_81,
+        DATA_82,
+        DATA_83,
+        DATA_84,
+        DATA_85,
+        DATA_86,
+        DATA_87,
+        DATA_88,
+        DATA_89,
+        DATA_90,
+        DATA_91,
+        DATA_92,
+        DATA_93,
+        DATA_94,
+        DATA_95,
+        DATA_96,
+        DATA_97,
+        DATA_98,
+        DATA_99,
+        DATA_100,
+        DATA_101,
+        DATA_102,
+        DATA_103,
+        DATA_104,
+        DATA_105,
+        DATA_106,
+        DATA_107,
+        DATA_108,
+        DATA_109,
+        DATA_110,
+        DATA_111,
+        DATA_112,
+        DATA_113,
+        DATA_114,
+        DATA_115,
+        DATA_116,
+        DATA_117,
+        DATA_118,
+        DATA_119,
+        DATA_120,
+        DATA_121,
+        DATA_122,
+        DATA_123,
+        DATA_124,
+        DATA_125,
+        DATA_126,
+        DATA_127,
+        DATA_128,
+        DATA_129,
+        DATA_130,
+        DATA_131,
+        DATA_132,
+        DATA_133,
+        DATA_134,
+        DATA_135,
+        DATA_136,
+        DATA_137,
+        DATA_138,
+        DATA_139,
+        DATA_140,
+        DATA_141,
+        DATA_142,
+        DATA_143,
+        DATA_144,
+        DATA_145,
+        DATA_146,
+        DATA_147,
+        DATA_148,
+        DATA_149,
+        DATA_150,
+        DATA_151,
+        DATA_152,
+        DATA_153,
+        DATA_154,
+        DATA_155,
+        DATA_156,
+        DATA_157,
+        DATA_158,
+        DATA_159,
+        DATA_160,
+        DATA_161,
+        DATA_162,
+        DATA_163,
+        DATA_164,
+        DATA_165,
+        DATA_166,
+        DATA_167,
+        DATA_168,
+        DATA_169,
+        DATA_170,
+        DATA_171,
+        DATA_172,
+        DATA_173,
+        DATA_174,
+        DATA_175,
+        DATA_176,
+        DATA_177,
+        DATA_178,
+        DATA_179,
+        DATA_180,
+        DATA_181,
+        DATA_182,
+        DATA_183,
+        DATA_184,
+        DATA_185,
+        DATA_186,
+        DATA_187,
+        DATA_188,
+        DATA_189,
+        DATA_190,
+        DATA_191,
+        DATA_192,
+        DATA_193,
+        DATA_194,
+        DATA_195,
+        DATA_196,
+        DATA_197,
+        DATA_198,
+        DATA_199
+        FROM
+        IOMCI.IOM_CI_TYPE AS T
+        INNER JOIN IOMCI.IOM_CI_TYPE_DATA D ON T.ID = D.CI_TYPE_ID  <if test="domainId !=null and domainId !=''"> AND D.DOMAIN_ID in (${domainId})</if>
+        INNER JOIN IOMCI.IOM_CI_INFO I ON D.ID = I.ID  AND I.YXBZ = 1 <if test="domainId !=null and domainId !=''"> AND I.DOMAIN_ID in (${domainId})</if>
+        WHERE
+        T.YXBZ=1
+        <if test="tidList != null and tidList.length !=0">
+            AND D.CI_TYPE_ID in
+            <foreach collection="tidList" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="domainId !=null and domainId !=''">AND T.DOMAIN_ID in (${domainId})</if>
+        <if test="ciPropertyList !=null and ciPropertyList.length !=0">
+            <foreach collection="ciPropertyList" index="index" item="item">
+                <if test="index == 0">
+                    AND I.ATTRS_STR like CONCAT('%',#{item},'%')
+                </if>
+                <if test="index > 0">
+                    OR I.ATTRS_STR like CONCAT('%',#{item},'%')
+                </if>
+            </foreach>
+        </if>
+        order by D.id desc
+    </select>
+    <select id="getSecurityCiInfo" resultType="java.util.Map">
+        select ${sql}
+        from iom_ci_type_data
+        where ci_type_id = #{tid}
+    </select>
+    <select id="getSecurityCiInfoByTidAndVague" resultType="java.util.Map">
+        select ${sql}
+        from iom_ci_type_data a LEFT JOIN iom_ci_info c ON a.ID = c.ID
+        where  yxbz=1 and a.ci_type_id = #{tid} and c.ATTRS_STR LIKE CONCAT('%"',#{vague},'"%')
+    </select>
+    <select id="findItemSortByTid" resultType="java.lang.Integer">
+        select MAX(SORT) from iom_ci_type_item where CI_TYPE_ID=#{ci_type_id}
+    </select>
+    <select id="getAttrValuesList" resultType="java.lang.String">
+        select ${mpCiItem} from iom_ci_type_data where ci_type_id = #{ciTypeId}
+        <if test="domainId !=null and domainId !=''">
+            AND DOMAIN_ID in (${domainId})
+        </if>
+        <if test="searchCondition !=null and searchCondition !=''">
+            AND ${mpCiItem} like CONCAT('%',#{searchCondition},'%')
+        </if>
+        order by ${mpCiItem}
+    </select>
+    <select id="findCiByCiCode" resultType="java.util.Map">
+        SELECT
+        CI_TYPE_MC ciTypeMc,I.CI_CODE ciCode,IFNULL(I.CI_NAME,I.CI_CODE) ciName,concat(D.ID) as ciId,concat(D.CI_TYPE_ID) as typeId,
+        DATA_1,DATA_2,DATA_3,DATA_4,DATA_5,DATA_6,DATA_7,DATA_8,DATA_9,
+        DATA_10,DATA_11,DATA_12,DATA_13,DATA_14,DATA_15,DATA_16,DATA_17,
+        DATA_18,DATA_19,DATA_20,DATA_21,DATA_22,DATA_23,DATA_24,DATA_25,
+        DATA_26,DATA_27,DATA_28,DATA_29,DATA_30,DATA_31,DATA_32,DATA_33,
+        DATA_34,DATA_35,
+        DATA_36,
+        DATA_37,
+        DATA_38,
+        DATA_39,
+        DATA_40,
+        DATA_41,
+        DATA_42,
+        DATA_43,
+        DATA_44,
+        DATA_45,
+        DATA_46,
+        DATA_47,
+        DATA_48,
+        DATA_49,
+        DATA_50,
+        DATA_51,
+        DATA_52,
+        DATA_53,
+        DATA_54,
+        DATA_55,
+        DATA_56,
+        DATA_57,
+        DATA_58,
+        DATA_59,
+        DATA_60,
+        DATA_61,
+        DATA_62,
+        DATA_63,
+        DATA_64,
+        DATA_65,
+        DATA_66,
+        DATA_67,
+        DATA_68,
+        DATA_69,
+        DATA_70,
+        DATA_71,
+        DATA_72,
+        DATA_73,
+        DATA_74,
+        DATA_75,
+        DATA_76,
+        DATA_77,
+        DATA_78,
+        DATA_79,
+        DATA_80,
+        DATA_81,
+        DATA_82,
+        DATA_83,
+        DATA_84,
+        DATA_85,
+        DATA_86,
+        DATA_87,
+        DATA_88,
+        DATA_89,
+        DATA_90,
+        DATA_91,
+        DATA_92,
+        DATA_93,
+        DATA_94,
+        DATA_95,
+        DATA_96,
+        DATA_97,
+        DATA_98,
+        DATA_99,
+        DATA_100,
+        DATA_101,
+        DATA_102,
+        DATA_103,
+        DATA_104,
+        DATA_105,
+        DATA_106,
+        DATA_107,
+        DATA_108,
+        DATA_109,
+        DATA_110,
+        DATA_111,
+        DATA_112,
+        DATA_113,
+        DATA_114,
+        DATA_115,
+        DATA_116,
+        DATA_117,
+        DATA_118,
+        DATA_119,
+        DATA_120,
+        DATA_121,
+        DATA_122,
+        DATA_123,
+        DATA_124,
+        DATA_125,
+        DATA_126,
+        DATA_127,
+        DATA_128,
+        DATA_129,
+        DATA_130,
+        DATA_131,
+        DATA_132,
+        DATA_133,
+        DATA_134,
+        DATA_135,
+        DATA_136,
+        DATA_137,
+        DATA_138,
+        DATA_139,
+        DATA_140,
+        DATA_141,
+        DATA_142,
+        DATA_143,
+        DATA_144,
+        DATA_145,
+        DATA_146,
+        DATA_147,
+        DATA_148,
+        DATA_149,
+        DATA_150,
+        DATA_151,
+        DATA_152,
+        DATA_153,
+        DATA_154,
+        DATA_155,
+        DATA_156,
+        DATA_157,
+        DATA_158,
+        DATA_159,
+        DATA_160,
+        DATA_161,
+        DATA_162,
+        DATA_163,
+        DATA_164,
+        DATA_165,
+        DATA_166,
+        DATA_167,
+        DATA_168,
+        DATA_169,
+        DATA_170,
+        DATA_171,
+        DATA_172,
+        DATA_173,
+        DATA_174,
+        DATA_175,
+        DATA_176,
+        DATA_177,
+        DATA_178,
+        DATA_179,
+        DATA_180,
+        DATA_181,
+        DATA_182,
+        DATA_183,
+        DATA_184,
+        DATA_185,
+        DATA_186,
+        DATA_187,
+        DATA_188,
+        DATA_189,
+        DATA_190,
+        DATA_191,
+        DATA_192,
+        DATA_193,
+        DATA_194,
+        DATA_195,
+        DATA_196,
+        DATA_197,
+        DATA_198,
+        DATA_199
+        FROM
+        IOMCI.IOM_CI_TYPE AS T
+        INNER JOIN IOMCI.IOM_CI_TYPE_DATA D ON T.ID = D.CI_TYPE_ID
+        <if test="domainId !=null and domainId !=''"> AND D.DOMAIN_ID in (${domainId})</if>
+        INNER JOIN IOMCI.IOM_CI_INFO I ON D.ID = I.ID  AND I.YXBZ = 1
+        <if test="domainId !=null and domainId !=''"> AND I.DOMAIN_ID in (${domainId})</if>
+        WHERE
+        T.YXBZ=1
+        <if test="ciCode != null and ciCode != ''">
+            AND (I.CI_CODE like CONCAT('%',#{ciCode},'%') or I.CI_NAME like CONCAT('%',#{ciCode},'%'))
+        </if>
+        <if test="domainId !=null and domainId!=''">AND T.DOMAIN_ID in (${domainId})</if>
+        order by D.id desc
+    </select>
+    <select id="getCiTypeInfo" resultType="java.util.LinkedHashMap">
+        SELECT
+        CI_TYPE_MC ciTypeMc,I.CI_CODE ciBm,concat(D.ID) as ciId,concat(D.CI_TYPE_ID) as typeId,
+        DATA_1,DATA_2,DATA_3,DATA_4,DATA_5,DATA_6,DATA_7,DATA_8,DATA_9,
+        DATA_10,DATA_11,DATA_12,DATA_13,DATA_14,DATA_15,DATA_16,DATA_17,
+        DATA_18,DATA_19,DATA_20,DATA_21,DATA_22,DATA_23,DATA_24,DATA_25,
+        DATA_26,DATA_27,DATA_28,DATA_29,DATA_30,DATA_31,DATA_32,DATA_33,
+        DATA_34,DATA_35,
+        DATA_36,
+        DATA_37,
+        DATA_38,
+        DATA_39,
+        DATA_40,
+        DATA_41,
+        DATA_42,
+        DATA_43,
+        DATA_44,
+        DATA_45,
+        DATA_46,
+        DATA_47,
+        DATA_48,
+        DATA_49,
+        DATA_50,
+        DATA_51,
+        DATA_52,
+        DATA_53,
+        DATA_54,
+        DATA_55,
+        DATA_56,
+        DATA_57,
+        DATA_58,
+        DATA_59,
+        DATA_60,
+        DATA_61,
+        DATA_62,
+        DATA_63,
+        DATA_64,
+        DATA_65,
+        DATA_66,
+        DATA_67,
+        DATA_68,
+        DATA_69,
+        DATA_70,
+        DATA_71,
+        DATA_72,
+        DATA_73,
+        DATA_74,
+        DATA_75,
+        DATA_76,
+        DATA_77,
+        DATA_78,
+        DATA_79,
+        DATA_80,
+        DATA_81,
+        DATA_82,
+        DATA_83,
+        DATA_84,
+        DATA_85,
+        DATA_86,
+        DATA_87,
+        DATA_88,
+        DATA_89,
+        DATA_90,
+        DATA_91,
+        DATA_92,
+        DATA_93,
+        DATA_94,
+        DATA_95,
+        DATA_96,
+        DATA_97,
+        DATA_98,
+        DATA_99,
+        DATA_100,
+        DATA_101,
+        DATA_102,
+        DATA_103,
+        DATA_104,
+        DATA_105,
+        DATA_106,
+        DATA_107,
+        DATA_108,
+        DATA_109,
+        DATA_110,
+        DATA_111,
+        DATA_112,
+        DATA_113,
+        DATA_114,
+        DATA_115,
+        DATA_116,
+        DATA_117,
+        DATA_118,
+        DATA_119,
+        DATA_120,
+        DATA_121,
+        DATA_122,
+        DATA_123,
+        DATA_124,
+        DATA_125,
+        DATA_126,
+        DATA_127,
+        DATA_128,
+        DATA_129,
+        DATA_130,
+        DATA_131,
+        DATA_132,
+        DATA_133,
+        DATA_134,
+        DATA_135,
+        DATA_136,
+        DATA_137,
+        DATA_138,
+        DATA_139,
+        DATA_140,
+        DATA_141,
+        DATA_142,
+        DATA_143,
+        DATA_144,
+        DATA_145,
+        DATA_146,
+        DATA_147,
+        DATA_148,
+        DATA_149,
+        DATA_150,
+        DATA_151,
+        DATA_152,
+        DATA_153,
+        DATA_154,
+        DATA_155,
+        DATA_156,
+        DATA_157,
+        DATA_158,
+        DATA_159,
+        DATA_160,
+        DATA_161,
+        DATA_162,
+        DATA_163,
+        DATA_164,
+        DATA_165,
+        DATA_166,
+        DATA_167,
+        DATA_168,
+        DATA_169,
+        DATA_170,
+        DATA_171,
+        DATA_172,
+        DATA_173,
+        DATA_174,
+        DATA_175,
+        DATA_176,
+        DATA_177,
+        DATA_178,
+        DATA_179,
+        DATA_180,
+        DATA_181,
+        DATA_182,
+        DATA_183,
+        DATA_184,
+        DATA_185,
+        DATA_186,
+        DATA_187,
+        DATA_188,
+        DATA_189,
+        DATA_190,
+        DATA_191,
+        DATA_192,
+        DATA_193,
+        DATA_194,
+        DATA_195,
+        DATA_196,
+        DATA_197,
+        DATA_198,
+        DATA_199
+        FROM
+        IOMCI.IOM_CI_TYPE AS T
+        INNER JOIN IOMCI.IOM_CI_TYPE_DATA D ON T.ID = D.CI_TYPE_ID
+        <if test="domainId !=null and domainId !=''"> AND D.DOMAIN_ID in (${domainId})</if>
+        INNER JOIN IOMCI.IOM_CI_INFO I ON D.ID = I.ID  AND I.YXBZ = 1
+        <if test="domainId !=null and domainId !=''"> AND I.DOMAIN_ID in (${domainId})</if>
+        WHERE
+        T.YXBZ=1
+        <if test="tidList != null and tidList.length !=0">
+            AND D.CI_TYPE_ID in
+            <foreach collection="tidList" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        order by D.id desc
+    </select>
+    <select id="getLabelCiInfo" resultType="java.util.Map">
+        SELECT
+        b.CI_TYPE_MC ciTypeMc,
+        DATA_1,DATA_2,DATA_3,DATA_4,DATA_5,DATA_6,DATA_7,DATA_8,DATA_9,
+        DATA_10,DATA_11,DATA_12,DATA_13,DATA_14,DATA_15,DATA_16,DATA_17,
+        DATA_18,DATA_19,DATA_20,DATA_21,DATA_22,DATA_23,DATA_24,DATA_25,
+        DATA_26,DATA_27,DATA_28,DATA_29,DATA_30,DATA_31,DATA_32,DATA_33,
+        DATA_34,DATA_35,
+        DATA_36,
+        DATA_37,
+        DATA_38,
+        DATA_39,
+        DATA_40,
+        DATA_41,
+        DATA_42,
+        DATA_43,
+        DATA_44,
+        DATA_45,
+        DATA_46,
+        DATA_47,
+        DATA_48,
+        DATA_49,
+        DATA_50,
+        DATA_51,
+        DATA_52,
+        DATA_53,
+        DATA_54,
+        DATA_55,
+        DATA_56,
+        DATA_57,
+        DATA_58,
+        DATA_59,
+        DATA_60,
+        DATA_61,
+        DATA_62,
+        DATA_63,
+        DATA_64,
+        DATA_65,
+        DATA_66,
+        DATA_67,
+        DATA_68,
+        DATA_69,
+        DATA_70,
+        DATA_71,
+        DATA_72,
+        DATA_73,
+        DATA_74,
+        DATA_75,
+        DATA_76,
+        DATA_77,
+        DATA_78,
+        DATA_79,
+        DATA_80,
+        DATA_81,
+        DATA_82,
+        DATA_83,
+        DATA_84,
+        DATA_85,
+        DATA_86,
+        DATA_87,
+        DATA_88,
+        DATA_89,
+        DATA_90,
+        DATA_91,
+        DATA_92,
+        DATA_93,
+        DATA_94,
+        DATA_95,
+        DATA_96,
+        DATA_97,
+        DATA_98,
+        DATA_99,
+        DATA_100,
+        DATA_101,
+        DATA_102,
+        DATA_103,
+        DATA_104,
+        DATA_105,
+        DATA_106,
+        DATA_107,
+        DATA_108,
+        DATA_109,
+        DATA_110,
+        DATA_111,
+        DATA_112,
+        DATA_113,
+        DATA_114,
+        DATA_115,
+        DATA_116,
+        DATA_117,
+        DATA_118,
+        DATA_119,
+        DATA_120,
+        DATA_121,
+        DATA_122,
+        DATA_123,
+        DATA_124,
+        DATA_125,
+        DATA_126,
+        DATA_127,
+        DATA_128,
+        DATA_129,
+        DATA_130,
+        DATA_131,
+        DATA_132,
+        DATA_133,
+        DATA_134,
+        DATA_135,
+        DATA_136,
+        DATA_137,
+        DATA_138,
+        DATA_139,
+        DATA_140,
+        DATA_141,
+        DATA_142,
+        DATA_143,
+        DATA_144,
+        DATA_145,
+        DATA_146,
+        DATA_147,
+        DATA_148,
+        DATA_149,
+        DATA_150,
+        DATA_151,
+        DATA_152,
+        DATA_153,
+        DATA_154,
+        DATA_155,
+        DATA_156,
+        DATA_157,
+        DATA_158,
+        DATA_159,
+        DATA_160,
+        DATA_161,
+        DATA_162,
+        DATA_163,
+        DATA_164,
+        DATA_165,
+        DATA_166,
+        DATA_167,
+        DATA_168,
+        DATA_169,
+        DATA_170,
+        DATA_171,
+        DATA_172,
+        DATA_173,
+        DATA_174,
+        DATA_175,
+        DATA_176,
+        DATA_177,
+        DATA_178,
+        DATA_179,
+        DATA_180,
+        DATA_181,
+        DATA_182,
+        DATA_183,
+        DATA_184,
+        DATA_185,
+        DATA_186,
+        DATA_187,
+        DATA_188,
+        DATA_189,
+        DATA_190,
+        DATA_191,
+        DATA_192,
+        DATA_193,
+        DATA_194,
+        DATA_195,
+        DATA_196,
+        DATA_197,
+        DATA_198,
+        DATA_199
+        FROM IOM_CI_TYPE_DATA a
+        left join IOM_CI_TYPE b on a.CI_TYPE_ID = b.ID
+        WHERE
+        1=1
+        <if test="sqlStr != null and sqlStr != ''">
+            AND ${sqlStr}
+        </if>
+        <if test="domainId != null and domainId !=''"> AND a.DOMAIN_ID in (${domainId})</if>
+        order by a.id desc
+    </select>
+    <select id="findCiByCiId" resultType="java.util.Map">
+        SELECT
+        CI_TYPE_MC ciTypeMc,I.CI_CODE ciBm,concat(D.ID) as ciId,concat(D.CI_TYPE_ID) as typeId,
+        DATA_1,DATA_2,DATA_3,DATA_4,DATA_5,DATA_6,DATA_7,DATA_8,DATA_9,
+        DATA_10,DATA_11,DATA_12,DATA_13,DATA_14,DATA_15,DATA_16,DATA_17,
+        DATA_18,DATA_19,DATA_20,DATA_21,DATA_22,DATA_23,DATA_24,DATA_25,
+        DATA_26,DATA_27,DATA_28,DATA_29,DATA_30,DATA_31,DATA_32,DATA_33,
+        DATA_34,DATA_35,
+        DATA_36,
+        DATA_37,
+        DATA_38,
+        DATA_39,
+        DATA_40,
+        DATA_41,
+        DATA_42,
+        DATA_43,
+        DATA_44,
+        DATA_45,
+        DATA_46,
+        DATA_47,
+        DATA_48,
+        DATA_49,
+        DATA_50,
+        DATA_51,
+        DATA_52,
+        DATA_53,
+        DATA_54,
+        DATA_55,
+        DATA_56,
+        DATA_57,
+        DATA_58,
+        DATA_59,
+        DATA_60,
+        DATA_61,
+        DATA_62,
+        DATA_63,
+        DATA_64,
+        DATA_65,
+        DATA_66,
+        DATA_67,
+        DATA_68,
+        DATA_69,
+        DATA_70,
+        DATA_71,
+        DATA_72,
+        DATA_73,
+        DATA_74,
+        DATA_75,
+        DATA_76,
+        DATA_77,
+        DATA_78,
+        DATA_79,
+        DATA_80,
+        DATA_81,
+        DATA_82,
+        DATA_83,
+        DATA_84,
+        DATA_85,
+        DATA_86,
+        DATA_87,
+        DATA_88,
+        DATA_89,
+        DATA_90,
+        DATA_91,
+        DATA_92,
+        DATA_93,
+        DATA_94,
+        DATA_95,
+        DATA_96,
+        DATA_97,
+        DATA_98,
+        DATA_99,
+        DATA_100,
+        DATA_101,
+        DATA_102,
+        DATA_103,
+        DATA_104,
+        DATA_105,
+        DATA_106,
+        DATA_107,
+        DATA_108,
+        DATA_109,
+        DATA_110,
+        DATA_111,
+        DATA_112,
+        DATA_113,
+        DATA_114,
+        DATA_115,
+        DATA_116,
+        DATA_117,
+        DATA_118,
+        DATA_119,
+        DATA_120,
+        DATA_121,
+        DATA_122,
+        DATA_123,
+        DATA_124,
+        DATA_125,
+        DATA_126,
+        DATA_127,
+        DATA_128,
+        DATA_129,
+        DATA_130,
+        DATA_131,
+        DATA_132,
+        DATA_133,
+        DATA_134,
+        DATA_135,
+        DATA_136,
+        DATA_137,
+        DATA_138,
+        DATA_139,
+        DATA_140,
+        DATA_141,
+        DATA_142,
+        DATA_143,
+        DATA_144,
+        DATA_145,
+        DATA_146,
+        DATA_147,
+        DATA_148,
+        DATA_149,
+        DATA_150,
+        DATA_151,
+        DATA_152,
+        DATA_153,
+        DATA_154,
+        DATA_155,
+        DATA_156,
+        DATA_157,
+        DATA_158,
+        DATA_159,
+        DATA_160,
+        DATA_161,
+        DATA_162,
+        DATA_163,
+        DATA_164,
+        DATA_165,
+        DATA_166,
+        DATA_167,
+        DATA_168,
+        DATA_169,
+        DATA_170,
+        DATA_171,
+        DATA_172,
+        DATA_173,
+        DATA_174,
+        DATA_175,
+        DATA_176,
+        DATA_177,
+        DATA_178,
+        DATA_179,
+        DATA_180,
+        DATA_181,
+        DATA_182,
+        DATA_183,
+        DATA_184,
+        DATA_185,
+        DATA_186,
+        DATA_187,
+        DATA_188,
+        DATA_189,
+        DATA_190,
+        DATA_191,
+        DATA_192,
+        DATA_193,
+        DATA_194,
+        DATA_195,
+        DATA_196,
+        DATA_197,
+        DATA_198,
+        DATA_199
+        FROM
+        IOMCI.IOM_CI_TYPE AS T
+        INNER JOIN IOMCI.IOM_CI_TYPE_DATA D ON T.ID = D.CI_TYPE_ID
+        <if test="domainId !=null and domainId !=''"> AND D.DOMAIN_ID in (${domainId})</if>
+        INNER JOIN IOMCI.IOM_CI_INFO I ON D.ID = I.ID  AND I.YXBZ = 1
+        <if test="domainId !=null and domainId !=''"> AND I.DOMAIN_ID in (${domainId})</if>
+        WHERE
+        T.YXBZ=1
+        AND (D.ID =#{ciId} OR I.CI_CODE=#{ciBm})
+        <if test="domainId !=null and domainId!=''">AND T.DOMAIN_ID in (${domainId})</if>
+        order by D.id desc
+    </select>
+    <select id="findCiIdByCiCode" resultType="java.lang.String">
+        select id from iom_ci_info where ci_code = #{ciCode} and ci_type_id=#{tid}
+    </select>
+    <select id="findDataByCiCodeAndAttrId" resultType="java.lang.String" parameterType="string">
+		SELECT
+            ${attrId}
+        FROM
+            iom_ci_type_data ictd
+            LEFT JOIN iom_ci_info info ON ictd.ID = info.ID
+            LEFT JOIN iom_ci_type ciType ON ciType.ID = info.CI_TYPE_ID
+        WHERE
+            info.CI_CODE = #{ciCode}
+            AND ciType.CI_TYPE_BM = #{ciType}
+    </select>
+    <select id="getCommandClassList" resultType="java.util.Map">
+        SELECT * from iom_ci_type_item WHERE ATTR_NAME='所属'
+    </select>
+    <select id="getClassList" resultType="java.util.Map">
+        SELECT * from iom_ci_type_item WHERE ci_type_id=#{ci_type_id} order by sort
+    </select>
+    <select id="getCommandCiList" resultType="java.util.Map">
+        SELECT
+        dat.ID,info.ci_code ciCode,IFNULL(info.ci_name,info.ci_code) ciName,
+        <foreach collection="list" index="index" item="item"
+                 separator="," >
+            dat.${item.MP_CI_ITEM}
+        </foreach>
+        from iom_ci_type_data dat left join iom_ci_info info on info.id=dat.id WHERE dat.${map.MP_CI_ITEM}=#{ciCode} and dat.ci_type_id =${map.CI_TYPE_ID}
+    </select>
+    <select id="getCiDataList" resultType="java.util.Map">
+        SELECT info.ci_code ciCode,
+        <foreach collection="itemList" index="index" item="item"
+                 separator="," >
+            dat.${item}
+        </foreach>
+        from iom_ci_type_data dat left join iom_ci_info info on info.id=dat.id
+        WHERE  dat.ci_type_id =#{ciTypeId}
+    </select>
+    <select id="findDataByIds" resultType="com.integration.entity.TypeData">
+        SELECT
+        data.*
+        FROM
+        IOMCI.IOM_CI_TYPE_DATA data
+        LEFT JOIN iomci.iom_ci_info info ON info.id = data.id
+        WHERE
+        info.ci_code=#{did}
+        <if test="domainId !=null and domainId !=''">AND data.DOMAIN_ID in (${domainId})</if>
+    </select>
+</mapper>

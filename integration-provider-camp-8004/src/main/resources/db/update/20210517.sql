@@ -1,0 +1,3 @@
+UPDATE `iommgt`.`iom_camp_menu` SET `gncd_mc` = '通知规则', `sj_gncd_dm` = '61650495902728193', `sj_gncd_mc` = NULL, `gnfl` = NULL, `gncd_level` = NULL, `gncd_type` = 1, `gncd_img` = 'fa fa-dot-circle-o', `gncd_url` = '/sys/event/ruleNotice', `sort` = 7, `cjr_id` = 4, `cjsj` = '2019-09-03 15:15:07', `xgr_id` = NULL, `xgsj` = NULL, `yxbz` = 1, `display_flag` = 1 WHERE `gncd_dm` = 64568482460745729;
+DELETE FROM `iommgt`.`iom_camp_role_menu` WHERE ID='1393051526921973760';
+INSERT INTO `iommgt`.`iom_camp_role_menu`(`id`, `role_dm`, `gncd_dm`, `gnfl_type`, `cjr_id`, `cjsj`, `xgr_id`, `xgsj`) VALUES (1393051526921973760, '104804839359397889', 64568482460745729, 1, 193980812100780033, '2021-05-14 11:52:20', NULL, NULL);

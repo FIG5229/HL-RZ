@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.integration.dao.CiSourceRelDao">
+    <insert id="addCiSourceRelList">
+        INSERT INTO IOMCI.iom_ci_source_rel
+        (
+        `ID`,
+        `SOURCE_ID`,
+        `CI_TYPE_ID`,
+        `CI_CODE`,
+        `DOMAIN_ID`,
+        `CJR_ID`,
+        `CJSJ`,
+        `XGR_ID`,
+        `XGSJ`,
+        `YXBZ`
+        )
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.id}, #{item.sourceId},#{item.ciTypeId}, #{item.ciCode},
+            #{item.domainId}, #{item.cjrId},date_format(now() ,'%Y-%m-%d %H:%i:%s'), #{item.xgrId},
+            date_format(now() ,'%Y-%m-%d %H:%i:%s'), 1
+            )
+        </foreach>
+    </insert>
+
+    <delete id="deleteCiSourceRelList">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            delete from
+            IOMCI.iom_ci_source_rel
+            <where>
+                SOURCE_ID = #{item.sourceId}
+                AND CI_TYPE_ID =#{item.ciTypeId}
+                AND CI_CODE =#{item.ciCode}
+            </where>
+        </foreach>
+    </delete>
+    <delete id="deleteCiSourceRel">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            delete from
+            iom_ci_source_rel
+            <where>
+                ID = #{item}
+            </where>
+        </foreach>
+    </delete>
+    <select id="getCiSourceRelList" resultType="com.integration.entity.CiSourceRel">
+        select DISTINCT rel.id,rel.SOURCE_ID sourceId,rel.CI_TYPE_ID ciTypeId,type.CI_TYPE_MC ciTypeName,rel.CI_CODE ciCode,
+        IFNULL(info.ci_name,info.ci_code) as ciName,rel.DOMAIN_ID domainId,rel.CJR_ID cjrId,DATE_FORMAT(rel.XGSJ, '%Y-%m-%d %H:%i:%s') cjsj,
+        rel.XGR_ID xgrId,DATE_FORMAT(rel.XGSJ, '%Y-%m-%d %H:%i:%s') xgsj,rel.YXBZ yxbz
+        from iom_ci_source_rel rel
+        left join iom_ci_info info on rel.CI_CODE = info.CI_CODE
+        left join iom_ci_type type on rel.CI_TYPE_ID = type.ID
+        where rel.yxbz=1
+        <if test="sourceId!=null and sourceId!=''">
+            AND rel.SOURCE_ID =#{sourceId}
+        </if>
+        <if test="ciTypeId!=null and ciTypeId!=''">
+            AND rel.CI_TYPE_ID =#{ciTypeId}
+        </if>
+        <if test="ciName!=null and ciName!=''">
+            AND (info.CI_NAME like CONCAT('%',#{ciName},'%') OR info.CI_CODE like CONCAT('%',#{ciName},'%'))
+        </if>
+        <if test="domainId!=null and domainId!=''">
+            AND rel.DOMAIN_ID = #{domainId}
+        </if>
+        order by cjsj desc
+    </select>
+    
+    <select id="getCiSourceRelInfo" resultType="Map">
+        select rel.id,rel.SOURCE_ID sourceId,rel.CI_TYPE_ID ciTypeId,type.CI_TYPE_MC ciTypeName,rel.CI_CODE ciCode,
+        IFNULL(info.ci_name,info.ci_code) as ciName,rel.DOMAIN_ID domainId,rel.CJR_ID cjrId,DATE_FORMAT(rel.XGSJ, '%Y-%m-%d %H:%i:%s') cjsj,
+        rel.XGR_ID xgrId,DATE_FORMAT(rel.XGSJ, '%Y-%m-%d %H:%i:%s') xgsj,rel.YXBZ yxbz
+        from iom_ci_source_rel rel
+        left join iom_ci_info info on rel.CI_CODE = info.CI_CODE
+        left join iom_ci_type type on rel.CI_TYPE_ID = type.ID
+        where rel.yxbz=1
+        <if test="dataSource!=null and dataSource!=''">
+            AND rel.SOURCE_ID =#{dataSource}
+        </if>
+        <if test="ciTypeId!=null and ciTypeId!=''">
+            AND rel.CI_TYPE_ID =#{ciTypeId}
+        </if>
+        <if test="ciCode!=null and ciCode!=''">
+            AND rel.CI_CODE=#{ciCode}
+        </if>
+    </select>
+    
+    <select id="getCiSourceRelInfoByIds" resultType="Map">
+       select
+         ID id,
+         SOURCE_ID sourceId,
+         CI_TYPE_ID ciTypeId,
+         CI_CODE ciCode,
+         DOMAIN_ID domainId,
+         CJR_ID cjrId,
+         CJSJ cjsj,
+         XGR_ID xgrId,
+         XGSJ xgsj,
+         YXBZ yxbz
+      from iom_ci_source_rel where yxbz=1
+      <if test="idsList != null and idsList != '' ">
+            AND ID IN
+            <foreach item="ids" index="index" collection="idsList" open="(" separator="," close=")">
+                ${ids}
+            </foreach>
+       </if>
+    </select>
+</mapper>

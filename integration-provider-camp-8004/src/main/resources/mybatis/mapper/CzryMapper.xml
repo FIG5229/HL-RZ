@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.integration.dao.CzryDao">
+
+	<insert id="addCzry" parameterType="Czry">
+		INSERT INTO
+		iommgt.iom_camp_czry(
+		ID,
+		CZRY_DM,
+		CZRY_MC,
+		ZZJG_MC,
+		MOBILE_NO,
+		EMAIL_ADDRES,
+		CZRY_DLDM,
+		CZRY_PASS,
+		CZRY_SHORT,
+		ALLOW_PASS,
+		LAST_LOGIN_TIME,
+		LOCK_BZ,
+		PASS_DAYS,
+		STATUS,
+		SORT,
+		CJR_ID,
+		CJSJ,
+		XGR_ID,
+		XGSJ,
+		YXBZ,
+		DEPT_ID,
+		ORG_ID) VALUES
+		(#{id},#{czry_dm},#{czry_mc},#{zzjg_mc},#{mobile_no},#{email_addres},#{czry_dldm},
+		#{czry_pass},#{czry_short},#{allow_pass},str_to_date(#{last_login_time} ,'%Y-%m-%d %H:%i:%s'),#{lock_bz},#{pass_days},#{status},#{sort},
+		#{cjr_id},str_to_date(#{cjsj} ,'%Y-%m-%d %H:%i:%s'),#{xgr_id},str_to_date(#{xgsj} ,'%Y-%m-%d %H:%i:%s'),#{yxbz},#{dept_id},#{org_id});
+	</insert>
+
+	<delete id="deleteCzry" parameterType="Integer">
+		DELETE FROM
+		 iommgt.iom_camp_czry WHERE id=#{id};
+	</delete>
+    <update id="blockUpCzry" parameterType="String">
+    UPDATE  iommgt.iom_camp_czry SET YXBZ =0
+    WHERE id=#{id};
+    </update>
+
+	<update id="updateCzry" parameterType="Czry">
+		UPDATE iommgt.iom_camp_czry
+		<set>
+			<if test="czry_dm != null and czry_dm !=''">
+				CZRY_DM = #{czry_dm},
+			</if>
+			<if test="czry_mc != null and czry_mc !=''">
+				CZRY_MC = #{czry_mc},
+			</if>
+			<if test="zzjg_mc != null and zzjg_mc !=''">
+				ZZJG_MC = #{zzjg_mc},
+			</if>
+			<if test="mobile_no != null and mobile_no !=''">
+				MOBILE_NO = #{mobile_no},
+			</if>
+			<if test="email_addres != null and email_addres !=''">
+				EMAIL_ADDRES = #{email_addres},
+			</if>
+			<if test="czry_dldm != null and czry_dldm !=''">
+				CZRY_DLDM= #{czry_dldm},
+			</if>
+			<if test="czry_pass != null and czry_pass !=''">
+				CZRY_PASS= #{czry_pass},
+			</if>
+			<if test="czry_short != null and czry_short !=''">
+				CZRY_SHORT= #{czry_short},
+			</if>
+			<if test="allow_pass != null and allow_pass !=''">
+				ALLOW_PASS= #{allow_pass},
+			</if>
+			<if test="last_login_time != null and last_login_time !=''">
+				LAST_LOGIN_TIME= #{last_login_time},
+			</if>
+			<if test="login_bz != null and login_bz !=''">
+				LOGIN_BZ= #{login_bz},
+			</if>
+			<if test="super_bz != null and super_bz !=''">
+				SUPER_BZ= #{super_bz},
+			</if>
+			<if test="lock_bz != null and lock_bz !=''">
+				LOCK_BZ= #{lock_bz},
+			</if>
+			<if test="pass_days != null and pass_days !=''">
+				PASS_DAYS= #{pass_days},
+			</if>
+			<if test="up_pass_bz != null and up_pass_bz !=''">
+				UP_PASS_BZ= #{up_pass_bz},
+			</if>
+			<if test="status != null and status !=''">
+				STATUS= #{status},
+			</if>
+			<if test="sort != null and sort !=''">
+				SORT= #{sort},
+			</if>
+			<if test="cjr_id != null and cjr_id !=''">
+				CJR_ID= #{cjr_id},
+			</if>
+			<if test="cjsj != null and cjsj !=''">
+				CJSJ= str_to_date(#{cjsj} ,'%Y-%m-%d %H:%i:%s'),
+			</if>
+			<if test="xgr_id != null and xgr_id !=''">
+				XGR_ID= #{xgr_id},
+			</if>
+			<if test="xgsj != null and xgsj !=''">
+				XGSJ= str_to_date(#{xgsj} ,'%Y-%m-%d %H:%i:%s'),
+			</if>
+			<if test="yxbz != null and yxbz !=''">
+				YXBZ= #{yxbz},
+			</if>
+			<if test="dept_id !=null and dept_id !=''">
+				DEPT_ID =#{dept_id},
+			</if>
+			<if test="org_id !=null and org_id !=''">
+				ORG_ID =#{org_id}
+			</if>
+		</set>
+		where ID=#{id}
+	</update>
+
+	<select id="findCzryListPage" resultType="com.integration.entity.Czry">
+		SELECT
+		U.ID,
+		U.CZRY_DM,
+		U.CZRY_MC,
+		DEPT.NAME ZZJG_MC,
+		ORG.`NAME` ORG_MC,
+		U.MOBILE_NO,
+		U.EMAIL_ADDRES,
+		U.CZRY_DLDM,
+		U.CZRY_PASS,
+		U.CZRY_SHORT,
+		U.ALLOW_PASS,
+		U.LAST_LOGIN_TIME,
+		U.LOGIN_BZ,
+		U.SUPER_BZ,
+		U.LOCK_BZ,
+		U.PASS_DAYS,
+		U.UP_PASS_BZ,
+		U.STATUS,
+		U.SORT,
+		U.CJR_ID,
+		U.CJSJ,
+		U.XGR_ID,
+		U.XGSJ,
+		U.YXBZ,
+		U.DEPT_ID,
+		U.ORG_ID
+		FROM
+		iommgt.iom_camp_czry u
+		left join iommgt.`iom_camp_org` dept
+		on u.dept_id = dept.id
+		left join iommgt.`iom_camp_org` org
+		on u.`org_id` = org.`id`
+		WHERE
+		1 = 1
+		AND u.YXBZ = 1
+		AND u.czry_dldm!='sysadmin'
+		<if test="org_id !=null and org_id !=''">
+			and u.org_id = #{org_id}
+		</if>
+		<if test="dept_id !=null and dept_id !=''">
+        and u.dept_id = #{dept_id}
+		</if>
+		<if test="search !=null and search !='' ">
+		and	 CONCAT(u.CZRY_MC,u.CZRY_DLDM) LIKE CONCAT('%',#{search},'%')
+		</if>
+		ORDER BY u.ID DESC
+	</select>
+
+	<select id="findCzryListCount" resultType="int">
+		SELECT Count(*)
+		FROM iommgt.iom_camp_czry
+		where 1=1 and YXBZ=1
+		<if test="org_id !=null and org_id !=''">
+			and org_id = #{org_id}
+		</if>
+		<if test="dept_id !=null and dept_id !=''">
+			and dept_id = #{dept_id}
+		</if>
+		<if test="search !=null and search !='' ">
+		and	 CONCAT(CZRY_MC,CZRY_DLDM) LIKE CONCAT('%',#{search},'%')
+		</if>
+	</select>
+	<select id="findCzryById" resultType="Czry">
+		SELECT
+		ID,
+		CZRY_DM,
+		CZRY_MC,
+		ZZJG_MC,
+		MOBILE_NO,
+		EMAIL_ADDRES,
+		CZRY_DLDM,
+		CZRY_PASS,
+		CZRY_SHORT,
+		ALLOW_PASS,
+		LAST_LOGIN_TIME,
+		LOGIN_BZ,
+		SUPER_BZ,
+		LOCK_BZ,
+		PASS_DAYS,
+		UP_PASS_BZ,
+		STATUS,
+		SORT,
+		CJR_ID,
+		CJSJ,
+		XGR_ID,
+		XGSJ,
+		YXBZ,
+		DEPT_ID,
+		ORG_ID
+		FROM
+		iommgt.iom_camp_czry
+		WHERE
+		1 = 1
+		AND YXBZ = 1
+		<if test="id !=null and id!=''">
+				and ID=#{id}
+		</if>
+
+	</select>
+
+	<select id="login" resultType="Czry">
+		select
+		ID,CZRY_DM,CZRY_DLDM,CZRY_MC,STATUS,LOCK_BZ,LOGIN_BZ,DEPT_ID,ORG_ID from iommgt.iom_camp_czry WHERE CZRY_DLDM
+		=#{czryDldm} AND CZRY_PASS=#{czryPass} AND YXBZ=1
+	</select>
+
+	<update id="updateStatus">
+		update iommgt.iom_camp_czry set LOGIN_BZ=#{statu} where ID = #{id}
+	</update>
+
+	<select id="getCzrysAll" resultType="java.util.Map" parameterType="java.lang.String">
+		SELECT
+		cast(id as char)id,
+		czry_dm,
+		czry_mc,
+		zzjg_mc,
+		mobile_no,
+		email_addres,
+		czry_dldm,
+		czry_pass,
+		czry_short,
+		allow_pass,
+		last_login_time,
+		login_bz,
+		super_bz,
+		lock_bz,
+		pass_days,
+		up_pass_bz,
+		status,
+		sort,
+		cjr_id,
+		cjsj,
+		xgr_id,
+		xgsj,
+		yxbz,
+		dept_id,
+		org_id
+		FROM iommgt.iom_camp_czry
+		WHERE yxbz = '1' and status = '1'
+		<if test="nameOrId !=null and nameOrId !='' ">
+			and czry_mc like concat('%',#{nameOrId},'%')
+		</if>
+	</select>
+
+	<select id="getCzrysNameById" resultType="java.util.Map">
+		SELECT
+		id,czry_mc,czry_dldm
+		FROM iommgt.iom_camp_czry
+		WHERE yxbz = '1' and status = '1'
+		    and id in
+        <foreach collection="listStr" item="str" index="index" open="(" close=")" separator=",">
+            #{str}
+        </foreach>
+    </select>
+	<select id="getCzryListByDeptId" resultType="com.integration.entity.Org">
+		SELECT
+		cast(id as char)id,
+		czry_mc name,
+		dept_id pid
+		FROM iommgt.iom_camp_czry
+		WHERE yxbz = '1' and status = '1'
+		<if test="id !=null and id !='' ">
+			and dept_id =#{id}
+		</if>
+	</select>
+
+</mapper>

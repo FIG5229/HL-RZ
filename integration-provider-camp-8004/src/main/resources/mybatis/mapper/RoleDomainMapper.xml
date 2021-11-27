@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.integration.dao.RoleDomainDao">
+	<insert id="addRoleDomain">
+		insert into IOM_CAMP_ROLE_DOMAIN
+		(
+		ID,
+		ROLE_DM,
+		DATA_DOMAIN,
+		CJR_ID,
+		CJSJ,
+		XGR_ID,
+		XGSJ
+		)values
+		(
+		#{id},
+		#{roleDm},
+		#{dataDomain},
+		#{cjrId},
+		DATE_FORMAT(now(),'%Y-%m-%d %H:%i:%s'),
+		#{xgrId},
+		NULL
+		)
+	</insert>
+	<update id="updateRoleDomain">
+		update IOM_CAMP_ROLE_DOMAIN
+		<set>
+			<if test="dataDomain!=null and dataDomain !=''">
+				DATA_DOMAIN = #{dataDomain},
+			</if>
+			<if test="xgrId!=null and xgrId !=''">
+				XGR_ID = #{xgrId},
+			</if>
+			<if test="1==1">
+				XGSJ = DATE_FORMAT(now(), '%Y-%m-%d %H:%i:%s')
+			</if>
+		</set>
+		where ROLE_DM =#{roleDm}
+	</update>
+	<delete id="deleteRoleDomain">
+		delete from IOM_CAMP_ROLE_DOMAIN where id=#{id}
+	</delete>
+
+
+	<select id="getRoleDomainByRoleDm" resultType="com.integration.entity.RoleDomain">
+		select
+			ID,
+			ROLE_DM roleDm,
+			DATA_DOMAIN dataDomain,
+			CJR_ID cjrId,
+			DATE_FORMAT(CJSJ, '%Y-%m-%d %H:%i:%s') cjsj,
+			XGR_ID xgrId,
+			DATE_FORMAT(XGSJ, '%Y-%m-%d %H:%i:%s') xgsj
+		FROM IOM_CAMP_ROLE_DOMAIN
+		WHERE ROLE_DM =#{roleDm}
+	</select>
+    <select id="getRoleDomainByRoleDmList" resultType="java.lang.String">
+		select
+			DATA_DOMAIN dataDomain
+		FROM IOM_CAMP_ROLE_DOMAIN
+		WHERE ROLE_DM in
+		<foreach collection="list" index="index" item="item" open="("
+								   separator="," close=")">
+		#{item}
+	</foreach>
+	</select>
+</mapper>

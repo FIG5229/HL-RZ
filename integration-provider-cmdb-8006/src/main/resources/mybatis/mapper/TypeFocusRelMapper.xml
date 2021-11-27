@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.integration.dao.TypeFocusRelDao">
+
+
+    <select id="queryInfluenceRelByTypeId" resultType="Map">
+		select 
+           ID as id,
+           TYPE_ID as typeId,
+           SOURCE_TYPE_ID as sourceTypeId,
+           TARGET_TYPE_ID as targetTypeId,
+           RLT_ID as rltId,
+           CJR_ID as cjrId,
+           CJSJ as cjsj,
+           XGR_ID as xgrId,
+           XGSJ as xgsj,
+           YXBZ as yxbz 
+        from
+           iom_ci_type_focus_rel 
+        where TYPE_ID != #{ciTypeId} and (SOURCE_TYPE_ID = #{ciTypeId} or TARGET_TYPE_ID = #{ciTypeId}) and YXBZ = 1	
+	</select>
+	
+	<select id="queryInfluenceRelByTypeIdOptimize" resultType="Map">
+		select 
+           ID id,
+           TYPE_ID typeId,
+           SOURCE_TYPE_ID sourceTypeId,
+           (select ci_type_mc from iom_ci_type where id = r.SOURCE_TYPE_ID) sourceTypeName,
+           TARGET_TYPE_ID targetTypeId,
+           (select ci_type_mc from iom_ci_type where id = r.target_type_id) targetTypeName,
+           RLT_ID rltId 
+        from
+           iom_ci_type_focus_rel r 
+        where (TARGET_TYPE_ID = #{ciTypeId} OR SOURCE_TYPE_ID=#{ciTypeId}) AND TYPE_ID &lt;&gt; #{ciTypeId} AND YXBZ =1
+        <if test="domainId !=null and domainId!=''">AND DOMAIN_ID=#{domainId} </if>
+
+	</select>
+	
+	<select id="queryRootCauseRelByTypeIdOptimize" resultType="Map">
+		select 
+           ID id,
+           TYPE_ID typeId,
+           SOURCE_TYPE_ID sourceTypeId,
+           (select ci_type_mc from iom_ci_type where id = r.SOURCE_TYPE_ID) sourceTypeName,
+           TARGET_TYPE_ID targetTypeId,
+           (select ci_type_mc from iom_ci_type where id = r.target_type_id) targetTypeName,
+           RLT_ID rltId 
+        from
+           iom_ci_type_focus_rel r 
+        where (TARGET_TYPE_ID = #{ciTypeId} OR SOURCE_TYPE_ID=#{ciTypeId}) AND TYPE_ID = #{ciTypeId} AND YXBZ =1
+        <if test="domainId !=null and domainId!=''">AND DOMAIN_ID=#{domainId} </if>
+	</select>
+	
+	<select id="queryInfluenceRelByTypeIdMutualInfluence" resultType="Map">
+		select 
+           ID id,
+           TYPE_ID typeId,
+           SOURCE_TYPE_ID sourceTypeId,
+           (select ci_type_mc from iom_ci_type where id = r.SOURCE_TYPE_ID) sourceTypeName,
+           TARGET_TYPE_ID targetTypeId,
+           (select ci_type_mc from iom_ci_type where id = r.target_type_id) targetTypeName,
+           RLT_ID rltId 
+        from
+           iom_ci_type_focus_rel r 
+        where (TARGET_TYPE_ID = #{ciTypeId} OR SOURCE_TYPE_ID=#{ciTypeId}) AND TYPE_ID = #{ciTypeId} AND YXBZ =1
+	</select>
+	
+	<select id="queryInfluenceRelByTypeIdInfluenceSelf" resultType="Map">
+          select 
+             ID id,
+             TYPE_ID typeId,
+             SOURCE_TYPE_ID sourceTypeId,
+             (select ci_type_mc from iom_ci_type where id = r.SOURCE_TYPE_ID) sourceTypeName,
+             TARGET_TYPE_ID targetTypeId,
+             (select ci_type_mc from iom_ci_type where id = r.target_type_id) targetTypeName,
+             RLT_ID rltId 
+          from iom_ci_type_focus_rel r 
+          where (TARGET_TYPE_ID = #{ciTypeId} AND SOURCE_TYPE_ID=#{ciTypeId} AND TYPE_ID=#{ciTypeId}) AND YXBZ =1 AND DOMAIN_ID=#{domainId};
+	</select>
+
+
+	
+</mapper>

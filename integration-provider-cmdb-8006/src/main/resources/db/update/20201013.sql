@@ -1,0 +1,14 @@
+#增加CI版本控制表
+CREATE TABLE `iom_ci_version` (
+`ID`  decimal(20,0) NOT NULL COMMENT 'ID' ,
+`VERSION`  decimal(50,0) NOT NULL COMMENT '版本号' ,
+`CJR_ID`  bigint NULL DEFAULT NULL COMMENT '创建人' ,
+`CJSJ`  datetime NULL DEFAULT NULL COMMENT '创建时间' ,
+`YXBZ`  int NULL DEFAULT NULL COMMENT '有效标志' ,
+`DOMAIN_ID`  int NULL DEFAULT NULL COMMENT '数据域ID' ,
+PRIMARY KEY (`ID`)
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+ROW_FORMAT=DYNAMIC
+;

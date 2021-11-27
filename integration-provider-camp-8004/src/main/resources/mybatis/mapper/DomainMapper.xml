@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.integration.dao.DomainDao">
+	<update id="updateDomain">
+		UPDATE iommgt.iom_camp_data_domain
+		<set>
+			<if test="domain_name != null and domain_name !=''">
+				domain_name = #{domain_name},
+			</if>
+			<if test="domain_id != null and domain_id !=''">
+				domain_id = #{domain_id},
+			</if>
+			<if test="1==1">
+				xgsj = date_format(now() ,'%Y-%m-%d %H:%i:%s'),
+			</if>
+		</set>
+		where domain_code=#{domain_code}
+	</update>
+	<delete id="deleteByDomainCode">
+		UPDATE iommgt.iom_camp_data_domain set yxbz=0 where domain_code=#{id}
+	</delete>
+	<delete id="deleteAllDomainData">
+		delete from iom_camp_data_domain
+	</delete>
+
+
+	<select id="findDomainByDomainCode" parameterType="java.lang.String" resultType="com.integration.entity.Domain">
+		select  id,domain_code,domain_name,domain_desc,domain_id,cjsj,xgsj,yxbz
+		from iom_camp_data_domain
+		where domain_code = #{domainCode} and yxbz=1
+	</select>
+	<select id="getDomainCount" resultType="java.lang.Integer">
+		select count(*) from iom_camp_data_domain where domain_code=#{id} and yxbz=1
+	</select>
+    <select id="getRoleDomainList" resultType="java.lang.String">
+		select
+		domain_id
+		FROM iom_camp_data_domain
+		WHERE domain_code in
+		<foreach collection="list" index="index" item="item" open="("
+				 separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+	<select id="getAllDomainData" resultType="com.integration.entity.Domain">
+		select  id,domain_code,domain_name,domain_desc,domain_id,cjsj,xgsj,yxbz
+		from iom_camp_data_domain
+		where yxbz=1
+	</select>
+	<select id="findAllDomainId" resultType="java.lang.String">
+		select  domain_id
+		from iom_camp_data_domain
+		where yxbz=1 and domain_code!='default'
+	</select>
+	<insert id="insertDomain" parameterType="Domain" >
+		insert into iom_camp_data_domain(id,domain_code,domain_name,domain_desc,domain_id,cjsj,xgsj,yxbz)
+		VALUES (#{id},#{domain_code},#{domain_name},#{domain_desc},#{domain_id},date_format(now() ,'%Y-%m-%d %H:%i:%s'),#{xgsj},#{yxbz})
+	</insert>
+	<insert id="saveAllDomainData">
+		insert into iom_camp_data_domain(id,domain_code,domain_name,domain_desc,domain_id,cjsj,xgsj,yxbz)
+		VALUES
+		<foreach collection="list" item="item" separator=",">
+			(#{item.id},#{item.domain_code},#{item.domain_name},#{item.domain_desc},#{item.domain_id},str_to_date(#{item.cjsj},'%Y-%m-%d %H:%i:%s'),str_to_date(#{item.xgsj},'%Y-%m-%d %H:%i:%s'),#{item.yxbz})
+		</foreach>
+
+
+	</insert>
+
+
+</mapper>

@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.integration.generator.dao.IomCiRltNodeCdtMapper">
+  <resultMap id="BaseResultMap" type="com.integration.generator.entity.IomCiRltNodeCdt">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="NODE_ID" jdbcType="DECIMAL" property="nodeId" />
+    <result column="ATTR_ID" jdbcType="DECIMAL" property="attrId" />
+    <result column="CDT_OP" jdbcType="VARCHAR" property="cdtOp" />
+    <result column="CDT_VAL" jdbcType="VARCHAR" property="cdtVal" />
+    <result column="IS_NOT" jdbcType="INTEGER" property="isNot" />
+    <result column="STOR" jdbcType="INTEGER" property="stor" />
+    <result column="DOMAIN_ID" jdbcType="INTEGER" property="domainId" />
+    <result column="CJSJ" jdbcType="DATE" property="cjsj" />
+    <result column="XGSJ" jdbcType="DATE" property="xgsj" />
+    <result column="YXBZ" jdbcType="INTEGER" property="yxbz" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ID, NODE_ID, ATTR_ID, CDT_OP, CDT_VAL, IS_NOT, STOR, DOMAIN_ID, CJSJ, XGSJ, YXBZ
+  </sql>
+  <select id="selectByExample" parameterType="com.integration.generator.entity.IomCiRltNodeCdtExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from iom_ci_rlt_node_cdt
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from iom_ci_rlt_node_cdt
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from iom_ci_rlt_node_cdt
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.integration.generator.entity.IomCiRltNodeCdtExample">
+    delete from iom_ci_rlt_node_cdt
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.integration.generator.entity.IomCiRltNodeCdt">
+    insert into iom_ci_rlt_node_cdt (ID, NODE_ID, ATTR_ID, 
+      CDT_OP, CDT_VAL, IS_NOT, 
+      STOR, DOMAIN_ID, CJSJ, 
+      XGSJ, YXBZ)
+    values (#{id,jdbcType=DECIMAL}, #{nodeId,jdbcType=DECIMAL}, #{attrId,jdbcType=DECIMAL}, 
+      #{cdtOp,jdbcType=VARCHAR}, #{cdtVal,jdbcType=VARCHAR}, #{isNot,jdbcType=INTEGER}, 
+      #{stor,jdbcType=INTEGER}, #{domainId,jdbcType=INTEGER}, #{cjsj,jdbcType=DATE}, 
+      #{xgsj,jdbcType=DATE}, #{yxbz,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.integration.generator.entity.IomCiRltNodeCdt">
+    insert into iom_ci_rlt_node_cdt
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="nodeId != null">
+        NODE_ID,
+      </if>
+      <if test="attrId != null">
+        ATTR_ID,
+      </if>
+      <if test="cdtOp != null">
+        CDT_OP,
+      </if>
+      <if test="cdtVal != null">
+        CDT_VAL,
+      </if>
+      <if test="isNot != null">
+        IS_NOT,
+      </if>
+      <if test="stor != null">
+        STOR,
+      </if>
+      <if test="domainId != null">
+        DOMAIN_ID,
+      </if>
+      <if test="cjsj != null">
+        CJSJ,
+      </if>
+      <if test="xgsj != null">
+        XGSJ,
+      </if>
+      <if test="yxbz != null">
+        YXBZ,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="nodeId != null">
+        #{nodeId,jdbcType=DECIMAL},
+      </if>
+      <if test="attrId != null">
+        #{attrId,jdbcType=DECIMAL},
+      </if>
+      <if test="cdtOp != null">
+        #{cdtOp,jdbcType=VARCHAR},
+      </if>
+      <if test="cdtVal != null">
+        #{cdtVal,jdbcType=VARCHAR},
+      </if>
+      <if test="isNot != null">
+        #{isNot,jdbcType=INTEGER},
+      </if>
+      <if test="stor != null">
+        #{stor,jdbcType=INTEGER},
+      </if>
+      <if test="domainId != null">
+        #{domainId,jdbcType=INTEGER},
+      </if>
+      <if test="cjsj != null">
+        #{cjsj,jdbcType=DATE},
+      </if>
+      <if test="xgsj != null">
+        #{xgsj,jdbcType=DATE},
+      </if>
+      <if test="yxbz != null">
+        #{yxbz,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.integration.generator.entity.IomCiRltNodeCdtExample" resultType="java.lang.Long">
+    select count(*) from iom_ci_rlt_node_cdt
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update iom_ci_rlt_node_cdt
+    <set>
+      <if test="record.id != null">
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.nodeId != null">
+        NODE_ID = #{record.nodeId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.attrId != null">
+        ATTR_ID = #{record.attrId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.cdtOp != null">
+        CDT_OP = #{record.cdtOp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cdtVal != null">
+        CDT_VAL = #{record.cdtVal,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isNot != null">
+        IS_NOT = #{record.isNot,jdbcType=INTEGER},
+      </if>
+      <if test="record.stor != null">
+        STOR = #{record.stor,jdbcType=INTEGER},
+      </if>
+      <if test="record.domainId != null">
+        DOMAIN_ID = #{record.domainId,jdbcType=INTEGER},
+      </if>
+      <if test="record.cjsj != null">
+        CJSJ = #{record.cjsj,jdbcType=DATE},
+      </if>
+      <if test="record.xgsj != null">
+        XGSJ = #{record.xgsj,jdbcType=DATE},
+      </if>
+      <if test="record.yxbz != null">
+        YXBZ = #{record.yxbz,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update iom_ci_rlt_node_cdt
+    set ID = #{record.id,jdbcType=DECIMAL},
+      NODE_ID = #{record.nodeId,jdbcType=DECIMAL},
+      ATTR_ID = #{record.attrId,jdbcType=DECIMAL},
+      CDT_OP = #{record.cdtOp,jdbcType=VARCHAR},
+      CDT_VAL = #{record.cdtVal,jdbcType=VARCHAR},
+      IS_NOT = #{record.isNot,jdbcType=INTEGER},
+      STOR = #{record.stor,jdbcType=INTEGER},
+      DOMAIN_ID = #{record.domainId,jdbcType=INTEGER},
+      CJSJ = #{record.cjsj,jdbcType=DATE},
+      XGSJ = #{record.xgsj,jdbcType=DATE},
+      YXBZ = #{record.yxbz,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.integration.generator.entity.IomCiRltNodeCdt">
+    update iom_ci_rlt_node_cdt
+    <set>
+      <if test="nodeId != null">
+        NODE_ID = #{nodeId,jdbcType=DECIMAL},
+      </if>
+      <if test="attrId != null">
+        ATTR_ID = #{attrId,jdbcType=DECIMAL},
+      </if>
+      <if test="cdtOp != null">
+        CDT_OP = #{cdtOp,jdbcType=VARCHAR},
+      </if>
+      <if test="cdtVal != null">
+        CDT_VAL = #{cdtVal,jdbcType=VARCHAR},
+      </if>
+      <if test="isNot != null">
+        IS_NOT = #{isNot,jdbcType=INTEGER},
+      </if>
+      <if test="stor != null">
+        STOR = #{stor,jdbcType=INTEGER},
+      </if>
+      <if test="domainId != null">
+        DOMAIN_ID = #{domainId,jdbcType=INTEGER},
+      </if>
+      <if test="cjsj != null">
+        CJSJ = #{cjsj,jdbcType=DATE},
+      </if>
+      <if test="xgsj != null">
+        XGSJ = #{xgsj,jdbcType=DATE},
+      </if>
+      <if test="yxbz != null">
+        YXBZ = #{yxbz,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.integration.generator.entity.IomCiRltNodeCdt">
+    update iom_ci_rlt_node_cdt
+    set NODE_ID = #{nodeId,jdbcType=DECIMAL},
+      ATTR_ID = #{attrId,jdbcType=DECIMAL},
+      CDT_OP = #{cdtOp,jdbcType=VARCHAR},
+      CDT_VAL = #{cdtVal,jdbcType=VARCHAR},
+      IS_NOT = #{isNot,jdbcType=INTEGER},
+      STOR = #{stor,jdbcType=INTEGER},
+      DOMAIN_ID = #{domainId,jdbcType=INTEGER},
+      CJSJ = #{cjsj,jdbcType=DATE},
+      XGSJ = #{xgsj,jdbcType=DATE},
+      YXBZ = #{yxbz,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

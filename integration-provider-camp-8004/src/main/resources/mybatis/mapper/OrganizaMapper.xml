@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.integration.dao.OrganizaDao">
+
+	<insert id="addOrgan" parameterType="Organiza">
+		INSERT INTO
+		iommgt.iom_camp_organiza(
+		ID,
+		ZZJG_MC,
+		SJ_ID,
+		CJR_ID,
+		CJSJ,
+		XGR_ID,
+		XGSJ) VALUES(
+		#{id},
+		#{zzjg_mc},
+		#{sj_id},
+		#{cjr_id},
+		str_to_date(#{cjsj} ,'%Y-%m-%d %H:%i:%s'),
+		#{xgr_id},
+		str_to_date(#{xgsj} ,'%Y-%m-%d %H:%i:%s')
+		)
+	</insert>
+
+	<delete id="deleteOrgan" parameterType="string">
+		DELETE FROM
+		 iommgt.iom_camp_organiza WHERE id=#{id}
+	</delete>
+
+	<update id="updateOrgan" parameterType="Organiza">
+		UPDATE iommgt.iom_camp_organiza
+		<set>
+			<if test="zzjg_mc != null and zzjg_mc !=''">
+				ZZJG_MC = #{zzjg_mc},
+			</if>
+			<if test="sj_id != null and sj_id !=''">
+				SJ_ID = #{sj_id},
+			</if>
+			<if test="cjr_id != null and cjr_id !=''">
+				CJR_ID= #{cjr_id},
+			</if>
+			<if test="cjsj != null and cjsj !=''">
+				CJSJ= str_to_date(#{cjsj} ,'%Y-%m-%d %H:%i:%s'),
+			</if>
+			<if test="xgr_id != null and xgr_id !=''">
+				XGR_ID= #{xgr_id},
+			</if>
+			<if test="xgsj != null and xgsj !=''">
+				XGSJ= str_to_date(#{xgsj} ,'%Y-%m-%d %H:%i:%s'),
+			</if>
+		</set>
+		where ID=#{id}
+	</update>
+
+	<select id="findAllMax" resultType="Organiza">
+		select * from iommgt.iom_camp_organiza where SJ_ID is null
+	</select>
+
+	<select id="findNex" resultType="Organiza" parameterType="string">
+		select * from iommgt.iom_camp_organiza where SJ_ID=#{sj_id}
+	</select>
+
+</mapper>

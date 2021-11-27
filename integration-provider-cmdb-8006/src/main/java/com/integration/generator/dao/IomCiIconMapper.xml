@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.integration.generator.dao.IomCiIconMapper">
+  <resultMap id="BaseResultMap" type="com.integration.generator.entity.IomCiIcon">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="ICON_NAME" jdbcType="VARCHAR" property="iconName" />
+    <result column="ICON_DIR" jdbcType="DECIMAL" property="iconDir" />
+    <result column="ICON_TYPE" jdbcType="INTEGER" property="iconType" />
+    <result column="ICON_DESC" jdbcType="VARCHAR" property="iconDesc" />
+    <result column="ICON_FORM" jdbcType="VARCHAR" property="iconForm" />
+    <result column="ICON_COLOR" jdbcType="VARCHAR" property="iconColor" />
+    <result column="ICON_PATH" jdbcType="VARCHAR" property="iconPath" />
+    <result column="ICON_SIZE" jdbcType="INTEGER" property="iconSize" />
+    <result column="ICON_RANGE" jdbcType="INTEGER" property="iconRange" />
+    <result column="SORT" jdbcType="INTEGER" property="sort" />
+    <result column="SCR_ID" jdbcType="BIGINT" property="scrId" />
+    <result column="SCSJ" jdbcType="TIMESTAMP" property="scsj" />
+    <result column="XGR_ID" jdbcType="BIGINT" property="xgrId" />
+    <result column="XGSJ" jdbcType="TIMESTAMP" property="xgsj" />
+    <result column="YXBZ" jdbcType="INTEGER" property="yxbz" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ID, ICON_NAME, ICON_DIR, ICON_TYPE, ICON_DESC, ICON_FORM, ICON_COLOR, ICON_PATH, 
+    ICON_SIZE, ICON_RANGE, SORT, SCR_ID, SCSJ, XGR_ID, XGSJ, YXBZ
+  </sql>
+  <select id="selectByExample" parameterType="com.integration.generator.entity.IomCiIconExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from iom_ci_icon
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from iom_ci_icon
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from iom_ci_icon
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.integration.generator.entity.IomCiIconExample">
+    delete from iom_ci_icon
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.integration.generator.entity.IomCiIcon">
+    insert into iom_ci_icon (ID, ICON_NAME, ICON_DIR, 
+      ICON_TYPE, ICON_DESC, ICON_FORM, 
+      ICON_COLOR, ICON_PATH, ICON_SIZE, 
+      ICON_RANGE, SORT, SCR_ID, 
+      SCSJ, XGR_ID, XGSJ, 
+      YXBZ)
+    values (#{id,jdbcType=DECIMAL}, #{iconName,jdbcType=VARCHAR}, #{iconDir,jdbcType=DECIMAL}, 
+      #{iconType,jdbcType=INTEGER}, #{iconDesc,jdbcType=VARCHAR}, #{iconForm,jdbcType=VARCHAR}, 
+      #{iconColor,jdbcType=VARCHAR}, #{iconPath,jdbcType=VARCHAR}, #{iconSize,jdbcType=INTEGER}, 
+      #{iconRange,jdbcType=INTEGER}, #{sort,jdbcType=INTEGER}, #{scrId,jdbcType=BIGINT}, 
+      #{scsj,jdbcType=TIMESTAMP}, #{xgrId,jdbcType=BIGINT}, #{xgsj,jdbcType=TIMESTAMP}, 
+      #{yxbz,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.integration.generator.entity.IomCiIcon">
+    insert into iom_ci_icon
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="iconName != null">
+        ICON_NAME,
+      </if>
+      <if test="iconDir != null">
+        ICON_DIR,
+      </if>
+      <if test="iconType != null">
+        ICON_TYPE,
+      </if>
+      <if test="iconDesc != null">
+        ICON_DESC,
+      </if>
+      <if test="iconForm != null">
+        ICON_FORM,
+      </if>
+      <if test="iconColor != null">
+        ICON_COLOR,
+      </if>
+      <if test="iconPath != null">
+        ICON_PATH,
+      </if>
+      <if test="iconSize != null">
+        ICON_SIZE,
+      </if>
+      <if test="iconRange != null">
+        ICON_RANGE,
+      </if>
+      <if test="sort != null">
+        SORT,
+      </if>
+      <if test="scrId != null">
+        SCR_ID,
+      </if>
+      <if test="scsj != null">
+        SCSJ,
+      </if>
+      <if test="xgrId != null">
+        XGR_ID,
+      </if>
+      <if test="xgsj != null">
+        XGSJ,
+      </if>
+      <if test="yxbz != null">
+        YXBZ,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="iconName != null">
+        #{iconName,jdbcType=VARCHAR},
+      </if>
+      <if test="iconDir != null">
+        #{iconDir,jdbcType=DECIMAL},
+      </if>
+      <if test="iconType != null">
+        #{iconType,jdbcType=INTEGER},
+      </if>
+      <if test="iconDesc != null">
+        #{iconDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="iconForm != null">
+        #{iconForm,jdbcType=VARCHAR},
+      </if>
+      <if test="iconColor != null">
+        #{iconColor,jdbcType=VARCHAR},
+      </if>
+      <if test="iconPath != null">
+        #{iconPath,jdbcType=VARCHAR},
+      </if>
+      <if test="iconSize != null">
+        #{iconSize,jdbcType=INTEGER},
+      </if>
+      <if test="iconRange != null">
+        #{iconRange,jdbcType=INTEGER},
+      </if>
+      <if test="sort != null">
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="scrId != null">
+        #{scrId,jdbcType=BIGINT},
+      </if>
+      <if test="scsj != null">
+        #{scsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="xgrId != null">
+        #{xgrId,jdbcType=BIGINT},
+      </if>
+      <if test="xgsj != null">
+        #{xgsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="yxbz != null">
+        #{yxbz,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.integration.generator.entity.IomCiIconExample" resultType="java.lang.Long">
+    select count(*) from iom_ci_icon
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update iom_ci_icon
+    <set>
+      <if test="record.id != null">
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.iconName != null">
+        ICON_NAME = #{record.iconName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.iconDir != null">
+        ICON_DIR = #{record.iconDir,jdbcType=DECIMAL},
+      </if>
+      <if test="record.iconType != null">
+        ICON_TYPE = #{record.iconType,jdbcType=INTEGER},
+      </if>
+      <if test="record.iconDesc != null">
+        ICON_DESC = #{record.iconDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.iconForm != null">
+        ICON_FORM = #{record.iconForm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.iconColor != null">
+        ICON_COLOR = #{record.iconColor,jdbcType=VARCHAR},
+      </if>
+      <if test="record.iconPath != null">
+        ICON_PATH = #{record.iconPath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.iconSize != null">
+        ICON_SIZE = #{record.iconSize,jdbcType=INTEGER},
+      </if>
+      <if test="record.iconRange != null">
+        ICON_RANGE = #{record.iconRange,jdbcType=INTEGER},
+      </if>
+      <if test="record.sort != null">
+        SORT = #{record.sort,jdbcType=INTEGER},
+      </if>
+      <if test="record.scrId != null">
+        SCR_ID = #{record.scrId,jdbcType=BIGINT},
+      </if>
+      <if test="record.scsj != null">
+        SCSJ = #{record.scsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.xgrId != null">
+        XGR_ID = #{record.xgrId,jdbcType=BIGINT},
+      </if>
+      <if test="record.xgsj != null">
+        XGSJ = #{record.xgsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.yxbz != null">
+        YXBZ = #{record.yxbz,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update iom_ci_icon
+    set ID = #{record.id,jdbcType=DECIMAL},
+      ICON_NAME = #{record.iconName,jdbcType=VARCHAR},
+      ICON_DIR = #{record.iconDir,jdbcType=DECIMAL},
+      ICON_TYPE = #{record.iconType,jdbcType=INTEGER},
+      ICON_DESC = #{record.iconDesc,jdbcType=VARCHAR},
+      ICON_FORM = #{record.iconForm,jdbcType=VARCHAR},
+      ICON_COLOR = #{record.iconColor,jdbcType=VARCHAR},
+      ICON_PATH = #{record.iconPath,jdbcType=VARCHAR},
+      ICON_SIZE = #{record.iconSize,jdbcType=INTEGER},
+      ICON_RANGE = #{record.iconRange,jdbcType=INTEGER},
+      SORT = #{record.sort,jdbcType=INTEGER},
+      SCR_ID = #{record.scrId,jdbcType=BIGINT},
+      SCSJ = #{record.scsj,jdbcType=TIMESTAMP},
+      XGR_ID = #{record.xgrId,jdbcType=BIGINT},
+      XGSJ = #{record.xgsj,jdbcType=TIMESTAMP},
+      YXBZ = #{record.yxbz,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.integration.generator.entity.IomCiIcon">
+    update iom_ci_icon
+    <set>
+      <if test="iconName != null">
+        ICON_NAME = #{iconName,jdbcType=VARCHAR},
+      </if>
+      <if test="iconDir != null">
+        ICON_DIR = #{iconDir,jdbcType=DECIMAL},
+      </if>
+      <if test="iconType != null">
+        ICON_TYPE = #{iconType,jdbcType=INTEGER},
+      </if>
+      <if test="iconDesc != null">
+        ICON_DESC = #{iconDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="iconForm != null">
+        ICON_FORM = #{iconForm,jdbcType=VARCHAR},
+      </if>
+      <if test="iconColor != null">
+        ICON_COLOR = #{iconColor,jdbcType=VARCHAR},
+      </if>
+      <if test="iconPath != null">
+        ICON_PATH = #{iconPath,jdbcType=VARCHAR},
+      </if>
+      <if test="iconSize != null">
+        ICON_SIZE = #{iconSize,jdbcType=INTEGER},
+      </if>
+      <if test="iconRange != null">
+        ICON_RANGE = #{iconRange,jdbcType=INTEGER},
+      </if>
+      <if test="sort != null">
+        SORT = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="scrId != null">
+        SCR_ID = #{scrId,jdbcType=BIGINT},
+      </if>
+      <if test="scsj != null">
+        SCSJ = #{scsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="xgrId != null">
+        XGR_ID = #{xgrId,jdbcType=BIGINT},
+      </if>
+      <if test="xgsj != null">
+        XGSJ = #{xgsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="yxbz != null">
+        YXBZ = #{yxbz,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.integration.generator.entity.IomCiIcon">
+    update iom_ci_icon
+    set ICON_NAME = #{iconName,jdbcType=VARCHAR},
+      ICON_DIR = #{iconDir,jdbcType=DECIMAL},
+      ICON_TYPE = #{iconType,jdbcType=INTEGER},
+      ICON_DESC = #{iconDesc,jdbcType=VARCHAR},
+      ICON_FORM = #{iconForm,jdbcType=VARCHAR},
+      ICON_COLOR = #{iconColor,jdbcType=VARCHAR},
+      ICON_PATH = #{iconPath,jdbcType=VARCHAR},
+      ICON_SIZE = #{iconSize,jdbcType=INTEGER},
+      ICON_RANGE = #{iconRange,jdbcType=INTEGER},
+      SORT = #{sort,jdbcType=INTEGER},
+      SCR_ID = #{scrId,jdbcType=BIGINT},
+      SCSJ = #{scsj,jdbcType=TIMESTAMP},
+      XGR_ID = #{xgrId,jdbcType=BIGINT},
+      XGSJ = #{xgsj,jdbcType=TIMESTAMP},
+      YXBZ = #{yxbz,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

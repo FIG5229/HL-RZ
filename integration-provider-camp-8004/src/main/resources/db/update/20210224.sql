@@ -1,0 +1,2 @@
+UPDATE `iommgt`.`iom_camp_dict` SET `DICT_BM` = '0', `DICT_NAME` = '未派单', `SJ_ID` = '2019081410', `GNFL` = 0, `SORT` = 0, `CJR_ID` = 3, `CJSJ` = '2019-08-14 11:56:45', `XGR_ID` = NULL, `XGSJ` = NULL, `YXBZ` = 1, `COUTENT` = '' WHERE `DICT_ID` = 57270808116084737;
+UPDATE `iommgt`.`iom_camp_dict` SET `DICT_BM` = '1', `DICT_NAME` = '已派单', `SJ_ID` = '2019081410', `GNFL` = 0, `SORT` = 0, `CJR_ID` = 3, `CJSJ` = '2019-08-14 11:57:02', `XGR_ID` = NULL, `XGSJ` = NULL, `YXBZ` = 1, `COUTENT` = '' WHERE `DICT_ID` = 57270878316150784;

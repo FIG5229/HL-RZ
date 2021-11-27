@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.integration.dao.SgccUserMapper">
+  <resultMap id="BaseResultMap" type="com.integration.entity.SgccUser">
+    <id column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="account" jdbcType="VARCHAR" property="account" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="name_code" jdbcType="VARCHAR" property="nameCode" />
+    <result column="province_id" jdbcType="VARCHAR" property="provinceId" />
+    <result column="saphr_id" jdbcType="VARCHAR" property="saphrId" />
+    <result column="base_org_id" jdbcType="VARCHAR" property="baseOrgId" />
+    <result column="base_org_name" jdbcType="VARCHAR" property="baseOrgName" />
+    <result column="login_time" jdbcType="TIMESTAMP" property="loginTime" />
+    <result column="base_org_id_path" jdbcType="VARCHAR" property="baseOrgIdPath" />
+    <result column="unit_name" jdbcType="VARCHAR" property="unitName" />
+    <result column="unit_id" jdbcType="VARCHAR" property="unitId" />
+    <result column="base_org_name_path" jdbcType="VARCHAR" property="baseOrgNamePath" />
+    <result column="state" jdbcType="CHAR" property="state" />
+    <result column="start_useful_life" jdbcType="TIMESTAMP" property="startUsefulLife" />
+    <result column="end_useful_life" jdbcType="TIMESTAMP" property="endUsefulLife" />
+    <result column="user_type" jdbcType="CHAR" property="userType" />
+    <result column="show_contact" jdbcType="VARCHAR" property="showContact" />
+    <result column="use_contact" jdbcType="VARCHAR" property="useContact" />
+    <result column="post_level" jdbcType="VARCHAR" property="postLevel" />
+    <result column="dept_id" jdbcType="VARCHAR" property="deptId" />
+    <result column="post_baseorg_id" jdbcType="VARCHAR" property="postBaseorgId" />
+    <result column="cjr_id" jdbcType="DECIMAL" property="cjrId" />
+    <result column="cjsj" jdbcType="TIMESTAMP" property="cjsj" />
+    <result column="xgr_id" jdbcType="DECIMAL" property="xgrId" />
+    <result column="xgsj" jdbcType="TIMESTAMP" property="xgsj" />
+    <result column="yxbz" jdbcType="INTEGER" property="yxbz" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    user_id, account, name, name_code, province_id, saphr_id, base_org_id, base_org_name, 
+    login_time, base_org_id_path, unit_name, unit_id, base_org_name_path, state, start_useful_life, 
+    end_useful_life, user_type, show_contact, use_contact, post_level, dept_id, post_baseorg_id, 
+    cjr_id, cjsj, xgr_id, xgsj, yxbz
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from iom_camp_sgcc_user
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from iom_camp_sgcc_user
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.integration.entity.SgccUser">
+    insert into iom_camp_sgcc_user (user_id, account, name, 
+      name_code, province_id, saphr_id, 
+      base_org_id, base_org_name, login_time, 
+      base_org_id_path, unit_name, unit_id, 
+      base_org_name_path, state, start_useful_life, 
+      end_useful_life, user_type, show_contact, 
+      use_contact, post_level, dept_id, 
+      post_baseorg_id, cjr_id, cjsj, 
+      xgr_id, xgsj, yxbz
+      )
+    values (#{userId,jdbcType=VARCHAR}, #{account,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{nameCode,jdbcType=VARCHAR}, #{provinceId,jdbcType=VARCHAR}, #{saphrId,jdbcType=VARCHAR}, 
+      #{baseOrgId,jdbcType=VARCHAR}, #{baseOrgName,jdbcType=VARCHAR}, #{loginTime,jdbcType=TIMESTAMP}, 
+      #{baseOrgIdPath,jdbcType=VARCHAR}, #{unitName,jdbcType=VARCHAR}, #{unitId,jdbcType=VARCHAR}, 
+      #{baseOrgNamePath,jdbcType=VARCHAR}, #{state,jdbcType=CHAR}, #{startUsefulLife,jdbcType=TIMESTAMP}, 
+      #{endUsefulLife,jdbcType=TIMESTAMP}, #{userType,jdbcType=CHAR}, #{showContact,jdbcType=VARCHAR}, 
+      #{useContact,jdbcType=VARCHAR}, #{postLevel,jdbcType=VARCHAR}, #{deptId,jdbcType=VARCHAR}, 
+      #{postBaseorgId,jdbcType=VARCHAR}, #{cjrId,jdbcType=DECIMAL}, #{cjsj,jdbcType=TIMESTAMP}, 
+      #{xgrId,jdbcType=DECIMAL}, #{xgsj,jdbcType=TIMESTAMP}, #{yxbz,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.integration.entity.SgccUser">
+    insert into iom_camp_sgcc_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="account != null">
+        account,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="nameCode != null">
+        name_code,
+      </if>
+      <if test="provinceId != null">
+        province_id,
+      </if>
+      <if test="saphrId != null">
+        saphr_id,
+      </if>
+      <if test="baseOrgId != null">
+        base_org_id,
+      </if>
+      <if test="baseOrgName != null">
+        base_org_name,
+      </if>
+      <if test="loginTime != null">
+        login_time,
+      </if>
+      <if test="baseOrgIdPath != null">
+        base_org_id_path,
+      </if>
+      <if test="unitName != null">
+        unit_name,
+      </if>
+      <if test="unitId != null">
+        unit_id,
+      </if>
+      <if test="baseOrgNamePath != null">
+        base_org_name_path,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+      <if test="startUsefulLife != null">
+        start_useful_life,
+      </if>
+      <if test="endUsefulLife != null">
+        end_useful_life,
+      </if>
+      <if test="userType != null">
+        user_type,
+      </if>
+      <if test="showContact != null">
+        show_contact,
+      </if>
+      <if test="useContact != null">
+        use_contact,
+      </if>
+      <if test="postLevel != null">
+        post_level,
+      </if>
+      <if test="deptId != null">
+        dept_id,
+      </if>
+      <if test="postBaseorgId != null">
+        post_baseorg_id,
+      </if>
+      <if test="cjrId != null">
+        cjr_id,
+      </if>
+      <if test="cjsj != null">
+        cjsj,
+      </if>
+      <if test="xgrId != null">
+        xgr_id,
+      </if>
+      <if test="xgsj != null">
+        xgsj,
+      </if>
+      <if test="yxbz != null">
+        yxbz,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="account != null">
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="nameCode != null">
+        #{nameCode,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceId != null">
+        #{provinceId,jdbcType=VARCHAR},
+      </if>
+      <if test="saphrId != null">
+        #{saphrId,jdbcType=VARCHAR},
+      </if>
+      <if test="baseOrgId != null">
+        #{baseOrgId,jdbcType=VARCHAR},
+      </if>
+      <if test="baseOrgName != null">
+        #{baseOrgName,jdbcType=VARCHAR},
+      </if>
+      <if test="loginTime != null">
+        #{loginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="baseOrgIdPath != null">
+        #{baseOrgIdPath,jdbcType=VARCHAR},
+      </if>
+      <if test="unitName != null">
+        #{unitName,jdbcType=VARCHAR},
+      </if>
+      <if test="unitId != null">
+        #{unitId,jdbcType=VARCHAR},
+      </if>
+      <if test="baseOrgNamePath != null">
+        #{baseOrgNamePath,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=CHAR},
+      </if>
+      <if test="startUsefulLife != null">
+        #{startUsefulLife,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endUsefulLife != null">
+        #{endUsefulLife,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userType != null">
+        #{userType,jdbcType=CHAR},
+      </if>
+      <if test="showContact != null">
+        #{showContact,jdbcType=VARCHAR},
+      </if>
+      <if test="useContact != null">
+        #{useContact,jdbcType=VARCHAR},
+      </if>
+      <if test="postLevel != null">
+        #{postLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="deptId != null">
+        #{deptId,jdbcType=VARCHAR},
+      </if>
+      <if test="postBaseorgId != null">
+        #{postBaseorgId,jdbcType=VARCHAR},
+      </if>
+      <if test="cjrId != null">
+        #{cjrId,jdbcType=DECIMAL},
+      </if>
+      <if test="cjsj != null">
+        #{cjsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="xgrId != null">
+        #{xgrId,jdbcType=DECIMAL},
+      </if>
+      <if test="xgsj != null">
+        #{xgsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="yxbz != null">
+        #{yxbz,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.integration.entity.SgccUser">
+    update iom_camp_sgcc_user
+    <set>
+      <if test="account != null">
+        account = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="nameCode != null">
+        name_code = #{nameCode,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceId != null">
+        province_id = #{provinceId,jdbcType=VARCHAR},
+      </if>
+      <if test="saphrId != null">
+        saphr_id = #{saphrId,jdbcType=VARCHAR},
+      </if>
+      <if test="baseOrgId != null">
+        base_org_id = #{baseOrgId,jdbcType=VARCHAR},
+      </if>
+      <if test="baseOrgName != null">
+        base_org_name = #{baseOrgName,jdbcType=VARCHAR},
+      </if>
+      <if test="loginTime != null">
+        login_time = #{loginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="baseOrgIdPath != null">
+        base_org_id_path = #{baseOrgIdPath,jdbcType=VARCHAR},
+      </if>
+      <if test="unitName != null">
+        unit_name = #{unitName,jdbcType=VARCHAR},
+      </if>
+      <if test="unitId != null">
+        unit_id = #{unitId,jdbcType=VARCHAR},
+      </if>
+      <if test="baseOrgNamePath != null">
+        base_org_name_path = #{baseOrgNamePath,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=CHAR},
+      </if>
+      <if test="startUsefulLife != null">
+        start_useful_life = #{startUsefulLife,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endUsefulLife != null">
+        end_useful_life = #{endUsefulLife,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userType != null">
+        user_type = #{userType,jdbcType=CHAR},
+      </if>
+      <if test="showContact != null">
+        show_contact = #{showContact,jdbcType=VARCHAR},
+      </if>
+      <if test="useContact != null">
+        use_contact = #{useContact,jdbcType=VARCHAR},
+      </if>
+      <if test="postLevel != null">
+        post_level = #{postLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="deptId != null">
+        dept_id = #{deptId,jdbcType=VARCHAR},
+      </if>
+      <if test="postBaseorgId != null">
+        post_baseorg_id = #{postBaseorgId,jdbcType=VARCHAR},
+      </if>
+      <if test="cjrId != null">
+        cjr_id = #{cjrId,jdbcType=DECIMAL},
+      </if>
+      <if test="cjsj != null">
+        cjsj = #{cjsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="xgrId != null">
+        xgr_id = #{xgrId,jdbcType=DECIMAL},
+      </if>
+      <if test="xgsj != null">
+        xgsj = #{xgsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="yxbz != null">
+        yxbz = #{yxbz,jdbcType=INTEGER},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.integration.entity.SgccUser">
+    update iom_camp_sgcc_user
+    set account = #{account,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      name_code = #{nameCode,jdbcType=VARCHAR},
+      province_id = #{provinceId,jdbcType=VARCHAR},
+      saphr_id = #{saphrId,jdbcType=VARCHAR},
+      base_org_id = #{baseOrgId,jdbcType=VARCHAR},
+      base_org_name = #{baseOrgName,jdbcType=VARCHAR},
+      login_time = #{loginTime,jdbcType=TIMESTAMP},
+      base_org_id_path = #{baseOrgIdPath,jdbcType=VARCHAR},
+      unit_name = #{unitName,jdbcType=VARCHAR},
+      unit_id = #{unitId,jdbcType=VARCHAR},
+      base_org_name_path = #{baseOrgNamePath,jdbcType=VARCHAR},
+      state = #{state,jdbcType=CHAR},
+      start_useful_life = #{startUsefulLife,jdbcType=TIMESTAMP},
+      end_useful_life = #{endUsefulLife,jdbcType=TIMESTAMP},
+      user_type = #{userType,jdbcType=CHAR},
+      show_contact = #{showContact,jdbcType=VARCHAR},
+      use_contact = #{useContact,jdbcType=VARCHAR},
+      post_level = #{postLevel,jdbcType=VARCHAR},
+      dept_id = #{deptId,jdbcType=VARCHAR},
+      post_baseorg_id = #{postBaseorgId,jdbcType=VARCHAR},
+      cjr_id = #{cjrId,jdbcType=DECIMAL},
+      cjsj = #{cjsj,jdbcType=TIMESTAMP},
+      xgr_id = #{xgrId,jdbcType=DECIMAL},
+      xgsj = #{xgsj,jdbcType=TIMESTAMP},
+      yxbz = #{yxbz,jdbcType=INTEGER}
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </update>
+
+
+  <select id="selectList" parameterType="com.integration.entity.SgccUser" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from iom_camp_sgcc_user
+    <where>
+
+    </where>
+  </select>
+
+</mapper>

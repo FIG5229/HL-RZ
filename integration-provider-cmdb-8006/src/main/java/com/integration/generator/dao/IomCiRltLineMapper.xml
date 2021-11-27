@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.integration.generator.dao.IomCiRltLineMapper">
+  <resultMap id="BaseResultMap" type="com.integration.generator.entity.IomCiRltLine">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="RULE_ID" jdbcType="DECIMAL" property="ruleId" />
+    <result column="RLT_TYPE" jdbcType="INTEGER" property="rltType" />
+    <result column="TYPE_ID" jdbcType="DECIMAL" property="typeId" />
+    <result column="START_TYPE_ID" jdbcType="DECIMAL" property="startTypeId" />
+    <result column="END_TYPE_ID" jdbcType="DECIMAL" property="endTypeId" />
+    <result column="RLT_ID" jdbcType="DECIMAL" property="rltId" />
+    <result column="START_NODE_ID" jdbcType="DECIMAL" property="startNodeId" />
+    <result column="END_NODE_ID" jdbcType="DECIMAL" property="endNodeId" />
+    <result column="LINE_TYPE" jdbcType="INTEGER" property="lineType" />
+    <result column="LINE_OP" jdbcType="VARCHAR" property="lineOp" />
+    <result column="LINE_VAL" jdbcType="VARCHAR" property="lineVal" />
+    <result column="OP_TYPE" jdbcType="INTEGER" property="opType" />
+    <result column="DOMAIN_ID" jdbcType="INTEGER" property="domainId" />
+    <result column="CJSJ" jdbcType="DATE" property="cjsj" />
+    <result column="XGSJ" jdbcType="DATE" property="xgsj" />
+    <result column="YXBZ" jdbcType="INTEGER" property="yxbz" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ID, RULE_ID, RLT_TYPE, TYPE_ID, START_TYPE_ID, END_TYPE_ID, RLT_ID, START_NODE_ID, 
+    END_NODE_ID, LINE_TYPE, LINE_OP, LINE_VAL, OP_TYPE, DOMAIN_ID, CJSJ, XGSJ, YXBZ
+  </sql>
+  <select id="selectByExample" parameterType="com.integration.generator.entity.IomCiRltLineExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from iom_ci_rlt_line
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from iom_ci_rlt_line
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from iom_ci_rlt_line
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.integration.generator.entity.IomCiRltLineExample">
+    delete from iom_ci_rlt_line
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.integration.generator.entity.IomCiRltLine">
+    insert into iom_ci_rlt_line (ID, RULE_ID, RLT_TYPE, 
+      TYPE_ID, START_TYPE_ID, END_TYPE_ID, 
+      RLT_ID, START_NODE_ID, END_NODE_ID, 
+      LINE_TYPE, LINE_OP, LINE_VAL, 
+      OP_TYPE, DOMAIN_ID, CJSJ, 
+      XGSJ, YXBZ)
+    values (#{id,jdbcType=DECIMAL}, #{ruleId,jdbcType=DECIMAL}, #{rltType,jdbcType=INTEGER}, 
+      #{typeId,jdbcType=DECIMAL}, #{startTypeId,jdbcType=DECIMAL}, #{endTypeId,jdbcType=DECIMAL}, 
+      #{rltId,jdbcType=DECIMAL}, #{startNodeId,jdbcType=DECIMAL}, #{endNodeId,jdbcType=DECIMAL}, 
+      #{lineType,jdbcType=INTEGER}, #{lineOp,jdbcType=VARCHAR}, #{lineVal,jdbcType=VARCHAR}, 
+      #{opType,jdbcType=INTEGER}, #{domainId,jdbcType=INTEGER}, #{cjsj,jdbcType=DATE}, 
+      #{xgsj,jdbcType=DATE}, #{yxbz,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.integration.generator.entity.IomCiRltLine">
+    insert into iom_ci_rlt_line
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="ruleId != null">
+        RULE_ID,
+      </if>
+      <if test="rltType != null">
+        RLT_TYPE,
+      </if>
+      <if test="typeId != null">
+        TYPE_ID,
+      </if>
+      <if test="startTypeId != null">
+        START_TYPE_ID,
+      </if>
+      <if test="endTypeId != null">
+        END_TYPE_ID,
+      </if>
+      <if test="rltId != null">
+        RLT_ID,
+      </if>
+      <if test="startNodeId != null">
+        START_NODE_ID,
+      </if>
+      <if test="endNodeId != null">
+        END_NODE_ID,
+      </if>
+      <if test="lineType != null">
+        LINE_TYPE,
+      </if>
+      <if test="lineOp != null">
+        LINE_OP,
+      </if>
+      <if test="lineVal != null">
+        LINE_VAL,
+      </if>
+      <if test="opType != null">
+        OP_TYPE,
+      </if>
+      <if test="domainId != null">
+        DOMAIN_ID,
+      </if>
+      <if test="cjsj != null">
+        CJSJ,
+      </if>
+      <if test="xgsj != null">
+        XGSJ,
+      </if>
+      <if test="yxbz != null">
+        YXBZ,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="ruleId != null">
+        #{ruleId,jdbcType=DECIMAL},
+      </if>
+      <if test="rltType != null">
+        #{rltType,jdbcType=INTEGER},
+      </if>
+      <if test="typeId != null">
+        #{typeId,jdbcType=DECIMAL},
+      </if>
+      <if test="startTypeId != null">
+        #{startTypeId,jdbcType=DECIMAL},
+      </if>
+      <if test="endTypeId != null">
+        #{endTypeId,jdbcType=DECIMAL},
+      </if>
+      <if test="rltId != null">
+        #{rltId,jdbcType=DECIMAL},
+      </if>
+      <if test="startNodeId != null">
+        #{startNodeId,jdbcType=DECIMAL},
+      </if>
+      <if test="endNodeId != null">
+        #{endNodeId,jdbcType=DECIMAL},
+      </if>
+      <if test="lineType != null">
+        #{lineType,jdbcType=INTEGER},
+      </if>
+      <if test="lineOp != null">
+        #{lineOp,jdbcType=VARCHAR},
+      </if>
+      <if test="lineVal != null">
+        #{lineVal,jdbcType=VARCHAR},
+      </if>
+      <if test="opType != null">
+        #{opType,jdbcType=INTEGER},
+      </if>
+      <if test="domainId != null">
+        #{domainId,jdbcType=INTEGER},
+      </if>
+      <if test="cjsj != null">
+        #{cjsj,jdbcType=DATE},
+      </if>
+      <if test="xgsj != null">
+        #{xgsj,jdbcType=DATE},
+      </if>
+      <if test="yxbz != null">
+        #{yxbz,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.integration.generator.entity.IomCiRltLineExample" resultType="java.lang.Long">
+    select count(*) from iom_ci_rlt_line
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update iom_ci_rlt_line
+    <set>
+      <if test="record.id != null">
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.ruleId != null">
+        RULE_ID = #{record.ruleId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.rltType != null">
+        RLT_TYPE = #{record.rltType,jdbcType=INTEGER},
+      </if>
+      <if test="record.typeId != null">
+        TYPE_ID = #{record.typeId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.startTypeId != null">
+        START_TYPE_ID = #{record.startTypeId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.endTypeId != null">
+        END_TYPE_ID = #{record.endTypeId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.rltId != null">
+        RLT_ID = #{record.rltId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.startNodeId != null">
+        START_NODE_ID = #{record.startNodeId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.endNodeId != null">
+        END_NODE_ID = #{record.endNodeId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.lineType != null">
+        LINE_TYPE = #{record.lineType,jdbcType=INTEGER},
+      </if>
+      <if test="record.lineOp != null">
+        LINE_OP = #{record.lineOp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lineVal != null">
+        LINE_VAL = #{record.lineVal,jdbcType=VARCHAR},
+      </if>
+      <if test="record.opType != null">
+        OP_TYPE = #{record.opType,jdbcType=INTEGER},
+      </if>
+      <if test="record.domainId != null">
+        DOMAIN_ID = #{record.domainId,jdbcType=INTEGER},
+      </if>
+      <if test="record.cjsj != null">
+        CJSJ = #{record.cjsj,jdbcType=DATE},
+      </if>
+      <if test="record.xgsj != null">
+        XGSJ = #{record.xgsj,jdbcType=DATE},
+      </if>
+      <if test="record.yxbz != null">
+        YXBZ = #{record.yxbz,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update iom_ci_rlt_line
+    set ID = #{record.id,jdbcType=DECIMAL},
+      RULE_ID = #{record.ruleId,jdbcType=DECIMAL},
+      RLT_TYPE = #{record.rltType,jdbcType=INTEGER},
+      TYPE_ID = #{record.typeId,jdbcType=DECIMAL},
+      START_TYPE_ID = #{record.startTypeId,jdbcType=DECIMAL},
+      END_TYPE_ID = #{record.endTypeId,jdbcType=DECIMAL},
+      RLT_ID = #{record.rltId,jdbcType=DECIMAL},
+      START_NODE_ID = #{record.startNodeId,jdbcType=DECIMAL},
+      END_NODE_ID = #{record.endNodeId,jdbcType=DECIMAL},
+      LINE_TYPE = #{record.lineType,jdbcType=INTEGER},
+      LINE_OP = #{record.lineOp,jdbcType=VARCHAR},
+      LINE_VAL = #{record.lineVal,jdbcType=VARCHAR},
+      OP_TYPE = #{record.opType,jdbcType=INTEGER},
+      DOMAIN_ID = #{record.domainId,jdbcType=INTEGER},
+      CJSJ = #{record.cjsj,jdbcType=DATE},
+      XGSJ = #{record.xgsj,jdbcType=DATE},
+      YXBZ = #{record.yxbz,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.integration.generator.entity.IomCiRltLine">
+    update iom_ci_rlt_line
+    <set>
+      <if test="ruleId != null">
+        RULE_ID = #{ruleId,jdbcType=DECIMAL},
+      </if>
+      <if test="rltType != null">
+        RLT_TYPE = #{rltType,jdbcType=INTEGER},
+      </if>
+      <if test="typeId != null">
+        TYPE_ID = #{typeId,jdbcType=DECIMAL},
+      </if>
+      <if test="startTypeId != null">
+        START_TYPE_ID = #{startTypeId,jdbcType=DECIMAL},
+      </if>
+      <if test="endTypeId != null">
+        END_TYPE_ID = #{endTypeId,jdbcType=DECIMAL},
+      </if>
+      <if test="rltId != null">
+        RLT_ID = #{rltId,jdbcType=DECIMAL},
+      </if>
+      <if test="startNodeId != null">
+        START_NODE_ID = #{startNodeId,jdbcType=DECIMAL},
+      </if>
+      <if test="endNodeId != null">
+        END_NODE_ID = #{endNodeId,jdbcType=DECIMAL},
+      </if>
+      <if test="lineType != null">
+        LINE_TYPE = #{lineType,jdbcType=INTEGER},
+      </if>
+      <if test="lineOp != null">
+        LINE_OP = #{lineOp,jdbcType=VARCHAR},
+      </if>
+      <if test="lineVal != null">
+        LINE_VAL = #{lineVal,jdbcType=VARCHAR},
+      </if>
+      <if test="opType != null">
+        OP_TYPE = #{opType,jdbcType=INTEGER},
+      </if>
+      <if test="domainId != null">
+        DOMAIN_ID = #{domainId,jdbcType=INTEGER},
+      </if>
+      <if test="cjsj != null">
+        CJSJ = #{cjsj,jdbcType=DATE},
+      </if>
+      <if test="xgsj != null">
+        XGSJ = #{xgsj,jdbcType=DATE},
+      </if>
+      <if test="yxbz != null">
+        YXBZ = #{yxbz,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.integration.generator.entity.IomCiRltLine">
+    update iom_ci_rlt_line
+    set RULE_ID = #{ruleId,jdbcType=DECIMAL},
+      RLT_TYPE = #{rltType,jdbcType=INTEGER},
+      TYPE_ID = #{typeId,jdbcType=DECIMAL},
+      START_TYPE_ID = #{startTypeId,jdbcType=DECIMAL},
+      END_TYPE_ID = #{endTypeId,jdbcType=DECIMAL},
+      RLT_ID = #{rltId,jdbcType=DECIMAL},
+      START_NODE_ID = #{startNodeId,jdbcType=DECIMAL},
+      END_NODE_ID = #{endNodeId,jdbcType=DECIMAL},
+      LINE_TYPE = #{lineType,jdbcType=INTEGER},
+      LINE_OP = #{lineOp,jdbcType=VARCHAR},
+      LINE_VAL = #{lineVal,jdbcType=VARCHAR},
+      OP_TYPE = #{opType,jdbcType=INTEGER},
+      DOMAIN_ID = #{domainId,jdbcType=INTEGER},
+      CJSJ = #{cjsj,jdbcType=DATE},
+      XGSJ = #{xgsj,jdbcType=DATE},
+      YXBZ = #{yxbz,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <cache />
+</mapper>

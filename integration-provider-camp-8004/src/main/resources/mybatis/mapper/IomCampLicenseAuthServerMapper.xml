@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.integration.dao.IomCampLicenseAuthServerMapper">
+  <resultMap id="BaseResultMap" type="com.integration.entity.IomCampLicenseAuthServer">
+    <id column="id" jdbcType="DECIMAL" property="id" />
+    <result column="auth_id" jdbcType="DECIMAL" property="authId" />
+    <result column="server_ip" jdbcType="VARCHAR" property="serverIp" />
+    <result column="server_code" jdbcType="VARCHAR" property="serverCode" />
+    <result column="server_des" jdbcType="VARCHAR" property="serverDes" />
+    <result column="CJR_ID" jdbcType="DECIMAL" property="cjrId" />
+    <result column="CJSJ" jdbcType="TIMESTAMP" property="cjsj" />
+    <result column="XGR_ID" jdbcType="DECIMAL" property="xgrId" />
+    <result column="XGSJ" jdbcType="TIMESTAMP" property="xgsj" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, auth_id, server_ip, server_code, server_des, CJR_ID, CJSJ, XGR_ID, XGSJ
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.math.BigDecimal" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from iom_camp_license_auth_server
+    where id = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+    delete from iom_camp_license_auth_server
+    where id = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.integration.entity.IomCampLicenseAuthServer">
+    insert into iom_camp_license_auth_server (id, auth_id, server_ip, 
+      server_code, server_des, CJR_ID, 
+      CJSJ, XGR_ID, XGSJ
+      )
+    values (#{id,jdbcType=DECIMAL}, #{authId,jdbcType=DECIMAL}, #{serverIp,jdbcType=VARCHAR}, 
+      #{serverCode,jdbcType=VARCHAR}, #{serverDes,jdbcType=VARCHAR}, #{cjrId,jdbcType=DECIMAL}, 
+      #{cjsj,jdbcType=TIMESTAMP}, #{xgrId,jdbcType=DECIMAL}, #{xgsj,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.integration.entity.IomCampLicenseAuthServer">
+    insert into iom_camp_license_auth_server
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="authId != null">
+        auth_id,
+      </if>
+      <if test="serverIp != null">
+        server_ip,
+      </if>
+      <if test="serverCode != null">
+        server_code,
+      </if>
+      <if test="serverDes != null">
+        server_des,
+      </if>
+      <if test="cjrId != null">
+        CJR_ID,
+      </if>
+      <if test="cjsj != null">
+        CJSJ,
+      </if>
+      <if test="xgrId != null">
+        XGR_ID,
+      </if>
+      <if test="xgsj != null">
+        XGSJ,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="authId != null">
+        #{authId,jdbcType=DECIMAL},
+      </if>
+      <if test="serverIp != null">
+        #{serverIp,jdbcType=VARCHAR},
+      </if>
+      <if test="serverCode != null">
+        #{serverCode,jdbcType=VARCHAR},
+      </if>
+      <if test="serverDes != null">
+        #{serverDes,jdbcType=VARCHAR},
+      </if>
+      <if test="cjrId != null">
+        #{cjrId,jdbcType=DECIMAL},
+      </if>
+      <if test="cjsj != null">
+        #{cjsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="xgrId != null">
+        #{xgrId,jdbcType=DECIMAL},
+      </if>
+      <if test="xgsj != null">
+        #{xgsj,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.integration.entity.IomCampLicenseAuthServer">
+    update iom_camp_license_auth_server
+    <set>
+      <if test="authId != null">
+        auth_id = #{authId,jdbcType=DECIMAL},
+      </if>
+      <if test="serverIp != null">
+        server_ip = #{serverIp,jdbcType=VARCHAR},
+      </if>
+      <if test="serverCode != null">
+        server_code = #{serverCode,jdbcType=VARCHAR},
+      </if>
+      <if test="serverDes != null">
+        server_des = #{serverDes,jdbcType=VARCHAR},
+      </if>
+      <if test="cjrId != null">
+        CJR_ID = #{cjrId,jdbcType=DECIMAL},
+      </if>
+      <if test="cjsj != null">
+        CJSJ = #{cjsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="xgrId != null">
+        XGR_ID = #{xgrId,jdbcType=DECIMAL},
+      </if>
+      <if test="xgsj != null">
+        XGSJ = #{xgsj,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.integration.entity.IomCampLicenseAuthServer">
+    update iom_camp_license_auth_server
+    set auth_id = #{authId,jdbcType=DECIMAL},
+      server_ip = #{serverIp,jdbcType=VARCHAR},
+      server_code = #{serverCode,jdbcType=VARCHAR},
+      server_des = #{serverDes,jdbcType=VARCHAR},
+      CJR_ID = #{cjrId,jdbcType=DECIMAL},
+      CJSJ = #{cjsj,jdbcType=TIMESTAMP},
+      XGR_ID = #{xgrId,jdbcType=DECIMAL},
+      XGSJ = #{xgsj,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=DECIMAL}
+  </update>
+
+  <select id="selectList" parameterType="com.integration.entity.IomCampLicenseAuthServer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from iom_camp_license_auth_server
+  </select>
+
+  <delete id="deleteByServerIp" parameterType="string">
+    delete from iom_camp_license_auth_server
+    where server_ip = #{ip,jdbcType=VARCHAR}
+  </delete>
+</mapper>

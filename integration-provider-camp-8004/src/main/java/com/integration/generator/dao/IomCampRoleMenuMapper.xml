@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.integration.generator.dao.IomCampRoleMenuMapper">
+  <resultMap id="BaseResultMap" type="com.integration.generator.entity.IomCampRoleMenu">
+    <id column="id" jdbcType="DECIMAL" property="id" />
+    <result column="role_dm" jdbcType="VARCHAR" property="roleDm" />
+    <result column="gncd_dm" jdbcType="DECIMAL" property="gncdDm" />
+    <result column="gnfl_type" jdbcType="INTEGER" property="gnflType" />
+    <result column="cjr_id" jdbcType="DECIMAL" property="cjrId" />
+    <result column="cjsj" jdbcType="TIMESTAMP" property="cjsj" />
+    <result column="xgr_id" jdbcType="DECIMAL" property="xgrId" />
+    <result column="xgsj" jdbcType="TIMESTAMP" property="xgsj" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, role_dm, gncd_dm, gnfl_type, cjr_id, cjsj, xgr_id, xgsj
+  </sql>
+  <select id="selectByExample" parameterType="com.integration.generator.entity.IomCampRoleMenuExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from iom_camp_role_menu
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from iom_camp_role_menu
+    where id = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from iom_camp_role_menu
+    where id = #{id,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.integration.generator.entity.IomCampRoleMenuExample">
+    delete from iom_camp_role_menu
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.integration.generator.entity.IomCampRoleMenu">
+    insert into iom_camp_role_menu (id, role_dm, gncd_dm, 
+      gnfl_type, cjr_id, cjsj, 
+      xgr_id, xgsj)
+    values (#{id,jdbcType=DECIMAL}, #{roleDm,jdbcType=VARCHAR}, #{gncdDm,jdbcType=DECIMAL}, 
+      #{gnflType,jdbcType=INTEGER}, #{cjrId,jdbcType=DECIMAL}, #{cjsj,jdbcType=TIMESTAMP}, 
+      #{xgrId,jdbcType=DECIMAL}, #{xgsj,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.integration.generator.entity.IomCampRoleMenu">
+    insert into iom_camp_role_menu
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="roleDm != null">
+        role_dm,
+      </if>
+      <if test="gncdDm != null">
+        gncd_dm,
+      </if>
+      <if test="gnflType != null">
+        gnfl_type,
+      </if>
+      <if test="cjrId != null">
+        cjr_id,
+      </if>
+      <if test="cjsj != null">
+        cjsj,
+      </if>
+      <if test="xgrId != null">
+        xgr_id,
+      </if>
+      <if test="xgsj != null">
+        xgsj,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="roleDm != null">
+        #{roleDm,jdbcType=VARCHAR},
+      </if>
+      <if test="gncdDm != null">
+        #{gncdDm,jdbcType=DECIMAL},
+      </if>
+      <if test="gnflType != null">
+        #{gnflType,jdbcType=INTEGER},
+      </if>
+      <if test="cjrId != null">
+        #{cjrId,jdbcType=DECIMAL},
+      </if>
+      <if test="cjsj != null">
+        #{cjsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="xgrId != null">
+        #{xgrId,jdbcType=DECIMAL},
+      </if>
+      <if test="xgsj != null">
+        #{xgsj,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.integration.generator.entity.IomCampRoleMenuExample" resultType="java.lang.Long">
+    select count(*) from iom_camp_role_menu
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update iom_camp_role_menu
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.roleDm != null">
+        role_dm = #{record.roleDm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gncdDm != null">
+        gncd_dm = #{record.gncdDm,jdbcType=DECIMAL},
+      </if>
+      <if test="record.gnflType != null">
+        gnfl_type = #{record.gnflType,jdbcType=INTEGER},
+      </if>
+      <if test="record.cjrId != null">
+        cjr_id = #{record.cjrId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.cjsj != null">
+        cjsj = #{record.cjsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.xgrId != null">
+        xgr_id = #{record.xgrId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.xgsj != null">
+        xgsj = #{record.xgsj,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update iom_camp_role_menu
+    set id = #{record.id,jdbcType=DECIMAL},
+      role_dm = #{record.roleDm,jdbcType=VARCHAR},
+      gncd_dm = #{record.gncdDm,jdbcType=DECIMAL},
+      gnfl_type = #{record.gnflType,jdbcType=INTEGER},
+      cjr_id = #{record.cjrId,jdbcType=DECIMAL},
+      cjsj = #{record.cjsj,jdbcType=TIMESTAMP},
+      xgr_id = #{record.xgrId,jdbcType=DECIMAL},
+      xgsj = #{record.xgsj,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.integration.generator.entity.IomCampRoleMenu">
+    update iom_camp_role_menu
+    <set>
+      <if test="roleDm != null">
+        role_dm = #{roleDm,jdbcType=VARCHAR},
+      </if>
+      <if test="gncdDm != null">
+        gncd_dm = #{gncdDm,jdbcType=DECIMAL},
+      </if>
+      <if test="gnflType != null">
+        gnfl_type = #{gnflType,jdbcType=INTEGER},
+      </if>
+      <if test="cjrId != null">
+        cjr_id = #{cjrId,jdbcType=DECIMAL},
+      </if>
+      <if test="cjsj != null">
+        cjsj = #{cjsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="xgrId != null">
+        xgr_id = #{xgrId,jdbcType=DECIMAL},
+      </if>
+      <if test="xgsj != null">
+        xgsj = #{xgsj,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.integration.generator.entity.IomCampRoleMenu">
+    update iom_camp_role_menu
+    set role_dm = #{roleDm,jdbcType=VARCHAR},
+      gncd_dm = #{gncdDm,jdbcType=DECIMAL},
+      gnfl_type = #{gnflType,jdbcType=INTEGER},
+      cjr_id = #{cjrId,jdbcType=DECIMAL},
+      cjsj = #{cjsj,jdbcType=TIMESTAMP},
+      xgr_id = #{xgrId,jdbcType=DECIMAL},
+      xgsj = #{xgsj,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

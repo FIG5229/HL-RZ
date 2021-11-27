@@ -1,0 +1,2 @@
+DELETE FROM `iommgt`.`iom_camp_dict` WHERE `DICT_ID` = '54443312253386752';
+INSERT INTO `iommgt`.`iom_camp_dict`(`DICT_ID`, `DICT_BM`, `DICT_NAME`, `SJ_ID`, `GNFL`, `SORT`, `CJR_ID`, `CJSJ`, `XGR_ID`, `XGSJ`, `YXBZ`, `COUTENT`) VALUES (54443312253386752, '7', '接口平台', '258888', 0, 0, 301182497, '2019-08-06 16:41:18', NULL, NULL, 1, '');

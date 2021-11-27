@@ -1,0 +1,866 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.integration.dao.CiKpiDao">
+
+    <sql id="cols">
+        a.id,
+        a.kpi_name,
+        a.kpi_alias,
+        a.kpi_desc,
+        a.type_id,
+        a.kpi_class_id,
+        a.is_match,
+        a.val_unit,
+        a.val_type,
+        a.val_exp,
+        a.dw_id,
+        a.dw_name,
+        a.source_id,
+        a.op_id,
+        a.idx_field,
+        a.cjr_id,
+        a.cjsj,
+        a.xgr_id,
+        a.xgsj,
+        a.yxbz
+    </sql>
+
+    <sql id="colsAdd">
+        id,
+        kpi_name,
+        kpi_alias,
+        kpi_desc,
+        type_id,
+        a.kpi_class_id,
+        a.is_match,
+        a.val_unit,
+        val_type,
+        val_exp,
+        dw_id,
+        dw_name,
+        source_id,
+        op_id,
+        idx_field,
+        cjr_id,
+        cjsj,
+        xgr_id,
+        xgsj,
+        yxbz
+    </sql>
+
+    <sql id="getSql">
+        from IOMCI.IOM_CI_KPI a where 1=1
+        <if test="null != id ">
+            AND a.id = #{id}
+        </if>
+        <if test="null != kpi_name ">
+            AND a.kpi_name = #{kpi_name}
+        </if>
+        <if test="null != kpi_alias ">
+            AND a.kpi_alias = #{kpi_alias}
+        </if>
+        <if test="null != kpi_desc ">
+            AND a.kpi_desc = #{kpi_desc}
+        </if>
+        <if test="null != type_id ">
+            AND a.type_id = #{type_id}
+        </if>
+        <if test="null != kpi_class_id">
+            AND a.kpi_class_id = #{kpi_class_id}
+        </if>
+        <if test="null != is_match">
+            AND a.is_match = #{is_match}
+        </if>
+        <if test="null != val_unit">
+            AND a.val_unit = #{val_unit}
+        </if>
+        <if test="null != val_type ">
+            AND a.val_type = #{val_type}
+        </if>
+        <if test="null != val_exp ">
+            AND a.val_exp = #{val_exp}
+        </if>
+        <if test="null != dw_id ">
+            AND a.dw_id = #{dw_id}
+        </if>
+        <if test="null != dw_name ">
+            AND a.dw_name = #{dw_name}
+        </if>
+        <if test="null != source_id ">
+            AND a.source_id = #{source_id}
+        </if>
+        <if test="null != op_id ">
+            AND a.op_id = #{op_id}
+        </if>
+        <if test="null != idx_field ">
+            AND a.idx_field = #{idx_field}
+        </if>
+        <if test="null != cjr_id ">
+            AND a.cjr_id = #{cjr_id}
+        </if>
+        <if test="null != cjsj ">
+            AND a.cjsj = #{cjsj}
+        </if>
+        <if test="null != xgr_id ">
+            AND a.xgr_id = #{xgr_id}
+        </if>
+        <if test="null != xgsj ">
+            AND a.xgsj = #{xgsj}
+        </if>
+        <if test="null != yxbz ">
+            AND a.yxbz = #{yxbz}
+        </if>
+    </sql>
+
+    <select id="getAllPage" parameterType="hashmap" resultType="CiKpiInfo">
+        select * from IOMCI.IOM_CI_KPI
+    </select>
+
+    <select id="getAllCount" parameterType="hashmap" resultType="int">
+        select count(*)
+        <include refid="getSql"/>
+    </select>
+
+    <select id="getAllList" parameterType="hashmap" resultType="CiKpiInfo">
+
+        select
+        <include refid="cols"/>
+        <include refid="getSql"/>
+        ORDER BY a.id desc
+    </select>
+
+    <select id="getInfo" parameterType="string" resultType="CiKpiInfo">
+        select * from IOMCI.IOM_CI_KPI a where a.id = #{kpiId}
+    </select>
+
+    <update id="updateInfo" parameterType="CiKpiInfo">
+        UPDATE IOMCI.IOM_CI_KPI a
+        <set>
+            <if test="null != kpi_name ">
+                a.kpi_name = #{kpi_name},
+            </if>
+            <if test="null != kpi_alias ">
+                a.kpi_alias = #{kpi_alias},
+            </if>
+            <if test="null != kpi_desc ">
+                a.kpi_desc = #{kpi_desc},
+            </if>
+            <if test="null != type_id ">
+                a.type_id = #{type_id},
+            </if>
+            <if test="null != kpi_class_id">
+                a.kpi_class_id = #{kpi_class_id},
+            </if>
+            <if test="null != is_match">
+                a.is_match = #{is_match},
+            </if>
+            <if test="null != val_unit">
+                a.val_unit = #{val_unit},
+            </if>
+            <if test="null != val_type ">
+                a.val_type = #{val_type},
+            </if>
+            <if test="null != val_exp ">
+                a.val_exp = #{val_exp},
+            </if>
+            <if test="null != dw_id ">
+                a.dw_id = #{dw_id},
+            </if>
+            <if test="null != dw_name ">
+                a.dw_name = #{dw_name},
+            </if>
+            <if test="null != source_id ">
+                a.source_id = #{source_id},
+            </if>
+            <if test="null != op_id ">
+                a.op_id = #{op_id},
+            </if>
+            <if test="null != idx_field ">
+                a.idx_field = #{idx_field},
+            </if>
+            <if test="null != cjr_id ">
+                a.cjr_id = #{cjr_id},
+            </if>
+            <if test="null != cjsj ">
+                a.cjsj = #{cjsj},
+            </if>
+            <if test="null != xgr_id ">
+                a.xgr_id = #{xgr_id},
+            </if>
+            <if test="null != xgsj ">
+                a.xgsj = #{xgsj},
+            </if>
+            <if test="null != yxbz ">
+                a.yxbz = #{yxbz},
+            </if>
+            <if test="null != domain_id ">
+                a.domain_id = #{domain_id},
+            </if>
+            <if test="1==1">
+                a.MAXIMUM = #{maximum},
+            </if>
+            <if test="1==1 ">
+                a.MINIMUM = #{minimum},
+            </if>
+        </set>
+        WHERE
+        <if test="null != id ">
+            a.id = #{id}
+        </if>
+    </update>
+
+    <insert id="insertInfo" parameterType="CiKpiInfo">
+        INSERT INTO IOMCI.IOM_CI_KPI
+        VALUES (
+        #{id},
+        #{kpi_name},
+        #{kpi_alias},
+        #{kpi_desc},
+        #{type_id},
+        #{kpi_class_id},
+        #{is_match},
+        #{val_unit},
+        #{val_type},
+        #{val_exp},
+        #{dw_id},
+        #{dw_name},
+        #{source_id},
+        #{op_id},
+        #{idx_field},
+        #{minimum},
+        #{maximum},
+        #{domain_id},
+        #{cjr_id},
+        str_to_date(#{cjsj},'%Y-%m-%d %H:%i:%s'),
+        #{xgr_id},
+        str_to_date(#{xgsj},'%Y-%m-%d %H:%i:%s'),
+        #{yxbz}
+        )
+    </insert>
+
+    <select id="getKpiTypes" resultType="com.integration.entity.Kpi_Type">
+        select id,kpi_name,kpi_alias,kpi_desc,type_id,kpi_class_id,is_match,
+                val_unit,val_type,val_exp,dw_id,dw_name,source_id,op_id,
+                idx_field,cjr_id,cjsj,xgr_id,xgsj,yxbz
+        from IOMCI.IOM_CI_KPI
+        where kpi_name in
+        <foreach collection="kpiNames" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+    
+    <select id="getIomCiKpiTypeByKpiIdAndCiTypeId" resultType="int">
+        select count(*) from iom_ci_kpi_type where KPI_ID=#{kpiId} AND OBJ_ID=#{ciTypeId} AND OBJ_TYPE=2 AND YXBZ=1
+    </select>
+    
+    <select id="getObjIdByKpiId" resultType="String">
+        select OBJ_ID objId from iom_ci_kpi_type where KPI_ID=#{kpiId} AND OBJ_TYPE=2 AND YXBZ=1
+    </select>
+    
+    <select id="getIomCiKpiTypeInfos" resultType="Map">
+        select 
+           ID id,
+           KPI_ID kpiId,
+           OBJ_TYPE objType,
+           OBJ_ID objId,
+           CJSJ cjsj,
+           XGSJ xgsj,
+           YXBZ yxbz
+        from iom_ci_kpi_type where OBJ_TYPE=2 AND YXBZ=1
+    </select>
+
+    <delete id="deleteByKpiNames">
+        delete from IOMCI.IOM_CI_KPI
+        where kpi_name in
+        <foreach collection="newList" index="index" item="item" open="(" separator="," close=")">
+            #{item.kpi_name}
+        </foreach>
+    </delete>
+
+
+    <insert id="insertByKpiNames">
+        insert into IOMCI.IOM_CI_KPI (ID,KPI_NAME,KPI_ALIAS,KPI_DESC,TYPE_ID,KPI_CLASS_ID,IS_MATCH,
+                VAL_UNIT,VAL_TYPE,VAL_EXP,DW_ID,DW_NAME,SOURCE_ID,OP_ID,
+                IDX_FIELD,CJR_ID,CJSJ,XGR_ID,XGSJ,YXBZ,DOMAIN_ID,MINIMUM,MAXIMUM)
+        values
+        <foreach collection="newList" item="item" index="index" separator=",">
+            (
+                #{item.id},
+                #{item.kpi_name},
+                #{item.kpi_alias},
+                #{item.kpi_desc},
+                #{item.type_id},
+                #{item.kpi_class_id},
+                #{item.is_match},
+                #{item.val_unit},
+                #{item.val_type},
+                #{item.val_exp},
+                #{item.dw_id},
+                #{item.dw_name},
+                #{item.source_id},
+                #{item.op_id},
+                #{item.idx_field},
+                #{item.cjr_id},
+                #{item.cjsj},
+                #{item.xgr_id},
+                #{item.xgsj},
+                #{item.yxbz},
+                #{item.domain_id},
+                #{item.minimum},
+                #{item.maximum}
+            )
+        </foreach>
+    </insert>
+
+    <delete id="deleteInfo" parameterType="string">
+        DELETE FROM IOMCI.IOM_CI_KPI WHERE id=#{id}
+    </delete>
+
+    <select id="getAllInfo" resultType="com.integration.entity.CiKpiInfo">
+        select a.ID,a.KPI_NAME,a.KPI_ALIAS,a.KPI_DESC,a.TYPE_ID,case when a.KPI_CLASS_ID = '0' then '' else
+        a.kpi_class_id end KPI_CLASS_ID,
+        a.IS_MATCH,a.VAL_UNIT,a.VAL_TYPE,a.VAL_EXP,a.DW_ID,a.DW_NAME,a.SOURCE_ID,a.OP_ID,
+        a.IDX_FIELD,a.CJR_ID,a.CJSJ,a.XGR_ID,a.XGSJ,a.YXBZ,b.NAME as KPI_CLASS_NAME,a.MAXIMUM,a.MINIMUM
+        from IOMCI.IOM_CI_KPI a
+        left join (select NAME,id from iomci.iom_ci_kpi_class where yxbz = '1') b on a.kpi_class_id = b.id
+        where a.YXBZ = 1
+        <if test=" search != null and search != '' ">
+            and CONCAT(a.KPI_NAME,ifnull(b.NAME,'')) LIKE CONCAT('%',#{search},'%')
+        </if>
+        <if test=" isMatch != null and isMatch != '' ">
+            and a.is_match = #{isMatch}
+        </if>
+        <if test=" domainId != null and domainId != '' ">
+            and a.domain_id in (${domainId})
+        </if>
+        order by a.cjsj desc
+    </select>
+
+    <select id="getKpi_Type" resultType="Kpi_Type">
+        select  a.ID, a.KPI_NAME, a.KPI_ALIAS,a.KPI_DESC,
+			 a.DW_NAME,a.YXBZ, b.OBJ_ID from
+            IOMCI.IOM_CI_KPI a left join
+            IOMCI.IOM_CI_KPI_TYPE b
+            on a.ID = b.KPI_ID
+    </select>
+
+    <select id="selectKpiByCiTypeId" resultType="CiKpiInfo">
+        SELECT
+        <include refid="cols"/>
+        FROM
+        iom_ci_kpi a
+        INNER JOIN iom_ci_kpi_type t ON t.KPI_ID = a.ID
+        <if test=" ciTypeId != null and ciTypeId != '' ">
+            AND t.OBJ_ID = #{ciTypeId}
+        </if>
+        AND t.OBJ_TYPE = 2
+        AND t.YXBZ = 1
+        AND a.YXBZ = 1
+    </select>
+    
+    <select id="selectKpiByCiTypeIdSort" resultType="CiKpiInfo">
+        SELECT
+        <include refid="cols"/>
+        FROM
+        iom_ci_kpi a
+        INNER JOIN iom_ci_kpi_type t ON t.KPI_ID = a.ID
+        <if test=" ciTypeId != null and ciTypeId != '' ">
+            AND t.OBJ_ID = #{ciTypeId}
+        </if>
+        AND t.OBJ_TYPE = 2
+        AND t.YXBZ = 1
+        AND a.YXBZ = 1
+        ORDER BY a.CJSJ DESC
+    </select>
+    
+    <select id="selectKpiByCiTypeIdByPerformanceChart" resultType="Map">
+        SELECT
+        *
+        FROM
+        iom_ci_kpi a where a.YXBZ = 1
+        <if test=" domainId != null and domainId != '' ">
+            AND a.DOMAIN_ID=#{domainId}
+        </if>
+        AND a.id in(select KPI_ID from iom_ci_kpi_type where OBJ_TYPE = 2 AND YXBZ = 1 AND OBJ_ID = #{ciTypeId})
+    </select>
+    
+    <select id="selectKpiByCiTypeIdByPaging" resultType="CiKpiInfo">
+        SELECT
+        <include refid="cols"/>
+        FROM
+        iom_ci_kpi a
+        INNER JOIN iom_ci_kpi_type t ON t.KPI_ID = a.ID
+        <if test=" ciTypeId != null and ciTypeId != '' ">
+            AND t.OBJ_ID = #{ciTypeId}
+        </if>
+        AND t.OBJ_TYPE = 2
+        AND t.YXBZ = 1
+        AND a.YXBZ = 1
+        limit #{pageNum}, #{pageSize}
+    </select>
+    
+    <select id="selectKpiByCiTypeIdByPagingNew" resultType="Map">
+        SELECT
+          a.id,
+          a.kpi_name kpiName,
+          a.kpi_alias kpiAlias,
+          a.kpi_desc kpiDesc,
+          a.type_id typeId,
+          a.kpi_class_id kpiClassId,
+          a.is_match isMatch,
+          a.val_unit valUnit,
+          a.val_type valType,
+          a.val_exp valExp,
+          a.dw_id dwId,
+          a.dw_name dwName,
+          a.source_id sourceId,
+          a.op_id opId,
+          a.idx_field idxField,
+          a.cjr_id cjrId,
+          a.cjsj,
+          a.xgr_id xgrId,
+          a.xgsj,
+          a.yxbz,
+          a.MINIMUM minImum,
+          a.MAXIMUM maxImum
+        FROM
+        iom_ci_kpi a
+        INNER JOIN iom_ci_kpi_type t ON t.KPI_ID = a.ID
+        <if test=" ciTypeId != null and ciTypeId != '' ">
+            AND t.OBJ_ID = #{ciTypeId}
+        </if>
+        <if test=" kpiName != null and kpiName != '' ">
+            AND a.KPI_NAME like CONCAT('%',#{kpiName},'%')
+        </if>
+        <if test="domainId !=null and domainId !=''">AND a.DOMAIN_ID in (${domainId})</if>
+        AND t.OBJ_TYPE = 2
+        AND t.YXBZ = 1
+        AND a.YXBZ = 1
+        limit #{pageNum}, #{pageSize}
+    </select>
+    
+    <select id="selectKpiByCiTypeIdByPagingCount" resultType="int">
+        SELECT
+        count(*) as num
+        FROM
+        iom_ci_kpi a
+        INNER JOIN iom_ci_kpi_type t ON t.KPI_ID = a.ID
+        <if test=" ciTypeId != null and ciTypeId != '' ">
+            AND t.OBJ_ID = #{ciTypeId}
+        </if>
+        <if test=" kpiName != null and kpiName != '' ">
+            AND a.KPI_NAME like CONCAT('%',#{kpiName},'%')
+        </if>
+        <if test="domainId !=null and domainId !=''">AND a.DOMAIN_ID in (${domainId})</if>
+        AND t.OBJ_TYPE = 2
+        AND t.YXBZ = 1
+        AND a.YXBZ = 1
+    </select>
+
+    <select id="findByNameKPI" parameterType="string" resultType="CiKpiInfo">
+        select * from iomci.iom_ci_kpi where BINARY KPI_NAME=#{name} and YXBZ = 1
+    </select>
+
+    <select id="findByNameKPIClass" resultType="map" parameterType="string">
+        select
+        kpi.ID as id,
+        kpi.KPI_NAME as kpiName,
+        kpi.KPI_ALIAS as kpiAlias,
+        kpi.KPI_DESC as kpiDesc,
+        kpi.TYPE_ID as typeId,
+        kpi.KPI_CLASS_ID as kpiClass,
+        kpi.IS_MATCH as isMatch,
+        kpi.VAL_UNIT as valUnit,
+        kpi.VAL_TYPE as valType,
+        kpi.VAL_EXP as valExp,
+        kpi.DW_ID as dwId,
+        kpi.DW_NAME as dwName,
+        kpi.SOURCE_ID as sourceId,
+        kpi.OP_ID as opId,
+        kpi.IDX_FIELD as idxField,
+        kpi.CJR_ID as cjrId,
+        kpi.CJSJ as cjsj,
+        kpi.XGR_ID as xgrId,
+        kpi.XGSJ as xgsj,
+        kpi.YXBZ as yxbz
+        from iomci.iom_ci_kpi kpi where kpi.KPI_NAME=#{name} and kpi.YXBZ=1
+    </select>
+    <select id="findByNameKPIClassByZ" resultType="map" parameterType="string">
+        select
+        kpi.ID as id,
+        kpi.KPI_NAME as kpiName,
+        kpi.KPI_ALIAS as kpiAlias,
+        kpi.KPI_DESC as kpiDesc,
+        kpi.TYPE_ID as typeId,
+        kpi.KPI_CLASS_ID as kpiClass,
+        kpi.IS_MATCH as isMatch,
+        kpi.VAL_UNIT as valUnit,
+        kpi.VAL_TYPE as valType,
+        kpi.VAL_EXP as valExp,
+        kpi.DW_ID as dwId,
+        kpi.DW_NAME as dwName,
+        kpi.SOURCE_ID as sourceId,
+        kpi.OP_ID as opId,
+        kpi.IDX_FIELD as idxField,
+        kpi.CJR_ID as cjrId,
+        kpi.CJSJ as cjsj,
+        kpi.XGR_ID as xgrId,
+        kpi.XGSJ as xgsj,
+        kpi.YXBZ as yxbz
+        from iomci.iom_ci_kpi kpi where kpi.KPI_NAME=#{name} and kpi.IS_MATCH = 0 and kpi.YXBZ=1
+    </select>
+
+    <select id="findByListClassId" parameterType="string" resultType="map">
+        select
+          ID as id,
+          KPI_NAME as kpiName,
+          KPI_ALIAS as kpiAlias,
+          KPI_DESC as kpiDesc,
+          TYPE_ID as typeId,
+          KPI_CLASS_ID as kpiClassId,
+          IS_MATCH as isMatch,
+          VAL_UNIT as valUnit,
+          VAL_TYPE as valType,
+          VAL_EXP as valExp,
+          DW_ID as dwId,
+          DW_NAME as dwName,
+          SOURCE_ID as sourceId,
+          OP_ID as opId,
+          IDX_FIELD as idxField,
+          CJR_ID as cjrId,
+          CJSJ as cjsj,
+          XGR_ID as xgrId,
+          XGSJ as xgsj,
+          YXBZ as yxbz
+        from iomci.iom_ci_kpi where KPI_CLASS_ID in (${ids}) and YXBZ = 1
+        <if test="domainId !=null and domainId!=''">AND DOMAIN_ID in (${domainId})</if>
+    </select>
+
+    <select id="getCiKpiAll" resultType="Map">
+        select
+        ID as id,
+        KPI_NAME as kpiName,
+        KPI_ALIAS as kpiAlias,
+        KPI_DESC as kpiDesc,
+        TYPE_ID as typeId,
+        KPI_CLASS_ID as kpiClassId,
+        IS_MATCH as isMatch,
+        VAL_UNIT as valUnit,
+        VAL_TYPE as valType,
+        VAL_EXP as valExp,
+        DW_ID as dwId,
+        DW_NAME as dwName,
+        SOURCE_ID as sourceId,
+        OP_ID as opId,
+        IDX_FIELD as idxField,
+        CJR_ID as cjrId,
+        CJSJ as cjsj,
+        XGR_ID as xgrId,
+        XGSJ as xgsj,
+        YXBZ as yxbz
+        from iomci.iom_ci_kpi where 1=1
+        <if test=" kpiName != null and kpiName != '' ">
+            AND iomci.iom_ci_kpi.KPI_NAME like CONCAT('%',#{kpiName},'%')
+        </if>
+        <if test="domainId != null and domainId!=''">AND iomci.iom_ci_kpi.DOMAIN_ID in (${domainId})</if>
+        <if test="kpiClassId !=null and kpiClassId != ''">
+            AND KPI_CLASS_ID=#{kpiClassId}
+        </if>
+        AND YXBZ=1
+        <if test=" kpiName != null and kpiName != '' ">
+            ORDER BY(case
+                        when KPI_NAME=#{kpiName} then 1
+                        when KPI_NAME like CONCAT(#{kpiName},'%') then 2
+                        when KPI_NAME like CONCAT('%',#{kpiName},'%') then 3
+                        else 4
+                        end)
+        </if>
+    </select>
+
+    <select id="getKpi_TypeCount" resultType="int">
+        select count(1)
+        from IOMCI.IOM_CI_KPI a
+        left join (select NAME,id from iomci.iom_ci_kpi_class where yxbz = '1') b on a.kpi_class_id = b.id
+        where a.YXBZ = 1
+        <if test=" search != null and search != '' ">
+            and CONCAT(a.KPI_NAME,ifnull(b.NAME,'')) LIKE CONCAT('%',#{search},'%')
+        </if>
+        <if test=" isMatch != null and isMatch != '' ">
+            and a.is_match = #{isMatch}
+        </if>
+        <if test="domainId !=null and domainId !=''"> and a.domain_id in (${domainId})</if>
+    </select>
+
+    <select id="findByKpiProperty" parameterType="string" resultType="java.lang.Object">
+        select ${propertyName} from iomci.iom_ci_kpi where YXBZ = 1 and ID = #{kpiId}
+    </select>
+    <select id="findCIidList" resultType="string">
+        SELECT
+        i.CI_CODE
+        FROM
+        iomci.iom_ci_info i
+        LEFT JOIN iomci.iom_ci_type_item t ON i.CI_TYPE_ID = t.CI_TYPE_ID
+        WHERE
+        1 = 1
+        <if test="valName != null and valName != ''">
+            <if test="ciCode != null">
+                and
+                <foreach collection="ciCode" index="index" item="item" open="(" close=")">
+
+                    <if test="index == 0">
+                        I.ATTRS_STR like CONCAT('%',#{item},'%')
+                    </if>
+                    <if test="index > 0">
+                        OR I.ATTRS_STR like CONCAT('%',#{item},'%')
+                    </if>
+                </foreach>
+            </if>
+            and t.ATTR_NAME = #{valName}
+        </if>
+        <if test="type != null">
+            AND i.CI_CODE IN (
+            SELECT
+            i.CI_CODE
+            FROM
+            iomci.iom_ci_info i
+            LEFT JOIN iomci.iom_ci_type_item t ON i.CI_TYPE_ID = t.CI_TYPE_ID
+            WHERE
+            1 = 1
+            <if test="typeValName != null and typeValName != ''">
+                <if test="type !=null">
+                    and
+                    <foreach collection="type" index="index" item="item" open="(" close=")">
+
+                        <if test="index == 0">
+                            i.ATTRS_STR like CONCAT('%',#{item},'%')
+                        </if>
+                        <if test="index > 0">
+                            OR i.ATTRS_STR like CONCAT('%',#{item},'%')
+                        </if>
+                    </foreach>
+                </if>
+                and t.ATTR_NAME = #{typeValName}
+            </if>
+            GROUP BY
+            i.CI_CODE
+            )
+        </if>
+        GROUP BY
+        i.CI_CODE
+    </select>
+
+    <select id="getKpiInfoByKpiIds" resultType="Map">
+        select
+        a.ID id,
+        a.KPI_NAME kpiName,
+        a.VAL_UNIT valUnit
+        from IOMCI.IOM_CI_KPI a where YXBZ=1      
+        <if test=" kpiNameList != null and kpiNameList != '' ">
+            AND a.KPI_NAME in
+            <foreach item="kpiName" index="index" collection="kpiNameList" open="(" separator="," close=")">
+                #{kpiName}
+            </foreach>
+        </if>
+        <if test=" domainId != null and domainId != '' ">
+            AND DOMAIN_ID=#{domainId}
+        </if>
+    </select>
+    
+    <select id="getKpiByKpiIds" resultType="Map">
+        select
+          ID id,
+          KPI_NAME kpiName,
+          KPI_ALIAS kpiAlias,
+          KPI_DESC kpiDesc,
+          TYPE_ID typeId,
+          KPI_CLASS_ID kpiClassId,
+          IS_MATCH isMatch,
+          VAL_UNIT valUnit,
+          VAL_TYPE valType,
+          VAL_EXP valExp,
+          DW_ID dwId,
+          DW_NAME dwName,
+          SOURCE_ID sourceId,
+          OP_ID opId,
+          IDX_FIELD idxField,
+          DOMAIN_ID domainId,
+          CJR_ID cjrId,
+          CJSJ cjsj,
+          XGR_ID xgrId,
+          XGSJ xgsj,
+          YXBZ yxbz,
+          MINIMUM minImum,
+          MAXIMUM maxImum
+        from IOMCI.IOM_CI_KPI where YXBZ=1
+        <if test=" kpiNameList != null and kpiNameList != '' ">
+            AND KPI_NAME IN
+            <foreach item="kpiName" index="index" collection="kpiNameList" open="(" separator="," close=")">
+                #{kpiName}
+            </foreach>
+        </if>
+    </select>
+    
+    <select id="getKpiByKpiNames" resultType="Map">
+        select
+          ID id,
+          KPI_NAME kpiName,
+          KPI_ALIAS kpiAlias,
+          KPI_DESC kpiDesc,
+          TYPE_ID typeId,
+          KPI_CLASS_ID kpiClassId,
+          IS_MATCH isMatch,
+          VAL_UNIT valUnit,
+          VAL_TYPE valType,
+          VAL_EXP valExp,
+          DW_ID dwId,
+          DW_NAME dwName,
+          SOURCE_ID sourceId,
+          OP_ID opId,
+          IDX_FIELD idxField,
+          DOMAIN_ID domainId,
+          CJR_ID cjrId,
+          CJSJ cjsj,
+          XGR_ID xgrId,
+          XGSJ xgsj,
+          YXBZ yxbz,
+          MINIMUM minImum,
+          MAXIMUM maxImum
+        from IOMCI.IOM_CI_KPI where YXBZ=1
+        <if test=" kpiNameList != null and kpiNameList != '' ">
+            AND KPI_NAME IN
+            <foreach item="kpiName" index="index" collection="kpiNameList" open="(" separator="," close=")">
+                #{kpiName}
+            </foreach>
+        </if>
+    </select>
+    
+    <select id="getCiTypeInfoByKpiIds" resultType="String">
+        select
+           OBJ_ID objId
+        from IOMCI.IOM_CI_KPI_TYPE where YXBZ=1 AND OBJ_TYPE=2
+        <if test=" kpiIdList != null and kpiIdList != '' ">
+            AND KPI_ID IN
+            <foreach item="kpiId" index="index" collection="kpiIdList" open="(" separator="," close=")">
+                ${kpiId}
+            </foreach>
+        </if>
+    </select>
+    
+    <select id="getKpiUnitByKpiIds" resultType="Map">
+        select
+        a.ID id,
+        a.KPI_NAME kpiName,
+        a.VAL_UNIT valUnit
+        from IOMCI.IOM_CI_KPI a where a.KPI_NAME in
+        <foreach collection="list" index="index" item="item" open="("
+                 separator="," close=")">
+            #{item}
+        </foreach>
+        and yxbz=1
+    </select>
+
+    <select id="getCiCode" parameterType="list" resultType="string">
+        select ictd.${mpCiItem} from iom_ci_type_data ictd where 1=1
+        <if test="list != null"> and
+            <foreach collection="list" open="("  close=")" index="ind" item="it">
+                <if test="ind == 0">
+                     ictd.${mpCiItem} = #{it}
+                </if>
+                <if test="ind > 0">
+                    OR ictd.${mpCiItem} = #{it}
+                </if>
+            </foreach>
+        </if>
+        and ictd.ci_type_id = #{ciTypeId}
+    </select>
+    <select id="getAllKpiClass" resultType="java.util.Map">
+        select * from iomci.iom_ci_kpi_class where YXBZ = 1
+    </select>
+    <select id="findByListSource" resultType="java.util.Map">
+        select * from iomci.iom_ci_kpi where YXBZ = 1 and SOURCE_ID = #{ids}
+    </select>
+    <select id="findKpiIdsBySource" resultType="java.util.Map">
+        select kc.NAME as className,GROUP_CONCAT(k.ID) as kpiID from iom_ci_kpi_class kc left join iom_ci_kpi k on kc.ID = k.KPI_CLASS_ID where kc.YXBZ =1 and k.YXBZ = 1 and kc.ID in (${source}) group by kc.ID
+    </select>
+    <select id="findKpiIdBySource" resultType="java.lang.String">
+        select GROUP_CONCAT(k.ID) as kpiID from iom_ci_kpi k where k.YXBZ = 1 and k.SOURCE_ID = #{source}
+    </select>
+    <select id="findCisByClassName" resultType="java.util.Map">
+        select i.* from iom_ci_info i left join iom_ci_type t on i.CI_TYPE_ID = t.ID where i.YXBZ = 1 and t.CI_TYPE_MC=#{className}
+    </select>
+    <select id="findCisByType" resultType="java.util.Map">
+        select  * from ci_view where JSON_CONTAINS(jsondata,JSON_OBJECT('${type}', #{typeVal}))
+    </select>
+    <select id="findKpiClassByClassId" resultType="java.util.Map">
+        select * from iom_ci_kpi_class where YXBZ = 1 and NAME in (<foreach collection="name" item="item" separator=",">
+        #{item}</foreach>)
+    </select>
+    <select id="findKpiByKpiName" resultType="java.util.Map">
+        select * from iom_ci_kpi where YXBZ = 1 and KPI_NAME in (<foreach collection="name" item="item" separator=",">
+        #{item}</foreach>)
+    </select>
+    <select id="findCisByCiTypeId" resultType="java.lang.String">
+        select GROUP_CONCAT(ID) from iom_ci_info where YXBZ = 1 and CI_TYPE_ID = #{ciTypeId}
+    </select>
+    <select id="findCisByMap" resultType="java.lang.String">
+        select GROUP_CONCAT(a.ID) from iom_ci_info a where a.YXBZ = 1
+        <if test="null != ci_code ">
+           and a.ci_code = #{ci_code}
+        </if>
+        <if test="null != ci_desc ">
+            and a.ci_desc = #{ci_desc}
+        </if>
+        <if test="null != ci_type_id ">
+            and a.ci_type_id = #{ci_type_id}
+        </if>
+        <if test="null != source_id ">
+            and a.source_id = #{source_id}
+        </if>
+        <if test="null != owner_id ">
+            and a.owner_id = #{owner_id}
+        </if>
+        <if test="null != org_id ">
+            and a.org_id = #{org_id}
+        </if>
+        <if test="null != ci_version ">
+            and a.ci_version = #{ci_version}
+        </if>
+    </select>
+    
+    <select id="getCiKpiInfosByIds" resultType="Map">
+        select
+          ID id,
+          KPI_NAME kpiName,
+          KPI_ALIAS kpiAlias,
+          KPI_DESC kpiDesc,
+          TYPE_ID typeId,
+          KPI_CLASS_ID kpiClassId,
+          IS_MATCH isMatch,
+          VAL_UNIT valUnit,
+          VAL_TYPE valType,
+          VAL_EXP valExp,
+          DW_ID dwId,
+          DW_NAME dwName,
+          SOURCE_ID sourceId,
+          OP_ID opId,
+          IDX_FIELD idxField,
+          DOMAIN_ID domainId,
+          CJR_ID cjrId,
+          CJSJ cjsj,
+          XGR_ID xgrId,
+          XGSJ xgsj,
+          YXBZ yxbz,
+          MINIMUM minImum,
+          MAXIMUM maxImum
+        from IOMCI.IOM_CI_KPI where YXBZ=1
+        <if test=" kpiNameList != null and kpiNameList != '' ">
+            AND KPI_NAME IN
+            <foreach item="kpiName" index="index" collection="kpiNameList" open="(" separator="," close=")">
+                #{kpiName}
+            </foreach>
+        </if>
+       
+    </select>
+
+</mapper>

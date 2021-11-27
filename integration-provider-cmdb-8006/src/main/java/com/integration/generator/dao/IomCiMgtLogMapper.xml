@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.integration.generator.dao.IomCiMgtLogMapper">
+  <resultMap id="BaseResultMap" type="com.integration.generator.entity.IomCiMgtLog">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="CI_ID" jdbcType="DECIMAL" property="ciId" />
+    <result column="TYPE_ID" jdbcType="DECIMAL" property="typeId" />
+    <result column="BGR_ID" jdbcType="DECIMAL" property="bgrId" />
+    <result column="BGSJ" jdbcType="TIMESTAMP" property="bgsj" />
+    <result column="MGT_TYPE" jdbcType="INTEGER" property="mgtType" />
+    <result column="UP_ITEM" jdbcType="VARCHAR" property="upItem" />
+    <result column="YXBZ" jdbcType="INTEGER" property="yxbz" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ID, CI_ID, TYPE_ID, BGR_ID, BGSJ, MGT_TYPE, UP_ITEM, YXBZ
+  </sql>
+  <select id="selectByExample" parameterType="com.integration.generator.entity.IomCiMgtLogExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from iom_ci_mgt_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from iom_ci_mgt_log
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from iom_ci_mgt_log
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.integration.generator.entity.IomCiMgtLogExample">
+    delete from iom_ci_mgt_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.integration.generator.entity.IomCiMgtLog">
+    insert into iom_ci_mgt_log (ID, CI_ID, TYPE_ID, 
+      BGR_ID, BGSJ, MGT_TYPE, 
+      UP_ITEM, YXBZ)
+    values (#{id,jdbcType=DECIMAL}, #{ciId,jdbcType=DECIMAL}, #{typeId,jdbcType=DECIMAL}, 
+      #{bgrId,jdbcType=DECIMAL}, #{bgsj,jdbcType=TIMESTAMP}, #{mgtType,jdbcType=INTEGER}, 
+      #{upItem,jdbcType=VARCHAR}, #{yxbz,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.integration.generator.entity.IomCiMgtLog">
+    insert into iom_ci_mgt_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="ciId != null">
+        CI_ID,
+      </if>
+      <if test="typeId != null">
+        TYPE_ID,
+      </if>
+      <if test="bgrId != null">
+        BGR_ID,
+      </if>
+      <if test="bgsj != null">
+        BGSJ,
+      </if>
+      <if test="mgtType != null">
+        MGT_TYPE,
+      </if>
+      <if test="upItem != null">
+        UP_ITEM,
+      </if>
+      <if test="yxbz != null">
+        YXBZ,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="ciId != null">
+        #{ciId,jdbcType=DECIMAL},
+      </if>
+      <if test="typeId != null">
+        #{typeId,jdbcType=DECIMAL},
+      </if>
+      <if test="bgrId != null">
+        #{bgrId,jdbcType=DECIMAL},
+      </if>
+      <if test="bgsj != null">
+        #{bgsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mgtType != null">
+        #{mgtType,jdbcType=INTEGER},
+      </if>
+      <if test="upItem != null">
+        #{upItem,jdbcType=VARCHAR},
+      </if>
+      <if test="yxbz != null">
+        #{yxbz,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.integration.generator.entity.IomCiMgtLogExample" resultType="java.lang.Long">
+    select count(*) from iom_ci_mgt_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update iom_ci_mgt_log
+    <set>
+      <if test="record.id != null">
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.ciId != null">
+        CI_ID = #{record.ciId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.typeId != null">
+        TYPE_ID = #{record.typeId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.bgrId != null">
+        BGR_ID = #{record.bgrId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.bgsj != null">
+        BGSJ = #{record.bgsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.mgtType != null">
+        MGT_TYPE = #{record.mgtType,jdbcType=INTEGER},
+      </if>
+      <if test="record.upItem != null">
+        UP_ITEM = #{record.upItem,jdbcType=VARCHAR},
+      </if>
+      <if test="record.yxbz != null">
+        YXBZ = #{record.yxbz,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update iom_ci_mgt_log
+    set ID = #{record.id,jdbcType=DECIMAL},
+      CI_ID = #{record.ciId,jdbcType=DECIMAL},
+      TYPE_ID = #{record.typeId,jdbcType=DECIMAL},
+      BGR_ID = #{record.bgrId,jdbcType=DECIMAL},
+      BGSJ = #{record.bgsj,jdbcType=TIMESTAMP},
+      MGT_TYPE = #{record.mgtType,jdbcType=INTEGER},
+      UP_ITEM = #{record.upItem,jdbcType=VARCHAR},
+      YXBZ = #{record.yxbz,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.integration.generator.entity.IomCiMgtLog">
+    update iom_ci_mgt_log
+    <set>
+      <if test="ciId != null">
+        CI_ID = #{ciId,jdbcType=DECIMAL},
+      </if>
+      <if test="typeId != null">
+        TYPE_ID = #{typeId,jdbcType=DECIMAL},
+      </if>
+      <if test="bgrId != null">
+        BGR_ID = #{bgrId,jdbcType=DECIMAL},
+      </if>
+      <if test="bgsj != null">
+        BGSJ = #{bgsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mgtType != null">
+        MGT_TYPE = #{mgtType,jdbcType=INTEGER},
+      </if>
+      <if test="upItem != null">
+        UP_ITEM = #{upItem,jdbcType=VARCHAR},
+      </if>
+      <if test="yxbz != null">
+        YXBZ = #{yxbz,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.integration.generator.entity.IomCiMgtLog">
+    update iom_ci_mgt_log
+    set CI_ID = #{ciId,jdbcType=DECIMAL},
+      TYPE_ID = #{typeId,jdbcType=DECIMAL},
+      BGR_ID = #{bgrId,jdbcType=DECIMAL},
+      BGSJ = #{bgsj,jdbcType=TIMESTAMP},
+      MGT_TYPE = #{mgtType,jdbcType=INTEGER},
+      UP_ITEM = #{upItem,jdbcType=VARCHAR},
+      YXBZ = #{yxbz,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

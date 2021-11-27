@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.integration.dao.IomCampJobMapper">
+  <resultMap id="BaseResultMap" type="com.integration.entity.IomCampJob">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="class_name" jdbcType="VARCHAR" property="className" />
+    <result column="cron" jdbcType="VARCHAR" property="cron" />
+    <result column="job_state" jdbcType="VARCHAR" property="jobState" />
+    <result column="cjr_id" jdbcType="DECIMAL" property="cjrId" />
+    <result column="cjsj" jdbcType="TIMESTAMP" property="cjsj" />
+    <result column="xgr_id" jdbcType="DECIMAL" property="xgrId" />
+    <result column="xgsj" jdbcType="TIMESTAMP" property="xgsj" />
+    <result column="yxbz" jdbcType="INTEGER" property="yxbz" />
+    <result column="cjr_name" jdbcType="VARCHAR" property="cjrName" />
+    <result column="cgr_name" jdbcType="VARCHAR" property="cgrName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ${table}id,
+    ${table}name,
+    ${table}description,
+    ${table}class_name,
+    ${table}cron,
+    ${table}job_state,
+    ${table}cjr_id,
+    ${table}cjsj,
+    ${table}xgr_id,
+    ${table}xgsj,
+    ${table}yxbz
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" >
+      <property name="table" value=""/>
+    </include>
+    from iom_camp_job
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from iom_camp_job
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.integration.entity.IomCampJob">
+    insert into iom_camp_job (id, name, description,
+      class_name, cron, job_state, 
+      cjr_id, cjsj, xgr_id,
+      xgsj, yxbz)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR},
+      #{className,jdbcType=VARCHAR}, #{cron,jdbcType=VARCHAR}, #{jobState,jdbcType=VARCHAR}, 
+      #{cjrId,jdbcType=DECIMAL}, #{cjsj,jdbcType=TIMESTAMP}, #{xgrId,jdbcType=DECIMAL}, 
+      #{xgsj,jdbcType=TIMESTAMP}, #{yxbz,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.integration.entity.IomCampJob">
+    insert into iom_camp_job
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="className != null">
+        class_name,
+      </if>
+      <if test="cron != null">
+        cron,
+      </if>
+      <if test="jobState != null">
+        job_state,
+      </if>
+      <if test="cjrId != null">
+        cjr_id,
+      </if>
+      <if test="cjsj != null">
+        cjsj,
+      </if>
+      <if test="xgrId != null">
+        xgr_id,
+      </if>
+      <if test="xgsj != null">
+        xgsj,
+      </if>
+      <if test="yxbz != null">
+        yxbz,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="className != null">
+        #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="cron != null">
+        #{cron,jdbcType=VARCHAR},
+      </if>
+      <if test="jobState != null">
+        #{jobState,jdbcType=VARCHAR},
+      </if>
+      <if test="cjrId != null">
+        #{cjrId,jdbcType=DECIMAL},
+      </if>
+      <if test="cjsj != null">
+        #{cjsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="xgrId != null">
+        #{xgrId,jdbcType=DECIMAL},
+      </if>
+      <if test="xgsj != null">
+        #{xgsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="yxbz != null">
+        #{yxbz,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.integration.entity.IomCampJob">
+    update iom_camp_job
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="className != null">
+        class_name = #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="cron != null">
+        cron = #{cron,jdbcType=VARCHAR},
+      </if>
+      <if test="jobState != null">
+        job_state = #{jobState,jdbcType=VARCHAR},
+      </if>
+      <if test="cjrId != null">
+        cjr_id = #{cjrId,jdbcType=DECIMAL},
+      </if>
+      <if test="cjsj != null">
+        cjsj = #{cjsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="xgrId != null">
+        xgr_id = #{xgrId,jdbcType=DECIMAL},
+      </if>
+      <if test="xgsj != null">
+        xgsj = #{xgsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="yxbz != null">
+        yxbz = #{yxbz,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.integration.entity.IomCampJob">
+    update iom_camp_job
+    set name = #{name,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      class_name = #{className,jdbcType=VARCHAR},
+      cron = #{cron,jdbcType=VARCHAR},
+      job_state = #{jobState,jdbcType=VARCHAR},
+      cjr_id = #{cjrId,jdbcType=DECIMAL},
+      cjsj = #{cjsj,jdbcType=TIMESTAMP},
+      xgr_id = #{xgrId,jdbcType=DECIMAL},
+      xgsj = #{xgsj,jdbcType=TIMESTAMP},
+      yxbz = #{yxbz,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectList" parameterType="com.integration.entity.IomCampJob" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" >
+    <property name="table" value="a."/>
+    </include>
+    ,czry.czry_mc cjr_name,cgry.czry_mc cgr_name
+    from iom_camp_job a
+    LEFT JOIN iom_camp_czry czry on a.cjr_id = czry.id
+    LEFT JOIN iom_camp_czry cgry on a.xgr_id = cgry.id
+    <where>
+      <if test="name != null">
+        and name like CONCAT('%',#{name,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="name != null">
+        and class_name like CONCAT('%',#{className,jdbcType=VARCHAR},'%')
+      </if>
+    </where>
+    order by xgsj desc
+  </select>
+
+</mapper>

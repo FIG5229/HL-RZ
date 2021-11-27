@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.integration.dao.DictDao">
+
+	<sql id="getSql">
+		dict_id as dict_id,
+		dict_bm as dict_bm,
+		dict_name as dict_name,
+		sj_id as sj_id,
+		gnfl as gnfl,
+		sort as sort,
+		cjr_id as cjr_id,
+		DATE_FORMAT(cjsj,'%Y-%m-%d %H:%i:%s') as cjsj,
+		xgr_id as xgr_id,
+		xgsj as  xgsj,
+		yxbz as yxbz,
+		coutent  as coutent
+	</sql>
+
+
+	<insert id="addDict" parameterType="dict">
+		insert into
+		iommgt.iom_camp_dict(DICT_ID,DICT_BM,DICT_NAME,SJ_ID,GNFL,SORT,CJR_ID,CJSJ,XGR_ID,XGSJ,YXBZ,COUTENT)
+		VALUES(#{dict_id},#{dict_bm},#{dict_name},#{sj_id},#{gnfl},#{sort},#{cjr_id},
+		str_to_date(#{cjsj},'%Y-%m-%d %H:%i:%s'),
+		#{xgr_id},str_to_date(#{xgsj} ,'%Y-%m-%d %H:%i:%s'),
+		#{yxbz},#{coutent});
+	</insert>
+
+	<insert id="addDictHump" parameterType="dict">
+		insert into iommgt.iom_camp_dict(DICT_ID,DICT_BM,DICT_NAME,SJ_ID,GNFL,SORT,CJR_ID,CJSJ,XGR_ID,XGSJ,YXBZ,COUTENT)
+		VALUES(#{dictId},#{dictBm},#{dictName},#{sjId},#{gnfl},#{sort},#{cjrId},
+		str_to_date(#{cjsj},'%Y-%m-%d %H:%i:%s'),
+		#{xgrId},str_to_date(#{xgsj} ,'%Y-%m-%d %H:%i:%s'),
+		#{yxbz},#{coutent});
+	</insert>
+
+	<insert id="addDictHumps" parameterType="map">
+		insert into iommgt.iom_camp_dict(DICT_ID,DICT_BM,DICT_NAME,SJ_ID,GNFL,SORT,CJR_ID,CJSJ,XGR_ID,XGSJ,YXBZ,COUTENT)
+		VALUES
+		<foreach collection="dicts" item="item" index="index" separator=",">
+			(
+				#{item.dictId},
+				#{item.dictBm},
+				#{item.dictName},
+				#{item.sjId},
+				#{item.gnfl},
+				#{item.sort},
+				#{item.cjrId},
+				#{item.cjsj},
+				#{item.xgrId},
+				#{item.xgsj},
+				#{item.yxbz},
+				#{item.coutent}
+			)
+		</foreach>
+	</insert>
+	<insert id="addDictList">
+		insert into iommgt.iom_camp_dict(DICT_ID,DICT_BM,DICT_NAME,SJ_ID,GNFL,SORT,CJR_ID,CJSJ,XGR_ID,XGSJ,YXBZ,COUTENT)
+		VALUES
+		<foreach collection="list" item="item" index="index" separator=",">
+			(
+			#{item.dict_id},
+			#{item.dict_bm},
+			#{item.dict_name},
+			#{item.sj_id},
+			#{item.gnfl},
+			#{item.sort},
+			#{item.cjr_id},
+			date_format(now() ,'%Y-%m-%d %H:%i:%s'),
+			#{item.xgr_id},
+			#{item.xgsj},
+			#{item.yxbz},
+			#{item.coutent}
+			)
+		</foreach>
+	</insert>
+
+	<delete id="deleteDict" parameterType="String">
+		delete from
+		iommgt.iom_camp_dict where DICT_ID=#{dict_id};
+	</delete>
+	
+	<delete id="deleteDictBySjId" parameterType="String">
+		delete from
+		iommgt.iom_camp_dict where SJ_ID=#{sj_id};
+	</delete>
+
+	<update id="updateDict" parameterType="dict">
+		update iommgt.iom_camp_dict
+		<set>
+			<if test="dict_bm != null and dict_bm !=''">
+				DICT_BM=#{dict_bm},
+			</if>
+			<if test="dict_name != null and dict_name !=''">
+				DICT_NAME=#{dict_name},
+			</if>
+			<if test="sj_id != null and sj_id !=''">
+				SJ_ID=#{sj_id},
+			</if>
+			<if test="gnfl != null and gnfl !=''">
+				GNFL=#{gnfl},
+			</if>
+			<if test="sort != null and sort !=''">
+				SORT=#{sort},
+			</if>
+			<if test="cjr_id != null and cjr_id !=''">
+				CJR_ID=#{cjr_id},
+			</if>
+			<if test="cjsj != null and cjsj !=''">
+				CJSJ=str_to_date(#{cjsj} ,'%Y-%m-%d %H:%i:%s'),
+			</if>
+			<if test="xgr_id != null and xgr_id !=''">
+				XGR_ID=#{xgr_id},
+			</if>
+			<if test="xgsj != null and xgsj !=''">
+				XGSJ=str_to_date(#{xgsj} ,'%Y-%m-%d %H:%i:%s'),
+			</if>
+			<if test="yxbz != null and yxbz !=''">
+				YXBZ=#{yxbz}
+			</if>
+			<if test="coutent != null">
+				COUTENT=#{coutent}
+			</if>
+		</set>
+		WHERE DICT_ID = #{dict_id}
+	</update>
+	<update id="updateDictList">
+		<foreach separator=";" collection="list" item="item" index="index">
+			update iommgt.iom_camp_dict
+			<set>
+				<if test="item.dict_bm != null and item.dict_bm !=''">
+					DICT_BM=#{item.dict_bm},
+				</if>
+				<if test="item.dict_name != null and item.dict_name !=''">
+					DICT_NAME=#{item.dict_name},
+				</if>
+				<if test="item.sj_id != null and item.sj_id !=''">
+					SJ_ID=#{item.sj_id},
+				</if>
+				<if test="item.gnfl != null and item.gnfl !=''">
+					GNFL=#{item.gnfl},
+				</if>
+				<if test="item.sort != null and item.sort !=''">
+					SORT=#{item.sort},
+				</if>
+				<if test="item.cjr_id != null and item.cjr_id !=''">
+					CJR_ID=#{item.cjr_id},
+				</if>
+				<if test="item.cjsj != null and item.cjsj !=''">
+					CJSJ=str_to_date(#{item.cjsj} ,'%Y-%m-%d %H:%i:%s'),
+				</if>
+				<if test="item.xgr_id != null and item.xgr_id !=''">
+					XGR_ID=#{item.xgr_id},
+				</if>
+				<if test="item.xgsj != null and item.xgsj !=''">
+					XGSJ=str_to_date(#{item.xgsj} ,'%Y-%m-%d %H:%i:%s'),
+				</if>
+				<if test="item.yxbz != null and item.yxbz !=''">
+					YXBZ=#{item.yxbz},
+				</if>
+				<if test="item.coutent != null and item.coutent !=''">
+					COUTENT=#{item.coutent}
+				</if>
+			</set>
+			WHERE DICT_ID = #{item.dict_id}
+		</foreach>
+	</update>
+
+	<select id="findDict" parameterType="string" resultType="dict">
+		select * from iommgt.iom_camp_dict where YXBZ=1
+		<if test="dict_name != null and dict_name !=''">
+			AND DICT_NAME LIKE CONCAT('%',#{dict_name},'%')
+		</if>
+	</select>
+
+	<select id="existsDict_bm"  resultType="int">
+		select count(1) from iommgt.iom_camp_dict WHERE DICT_BM = #{dict_bm} AND SJ_ID = #{sj_id}
+	</select>
+	<select id="existsDict_name"  resultType="int">
+		select count(1) from iommgt.iom_camp_dict
+		WHERE DICT_NAME = #{dict_name}
+		<if test="sj_id != null and sj_id != ''">
+			and sj_id = #{sj_id}
+		</if>
+	</select>
+	<select id="findDictById" parameterType="String" resultType="dict">
+		select 
+		<include refid="getSql" />
+		 from iommgt.iom_camp_dict WHERE DICT_ID = #{dict_id} AND YXBZ=1
+	</select>
+	
+	<select id="findDiceBySj_id" resultType="map" parameterType="String">
+		select 
+	<include refid="getSql" />
+	 from iommgt.iom_camp_dict where  sj_id = #{sj_id} and YXBZ=1
+	</select>
+
+	<select id="findParentDict" resultType="dict">
+		select * from iommgt.iom_camp_dict WHERE SJ_ID = #{sj_id} and YXBZ=1
+		<if test="dict_name != null and dict_name !=''">
+			and dict_name LIKE CONCAT('%',#{dict_name},'%')
+		</if>
+	</select>
+
+	<select id="findParentDictByBm" resultType="dict">
+		select * from iommgt.iom_camp_dict WHERE SJ_ID = #{sj_id} and YXBZ=1
+		<if test="dict_name != null and dict_name !=''">
+			and (dict_name LIKE CONCAT('%',#{dict_name},'%') or DICT_BM like CONCAT('%',#{dict_name},'%'))
+		</if>
+	</select>
+
+	<delete id="deleteDictList" parameterType="list">
+		delete from
+		iommgt.iom_camp_dict where DICT_ID in 
+		<foreach collection="array" item="arr" index="no" open="("
+			separator="," close=")">
+			#{arr}
+		</foreach>
+	</delete>
+	<select id="findDictName" resultType="String">
+		SELECT
+		       DICT_NAME
+		from
+		     iommgt.iom_camp_dict
+	</select>
+	<select id="findDictBm" resultType="String">
+		SELECT
+			DICT_BM
+		FROM
+			iommgt.iom_camp_dict
+	</select>
+    <select id="findDictBySjIdBm" resultType="com.integration.entity.Dict">
+		select * from iommgt.iom_camp_dict where YXBZ=1
+		AND SJ_ID =#{sjId} AND DICT_BM=#{dictBm}
+	</select>
+
+</mapper>

@@ -1,0 +1,1352 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.integration.dao.DataRelDao">
+    <sql id="cols">
+		a.id,
+		a.rel_id,
+		a.rel_name,
+		a.rel_desc,
+		a.source_id,
+		a.owenr_id,
+		a.org_id,
+		a.source_ci_id,
+		a.source_ci_bm,
+		a.source_type_bm,
+		a.source_type_id,
+		a.target_ci_id,
+		a.target_ci_bm,
+		a.target_type_bm,
+		a.target_type_id,
+		a.cjr_id,
+		a.cjsj,
+		a.xgr_id,
+		a.xgsj,
+		a.yxbz
+	</sql>
+    <sql id="selcols">
+		id,
+		rel_id,
+		rel_name,
+		rel_desc,
+		source_id,
+		owenr_id,
+		org_id,
+		source_ci_id,
+		source_ci_bm,
+		source_type_id,
+		source_type_bm,
+		target_ci_id,
+		target_ci_bm,
+		target_type_bm,
+		target_type_id,
+		cjr_id,
+		DATE_FORMAT(cjsj, '%Y-%m-%d %H:%i:%s') cjsj,
+		xgr_id,
+		DATE_FORMAT(xgsj, '%Y-%m-%d %H:%i:%s') xgsj,
+		yxbz
+	</sql>
+    <sql id="colsAdd">
+		id,
+		rel_id,
+		rel_name,
+		rel_desc,
+		source_id,
+		owenr_id,
+		org_id,
+		source_ci_id,
+		source_ci_bm,
+		source_type_bm,
+		source_type_id,
+		target_ci_id,
+		target_ci_bm,
+		target_type_bm,
+		target_type_id,
+		cjr_id,
+		cjsj,
+		xgr_id,
+		xgsj,
+		yxbz,
+		domain_id
+	</sql>
+
+    <sql id="getSql">
+        from IOMCI.IOM_CI_DATA_REL a where 1=1
+        <if test="null != id ">
+            AND a.id = #{id}
+        </if>
+        <if test="null != rel_id ">
+            AND a.rel_id = #{rel_id}
+        </if>
+        <if test="null != rel_name ">
+            AND a.rel_name = #{rel_name}
+        </if>
+        <if test="null != rel_desc ">
+            AND a.rel_desc = #{rel_desc}
+        </if>
+        <if test="null != source_id ">
+            AND a.source_id = #{source_id}
+        </if>
+        <if test="null != owenr_id ">
+            AND a.owenr_id = #{owenr_id}
+        </if>
+        <if test="null != org_id ">
+            AND a.org_id = #{org_id}
+        </if>
+        <if test="null != source_ci_id ">
+            AND a.source_ci_id = #{source_ci_id}
+        </if>
+        <if test="null != source_ci_code ">
+            AND a.source_ci_bm = #{source_ci_code}
+        </if>
+        <if test="null != source_type_bm ">
+            AND a.source_type_bm = #{source_type_bm}
+        </if>
+        <if test="null != target_ci_id ">
+            AND a.target_ci_id = #{target_ci_id}
+        </if>
+        <if test="null != target_ci_code ">
+            AND a.target_ci_bm = #{target_ci_code}
+        </if>
+        <if test="null != target_type_bm ">
+            AND a.target_type_bm = #{target_type_bm}
+        </if>
+        <if test="null != cjr_id ">
+            AND a.cjr_id = #{cjr_id}
+        </if>
+        <if test="null != cjsj ">
+            AND a.cjsj =str_to_date(#{cjsj} ,'%Y-%m-%d %H:%i:%s')
+        </if>
+        <if test="null != xgr_id ">
+            AND a.xgr_id = #{xgr_id}
+        </if>
+        <if test="null != xgsj ">
+            AND a.xgsj = str_to_date(#{xgsj} ,'%Y-%m-%d %H:%i:%s')
+        </if>
+        <if test="null != yxbz ">
+            AND a.yxbz = #{yxbz}
+        </if>
+    </sql>
+
+    <select id="getAllPage" resultType="DataRel">
+
+        select
+        a.id,
+        a.rel_id,
+        a.rel_name,
+        a.rel_desc,
+        a.source_id,
+        a.owenr_id,
+        a.org_id,
+        a.source_ci_id,
+        a.source_ci_bm,
+        a.source_ci_bm as source_ci_code,
+        IFNULL(b.ci_name,b.ci_code) as source_ci_name,
+        a.source_type_bm,
+        a.source_type_id,
+        a.target_ci_id,
+        a.target_ci_bm,
+        a.target_ci_bm as target_ci_code,
+        IFNULL(c.ci_name,c.ci_code) as target_ci_name,
+        a.target_type_bm,
+        a.target_type_id,
+        a.cjr_id,
+        a.cjsj,
+        a.xgr_id,
+        a.xgsj,
+        a.yxbz
+        from IOMCI.IOM_CI_DATA_REL a
+        left join iom_ci_info b on a.source_ci_bm=b.ci_code
+        left join iom_ci_info c on a.target_ci_bm=c.ci_code
+        where 1=1
+        <if test="null != rel_id ">
+            AND a.rel_id = #{rel_id}
+        </if>
+        <if test="search !=null and search!=''">
+            and
+            CONCAT(SOURCE_CI_BM,SOURCE_TYPE_BM,TARGET_TYPE_BM,TARGET_CI_BM) LIKE
+            CONCAT('%',#{search},'%')
+        </if>
+        <if test="searchName != null and searchName != ''">
+            and (SOURCE_CI_BM like CONCAT('%',#{searchName},'%') or TARGET_CI_BM like CONCAT('%',#{searchName},'%')
+            or b.ci_name like CONCAT('%',#{searchName},'%') or c.ci_name like CONCAT('%',#{searchName},'%'))
+        </if>
+        <if test="domainId != null and domainId !=''"> and a.DOMAIN_ID in (${domainId})</if>
+        and a.YXBZ=1
+        ORDER BY a.id desc
+    </select>
+
+    <select id="getAllCount" resultType="int">
+        select count(*)
+        from IOMCI.IOM_CI_DATA_REL a where 1=1
+        <if test="null != rel_id ">
+            AND a.rel_id = #{rel_id}
+        </if>
+        <if test="search !=null and search!=''">
+            and
+            CONCAT(SOURCE_CI_BM,SOURCE_TYPE_BM,TARGET_TYPE_BM,TARGET_CI_BM) LIKE
+            CONCAT('%',#{search},'%')
+        </if>
+        <if test="searchName != null and searchName != ''">
+            and (SOURCE_CI_BM like CONCAT('%',#{searchName},'%') or TARGET_CI_BM like CONCAT('%',#{searchName},'%'))
+        </if>
+        <if test="domainId != null and domainId !=''"> and a.DOMAIN_ID in (${domainId})</if>
+        and a.YXBZ=1
+    </select>
+
+    <select id="getAllList" resultType="DataRel">
+
+        select
+        a.id,
+        a.rel_id,
+        a.rel_name,
+        a.rel_desc,
+        a.source_id,
+        a.owenr_id,
+        a.org_id,
+        a.source_ci_id,
+        a.source_ci_bm,
+        a.source_ci_bm as source_ci_code,
+        IFNULL(b.ci_name,b.ci_code) as source_ci_name,
+        a.source_type_bm,
+        a.source_type_id,
+        a.target_ci_id,
+        a.target_ci_bm,
+        a.target_ci_bm as source_ci_code,
+        IFNULL(c.ci_name,c.ci_code) as target_ci_name,
+        a.target_type_bm,
+        a.target_type_id,
+        a.cjr_id,
+        a.cjsj,
+        a.xgr_id,
+        a.xgsj,
+        a.yxbz
+        from IOMCI.IOM_CI_DATA_REL a
+        left join iom_ci_info b on a.source_ci_bm=b.ci_code
+        left join iom_ci_info c on a.target_ci_bm=c.ci_code
+        <include refid="getSql"/>
+        ORDER BY a.id desc
+    </select>
+
+    <select id="getInfo" resultType="DataRel">
+        select
+        a.id,
+        a.rel_id,
+        a.rel_name,
+        a.rel_desc,
+        a.source_id,
+        a.owenr_id,
+        a.org_id,
+        a.source_ci_id,
+        a.source_ci_bm,
+        a.source_ci_bm as source_ci_code,
+        IFNULL(b.ci_name,b.ci_code) as source_ci_name,
+        a.source_type_bm,
+        a.source_type_id,
+        a.target_ci_id,
+        a.target_ci_bm,
+        a.target_ci_bm as source_ci_code,
+        IFNULL(c.ci_name,c.ci_code) as target_ci_name,
+        a.target_type_bm,
+        a.target_type_id,
+        a.cjr_id,
+        a.cjsj,
+        a.xgr_id,
+        a.xgsj,
+        a.yxbz
+        from IOMCI.IOM_CI_DATA_REL a
+        left join iom_ci_info b on a.source_ci_bm=b.ci_code
+        left join iom_ci_info c on a.target_ci_bm=c.ci_code
+        where 1=1
+        <if test="null != id ">
+            AND a.id = #{id}
+        </if>
+        <if test="null != rel_id ">
+            AND a.rel_id = #{rel_id}
+        </if>
+        <if test="null != rel_name ">
+            AND a.rel_name = #{rel_name}
+        </if>
+        <if test="null != rel_desc ">
+            AND a.rel_desc = #{rel_desc}
+        </if>
+        <if test="null != source_id ">
+            AND a.source_id = #{source_id}
+        </if>
+        <if test="null != owenr_id ">
+            AND a.owenr_id = #{owenr_id}
+        </if>
+        <if test="null != org_id ">
+            AND a.org_id = #{org_id}
+        </if>
+        <if test="null != source_ci_id ">
+            AND a.source_ci_id = #{source_ci_id}
+        </if>
+        <if test="null != source_ci_code ">
+            AND a.source_ci_bm = #{source_ci_code}
+        </if>
+        <if test="null != source_type_bm ">
+            AND a.source_type_bm = #{source_type_bm}
+        </if>
+        <if test="null != target_ci_id ">
+            AND a.target_ci_id = #{target_ci_id}
+        </if>
+        <if test="null != target_ci_code ">
+            AND a.target_ci_bm = #{target_ci_code}
+        </if>
+        <if test="null != target_type_bm ">
+            AND a.target_type_bm = #{target_type_bm}
+        </if>
+        <if test="null != cjr_id ">
+            AND a.cjr_id = #{cjr_id}
+        </if>
+        <if test="null != cjsj ">
+            AND a.cjsj =str_to_date(#{cjsj} ,'%Y-%m-%d %H:%i:%s')
+        </if>
+        <if test="null != xgr_id ">
+            AND a.xgr_id = #{xgr_id}
+        </if>
+        <if test="null != xgsj ">
+            AND a.xgsj = str_to_date(#{xgsj} ,'%Y-%m-%d %H:%i:%s')
+        </if>
+        and a.YXBZ=1
+    </select>
+
+    <update id="updateInfo" parameterType="DataRel">
+        UPDATE IOMCI.IOM_CI_DATA_REL a
+        <set>
+            <if test="null != rel_id ">
+                a.rel_id = #{rel_id},
+            </if>
+            <if test="null != rel_name ">
+                a.rel_name = #{rel_name},
+            </if>
+            <if test="null != rel_desc ">
+                a.rel_desc = #{rel_desc},
+            </if>
+            <if test="null != source_id ">
+                a.source_id = #{source_id},
+            </if>
+            <if test="null != owenr_id ">
+                a.owenr_id = #{owenr_id},
+            </if>
+            <if test="null != org_id ">
+                a.org_id = #{org_id},
+            </if>
+            <if test="null != source_ci_id ">
+                a.source_ci_id = #{source_ci_id},
+            </if>
+            <if test="null != source_type_id ">
+                a.source_type_id = #{source_type_id},
+            </if>
+            <if test="null != source_ci_code ">
+                a.source_ci_bm = #{source_ci_code},
+            </if>
+            <if test="null != source_type_bm ">
+                a.source_type_bm = #{source_type_bm},
+            </if>
+            <if test="null != target_ci_id ">
+                a.target_ci_id = #{target_ci_id},
+            </if>
+            <if test="null != target_ci_code ">
+                a.target_ci_bm = #{target_ci_code},
+            </if>
+            <if test="null != target_type_id ">
+                a.target_type_id = #{target_type_id},
+            </if>
+            <if test="null != target_type_bm ">
+                a.target_type_bm = #{target_type_bm},
+            </if>
+            <if test="null != cjr_id ">
+                a.cjr_id = #{cjr_id},
+            </if>
+            <if test="null != cjsj ">
+                a.cjsj = str_to_date(#{cjsj} ,'%Y-%m-%d %H:%i:%s'),
+            </if>
+            <if test="null != xgr_id ">
+                a.xgr_id = #{xgr_id},
+            </if>
+            <if test="null != xgsj ">
+                a.xgsj = str_to_date(#{xgsj} ,'%Y-%m-%d %H:%i:%s'),
+            </if>
+            <if test="null != yxbz ">
+                a.yxbz = #{yxbz},
+            </if>
+            <if test="null != domain_id ">
+                a.domain_id = #{domain_id},
+            </if>
+        </set>
+        WHERE a.id=#{id}
+
+    </update>
+
+    <insert id="insertInfo" parameterType="DataRel">
+        INSERT INTO IOMCI.IOM_CI_DATA_REL(
+        <include refid="colsAdd"/>
+        )
+        VALUES (
+        #{id},
+        #{rel_id},
+        #{rel_name},
+        #{rel_desc},
+        #{source_id},
+        #{owenr_id},
+        #{org_id},
+        #{source_ci_id},
+        #{source_ci_code},
+        #{source_type_bm},
+        #{source_type_id},
+        #{target_ci_id},
+        #{target_ci_code},
+        #{target_type_bm},
+        #{target_type_id},
+        #{cjr_id},
+        str_to_date(#{cjsj} ,'%Y-%m-%d %H:%i:%s'),
+        #{xgr_id},
+        str_to_date(#{xgsj} ,'%Y-%m-%d %H:%i:%s'),
+        #{yxbz},
+        #{domain_id}
+        )
+    </insert>
+
+    <delete id="deleteInfo" parameterType="string">
+		DELETE FROM
+		IOMCI.IOM_CI_DATA_REL WHERE id=#{id}
+	</delete>
+
+    <update id="updateYXBZ" parameterType="string">
+		update
+		IOMCI.IOM_CI_DATA_REL
+		set YXBZ =0
+		where REL_ID=#{relId};
+	</update>
+
+    <update id="updateRelByCi" parameterType="java.util.List">
+        <foreach collection="list" item="id" index="index" open="" close="" separator=";">
+            update
+            IOMCI.IOM_CI_DATA_REL
+            <set>
+                YXBZ=0
+            </set>
+            <where>
+                SOURCE_CI_ID = #{id} OR TARGET_CI_ID = #{id}
+            </where>
+        </foreach>
+    </update>
+
+    <select id="exportDataRelToExcel" resultType="DataRel">
+        select
+        ID,REL_ID,REL_NAME,SOURCE_CI_ID,SOURCE_CI_BM,SOURCE_TYPE_BM,TARGET_CI_ID,TARGET_CI_BM,TARGET_TYPE_BM,YXBZ,
+        (
+        select icti.ATTR_NAME from IOMCI.IOM_CI_TYPE_ITEM as icti
+        where
+        icti.CI_TYPE_ID=
+        (
+        select ici.CI_TYPE_ID from IOMCI.IOM_CI_INFO as
+        ici
+        where ici.ID=icdr.SOURCE_CI_ID
+        ) and icti.IS_MAJOR=1
+        AND icti.YXBZ=1
+        ) as
+        source_ci_code,
+        (
+        select
+        icti.ATTR_NAME from IOMCI.IOM_CI_TYPE_ITEM
+        as icti
+        where
+        icti.CI_TYPE_ID=
+        (
+        select ici.CI_TYPE_ID from
+        IOMCI.IOM_CI_INFO as
+        ici
+        where ici.ID=icdr.TARGET_CI_ID
+        ) and
+        icti.IS_MAJOR=1
+        AND icti.YXBZ=1
+        ) as
+        target_ci_code
+        from
+        IOMCI.IOM_CI_DATA_REL as icdr
+        where YXBZ=1
+        <if test="null != relId and '' != relId">
+            and REL_ID = #{relId}
+        </if>
+        <if test="null != domainId and domainId !=''">
+            and icdr.DOMAIN_ID in (${domainId})
+        </if>
+    </select>
+
+    <insert id="importDataRelTobase" parameterType="dataRel">
+		INSERT INTO IOMCI.IOM_CI_DATA_REL
+		(ID,
+		REL_ID,
+		REL_NAME,
+		REL_DESC,
+		SOURCE_ID,
+		OWENR_ID,
+		ORG_ID,
+		SOURCE_CI_ID,
+		SOURCE_CI_BM,
+		SOURCE_TYPE_BM,
+		TARGET_CI_ID,
+		TARGET_CI_BM,
+		TARGET_TYPE_BM,
+		CJR_ID,
+		CJSJ,
+		XGR_ID,
+		XGSJ,
+		YXBZ,
+		DOMAIN_ID,
+		SOURCE_TYPE_ID,
+		TARGET_TYPE_ID)
+		VALUES
+			(
+			#{id},
+			#{rel_id},
+			#{rel_name},
+			#{rel_desc},
+			#{source_id},
+			#{owenr_id},
+			#{org_id},
+			#{source_ci_id},
+			#{source_ci_bm},
+			#{source_type_bm},
+			#{target_ci_id},
+			#{target_ci_bm},
+			#{target_type_bm},
+			#{cjr_id},
+			str_to_date(#{cjsj} ,'%Y-%m-%d %H:%i:%s'),
+			#{xgr_id},
+			str_to_date(#{xgsj} ,'%Y-%m-%d %H:%i:%s'),
+			#{yxbz},
+			#{domain_id},
+			#{source_type_id},
+			#{target_type_id}
+			)
+	</insert>
+
+
+    <select id="findCiIdBybmAndType" resultType="String">
+		select ID
+		from
+		IOMCI.IOM_CI_INFO
+		where yxbz=1 and CI_CODE=#{ciBm}
+		and
+		CI_TYPE_ID=(select
+		ID
+		from IOMCI.IOM_CI_TYPE
+		where
+		CI_TYPE_BM=#{typeBm}
+		and yxbz=1);
+	</select>
+
+
+    <select id="getDataRelByCiList" parameterType="list" resultType="DataRel">
+        select * from IOMCI.IOM_CI_DATA_REL WHERE SOURCE_CI_BM =
+        #{source_ci_id} AND TARGET_CI_BM IN
+        <foreach collection="ciIdList" index="index" item="item" open="("
+                 separator="," close=")">
+            #{item}
+        </foreach>
+        AND YXBZ=1
+    </select>
+    
+    <select id="queryCiDataRelIsExist" resultType="Map">
+        select
+          a.ID id,
+          a.REL_ID relId,
+          a.REL_NAME relName,
+          a.REL_DESC relDesc,
+          a.SOURCE_ID sourceId,
+          a.OWENR_ID owenrId,
+          a.ORG_ID orgId,
+          a.SOURCE_CI_ID sourceCiId,
+          a.SOURCE_CI_BM sourceCiBm,
+          a.SOURCE_TYPE_BM sourceTypeBm,
+          a.SOURCE_TYPE_ID sourceTypeId,
+          a.TARGET_CI_ID targetCiId,
+          a.TARGET_CI_BM targetCiBm,
+          a.TARGET_TYPE_BM targetTypeBm,
+          a.TARGET_TYPE_ID targetTypeId,
+          a.CJR_ID cjrId,
+          a.DOMAIN_ID domainId,
+          a.CJSJ cjsj,
+          a.XGR_ID xgrId,
+          a.XGSJ xgsj,
+          a.YXBZ yxbz,
+          if(a.YXBZ=1,0,1) as isDelete,
+          IFNULL(b.CI_NAME,b.CI_CODE) as sourceCiName,
+		  IFNULL(c.CI_NAME,c.CI_CODE) as targetCiName,
+		  b.CI_CODE as sourceCiCode,
+		  c.CI_CODE as targetCiCode 
+        from IOM_CI_DATA_REL a LEFT JOIN iom_ci_info b ON a.SOURCE_CI_BM = b.CI_CODE LEFT JOIN iom_ci_info c ON c.CI_CODE= a.TARGET_CI_BM where a.SOURCE_CI_BM=#{sourceCiCode} and a.TARGET_CI_BM=#{targetCiCode} and a.REL_ID=#{relId}       
+        ORDER BY a.YXBZ desc LIMIT 2
+    </select>
+    
+    <select id="getDataRelByCiIdsList" resultType="Map">
+        select
+          a.ID,
+          a.REL_ID,
+          a.REL_NAME,
+          a.REL_DESC,
+          a.SOURCE_ID,
+          a.OWENR_ID,
+          a.ORG_ID,
+          a.SOURCE_CI_ID,
+          a.SOURCE_CI_BM,
+          a.SOURCE_TYPE_BM,
+          a.SOURCE_TYPE_ID,
+          a.TARGET_CI_ID,
+          a.TARGET_CI_BM,
+          a.TARGET_TYPE_BM,
+          a.TARGET_TYPE_ID,
+          a.CJR_ID,
+          a.DOMAIN_ID,
+          a.CJSJ,
+          a.XGR_ID,
+          a.XGSJ,
+          a.YXBZ,
+          IFNULL(b.CI_NAME,b.CI_CODE) as SOURCE_CI_NAME,
+		  IFNULL(c.CI_NAME,c.CI_CODE) as TARGET_CI_NAME,
+		  b.CI_CODE as SOURCE_CI_CODE,
+		  c.CI_CODE as TARGET_CI_CODE 
+        from IOMCI.IOM_CI_DATA_REL a LEFT JOIN iom_ci_info b ON a.source_ci_bm = b.CI_CODE LEFT JOIN iom_ci_info c ON c.CI_CODE= a.target_ci_bm WHERE a.YXBZ=1     
+        <if test=" sourceCiBm != null and sourceCiBm != '' ">
+           AND a.SOURCE_CI_BM =#{sourceCiBm}
+        </if>
+        <if test=" ciCodeList != null and ciCodeList != '' ">
+            AND a.TARGET_CI_BM IN
+            <foreach item="ciCode" index="index" collection="ciCodeList" open="(" separator="," close=")">
+                #{ciCode}
+            </foreach>
+        </if>
+    </select>
+
+    <delete id="deleteRepeatDateRel" parameterType="int">
+		delete
+		from
+		IOMCI.IOM_CI_DATA_REL where (SOURCE_CI_ID,TARGET_CI_ID) in
+		(select
+		SOURCE_CI_ID,TARGET_CI_ID from IOMCI.IOM_CI_DATA_REL group
+		by
+		SOURCE_CI_ID,TARGET_CI_ID having count(*) > 1)
+		and CJSJ not in (select
+		min(CJSJ)
+		from IOMCI.IOM_CI_DATA_REL
+		group by
+		SOURCE_CI_ID,TARGET_CI_ID
+		having count(*)>1)
+	</delete>
+    <delete id="deleteRelByCi" parameterType="java.util.List">
+        <foreach collection="list" item="id" index="index" open="" close="" separator=";">
+            delete from
+            IOMCI.IOM_CI_DATA_REL
+            <where>
+                SOURCE_CI_ID = #{id} OR TARGET_CI_ID = #{id}
+            </where>
+        </foreach>
+    </delete>
+
+    <select id="getSupRelByCI" resultType="DataRel">
+        select *
+        from IOMCI.IOM_CI_DATA_REL
+        where yxbz=1 and LEVEL in
+        <foreach collection="sup" index="index" item="item" open="("
+                 separator="," close=")">
+            #{item}
+        </foreach>
+        CONNECT BY PRIOR TARGET_CI_ID=SOURCE_CI_ID
+        START WITH SOURCE_CI_ID=#{cId}
+    </select>
+
+
+    <select id="getSubRelByCI" resultType="DataRel">
+        select *
+        from IOMCI.IOM_CI_DATA_REL
+        where yxbz=1 and LEVEL in
+        <foreach collection="sub" index="index" item="item" open="("
+                 separator="," close=")">
+            #{item}
+        </foreach>
+        CONNECT BY PRIOR SOURCE_CI_ID=TARGET_CI_ID
+        START WITH TARGET_CI_ID=#{cId}
+    </select>
+    <select id="findSouTar" resultType="map">
+		SELECT
+			i.id,
+			i.CI_CODE,
+			t.CI_TYPE_bm,
+			t.ID CI_TYPE_ID
+		FROM
+			iomci.iom_ci_info i
+		INNER JOIN iomci.iom_ci_type t
+		ON i.CI_TYPE_ID = t.ID
+		and i.YXBZ= 1 and t.YXBZ = 1
+	</select>
+    <select id="findRelName" resultType="DataRel">
+		SELECT
+			*
+		FROM
+			iomci.iom_ci_data_rel
+		where yxbz = 1
+	</select>
+
+    <select id="findAllByCiID" resultType="DataRel">
+        SELECT
+        *
+        FROM
+        iomci.iom_ci_data_rel
+        where yxbz = 1
+        <if test="list!=null">
+            and SOURCE_CI_BM in
+            <foreach collection="list" item="item" open="(" separator="," close=")">
+                #{item.ciCode}
+            </foreach>
+        </if>
+        <if test="cItype != null">and TARGET_TYPE_ID = #{cItype}</if>
+    </select>
+
+    <select id="findAllByCiIDFl" resultType="DataRel">
+        SELECT
+        dr.*
+        FROM
+        iomci.iom_ci_data_rel dr right join iomemv.iom_emv_event_current c on dr.TARGET_CI_ID = c.CI_ID
+        where dr.yxbz = 1 and c.YXBZ = 1 and c.STATUS =0
+        <if test="startDate != null">and c.FIRST_TIME <![CDATA[>=]]>#{startDate}
+        </if>
+        <if test="endDate != null">and c.FIRST_TIME <![CDATA[<=]]>#{endDate}
+        </if>
+        <if test="cIType != null">and c.CI_CATEGORY_ID = #{cIType}</if>
+        <if test="list!=null">
+            and dr.SOURCE_CI_ID in
+            <foreach collection="list" item="item" open="(" separator="," close=")">
+                #{item.id}
+            </foreach>
+        </if>
+    </select>
+
+    <select id="findRelByAll" resultType="DataRel">
+        select
+        <include refid="selcols"/>
+        from iomci.iom_ci_data_rel where YXBZ = 1
+        <choose>
+            <when test="dataRel.source_ci_id != null and dataRel.target_ci_id != null">
+                and (SOURCE_CI_ID in (#{dataRel.source_ci_id}) or TARGET_CI_ID in (#{dataRel.target_ci_id}))
+            </when>
+            <otherwise>
+                <if test="dataRel.source_ci_id != null">and SOURCE_CI_ID in (#{dataRel.source_ci_id})</if>
+                <if test="dataRel.target_ci_id != null">and TARGET_CI_ID in (#{dataRel.target_ci_id})</if>
+            </otherwise>
+        </choose>
+        <if test="dataRel.source_type_id != null">and SOURCE_TYPE_ID in (#{dataRel.source_type_id})</if>
+        <if test="dataRel.target_type_id != null">and TARGET_TYPE_ID in (#{dataRel.target_type_id})</if>
+        <if test="dataRel.rel_id">and REL_ID in (#{dataRel.rel_id})</if>
+    </select>
+
+    <select id="getCiDataRelByIds" resultType="Map">
+        select
+        a.id,
+		a.rel_id,
+		a.rel_name,
+		a.rel_desc,
+		a.source_id,
+		a.owenr_id,
+		a.org_id,
+		a.source_ci_id,
+		a.source_ci_bm,
+		a.source_type_bm,
+		a.source_type_id,
+		a.target_ci_id,
+		a.target_ci_bm,
+		a.target_type_bm,
+		a.target_type_id,
+		a.cjr_id,
+		a.cjsj,
+		a.xgr_id,
+		a.xgsj,
+		a.yxbz,
+		IFNULL(b.CI_NAME,b.CI_CODE) as sourceCiName,
+		IFNULL(c.CI_NAME,c.CI_CODE) as targetCiName
+        from IOMCI.IOM_CI_DATA_REL a LEFT JOIN iom_ci_info b ON a.source_ci_bm = b.CI_CODE LEFT JOIN iom_ci_info c ON c.CI_CODE= a.target_ci_bm where a.id in
+        <foreach collection="list" index="index" item="item" open="("
+                 separator="," close=")">
+            #{item}
+        </foreach>
+        <if test="listRel != null and listRel.size() > 0">
+            AND a.REL_ID in
+            <foreach collection="listRel" index="index" item="item1" open="("
+                     separator="," close=")">
+                #{item1}
+            </foreach>
+        </if>
+        AND a.yxbz=1
+    </select>
+    
+    <select id="getCiDataRelBySourceIdAndTargetIdAndRelId" resultType="Map">
+          SELECT
+			ID id,
+			REL_ID relId,
+			REL_NAME relName,
+			REL_DESC relDesc,
+			SOURCE_ID sourceId,
+			OWENR_ID owenrId,
+			ORG_ID orgId,
+			SOURCE_CI_ID sourceCiId,
+			SOURCE_CI_BM sourceCiBm,
+			SOURCE_TYPE_BM sourceTypeBm,
+			SOURCE_TYPE_ID sourceTypeId,
+			TARGET_CI_ID targetCiId,
+			TARGET_CI_BM targetCiBm,
+			TARGET_TYPE_BM targetTypeBm,
+			TARGET_TYPE_ID targetTypeId,
+			CJR_ID cjrId,
+			DOMAIN_ID domainId,
+			CJSJ cjsj,
+			XGR_ID xgrId,
+			XGSJ xgsj,
+			YXBZ yxbz
+		FROM
+			iom_ci_data_rel
+		WHERE
+			iom_ci_data_rel.YXBZ = 1        
+		<if test=" sourceTypeId != null and sourceTypeId != '' ">
+            AND iom_ci_data_rel.SOURCE_TYPE_ID=#{sourceTypeId}
+        </if>
+		<if test=" targetTypeId != null and targetTypeId != '' ">
+            AND iom_ci_data_rel.TARGET_TYPE_ID=#{targetTypeId}
+        </if>
+        <if test=" relId != null and relId != '' ">
+            AND iom_ci_data_rel.REL_ID=#{relId}
+        </if>
+        <if test=" domainId != null and domainId != '' ">
+            AND iom_ci_data_rel.DOMAIN_ID in (${domainId})
+        </if>
+        <if test=" ciIdList != null and ciIdList != '' ">
+            AND iom_ci_data_rel.SOURCE_CI_ID IN
+            <foreach item="ciId" index="index" collection="ciIdList" open="(" separator="," close=")">
+                ${ciId}
+            </foreach>
+        </if>       
+     </select>
+     
+     <select id="getCiDataRelByTargetIdAndSourceIdAndRelId" resultType="Map">
+          SELECT
+			ID id,
+			REL_ID relId,
+			REL_NAME relName,
+			REL_DESC relDesc,
+			SOURCE_ID sourceId,
+			OWENR_ID owenrId,
+			ORG_ID orgId,
+			SOURCE_CI_ID sourceCiId,
+			SOURCE_CI_BM sourceCiBm,
+			SOURCE_TYPE_BM sourceTypeBm,
+			SOURCE_TYPE_ID sourceTypeId,
+			TARGET_CI_ID targetCiId,
+			TARGET_CI_BM targetCiBm,
+			TARGET_TYPE_BM targetTypeBm,
+			TARGET_TYPE_ID targetTypeId,
+			CJR_ID cjrId,
+			DOMAIN_ID domainId,
+			CJSJ cjsj,
+			XGR_ID xgrId,
+			XGSJ xgsj,
+			YXBZ yxbz
+		FROM
+			iom_ci_data_rel
+		WHERE
+			iom_ci_data_rel.YXBZ = 1        
+		<if test=" sourceTypeId != null and sourceTypeId != '' ">
+            AND iom_ci_data_rel.SOURCE_TYPE_ID=#{sourceTypeId}
+        </if>
+		<if test=" targetTypeId != null and targetTypeId != '' ">
+            AND iom_ci_data_rel.TARGET_TYPE_ID=#{targetTypeId}
+        </if>
+        <if test=" relId != null and relId != '' ">
+            AND iom_ci_data_rel.REL_ID=#{relId}
+        </if>
+        <if test=" ciIdList != null and ciIdList != '' ">
+            AND iom_ci_data_rel.TARGET_CI_ID IN
+            <foreach item="ciId" index="index" collection="ciIdList" open="(" separator="," close=")">
+                ${ciId}
+            </foreach>
+        </if>       
+     </select>
+     
+    <delete id="deleteByrelId" parameterType="string">
+        delete from
+		IOMCI.IOM_CI_DATA_REL
+		where REL_ID=#{relId};
+    </delete>
+    
+    <select id="getCiDataRelCountByRuleDown" resultType="int">
+          select (SELECT
+	                COUNT(*)
+                  FROM
+	                iom_ci_data_rel
+                  WHERE
+                  YXBZ=1
+	              <if test=" ciIdList != null and ciIdList != '' ">
+                      AND iom_ci_data_rel.SOURCE_CI_ID IN
+                      <foreach item="ciId" index="index" collection="ciIdList" open="(" separator="," close=")">
+                          ${ciId}
+                      </foreach>
+                  </if>       
+                  <if test=" startSourceTypeId != null and startSourceTypeId != '' ">
+                      AND iom_ci_data_rel.SOURCE_TYPE_ID=#{startSourceTypeId}
+                  </if>
+		          <if test=" startTargetTypeId != null and startTargetTypeId != '' ">
+                      AND iom_ci_data_rel.TARGET_TYPE_ID=#{startTargetTypeId}
+                  </if>
+                  <if test=" startRelId != null and startRelId != '' ">
+                      AND iom_ci_data_rel.REL_ID=#{startRelId}
+                  </if>)
+                  <if test=" startSymbol != null and startSymbol != '' ">
+                      ${startSymbol}
+                  </if>
+                  <if test=" startLineVal != null and startLineVal != '' ">
+                      ${startLineVal}
+                  </if>
+                  ${ao} (SELECT
+	                     COUNT(*)
+                       FROM
+	                     iom_ci_data_rel
+                       WHERE
+                       YXBZ=1
+	                   <if test=" ciIdList != null and ciIdList != '' ">
+                         AND iom_ci_data_rel.SOURCE_CI_ID IN
+                         <foreach item="ciId" index="index" collection="ciIdList" open="(" separator="," close=")">
+                            ${ciId}
+                         </foreach>
+                       </if>     
+                       <if test=" endSourceTypeId != null and endSourceTypeId != '' ">
+                          AND iom_ci_data_rel.SOURCE_TYPE_ID=#{endSourceTypeId}
+                       </if>
+		               <if test=" endTargetTypeId != null and endTargetTypeId != '' ">
+                          AND iom_ci_data_rel.TARGET_TYPE_ID=#{endTargetTypeId}
+                       </if>
+                       <if test=" endRelId != null and endRelId != '' ">
+                          AND iom_ci_data_rel.REL_ID=#{endRelId}
+                       </if>)
+                       <if test=" endSymbol != null and endSymbol != '' ">
+                          ${endSymbol}
+                       </if>
+                       <if test=" endLineVal != null and endLineVal != '' ">
+                          ${endLineVal}
+                       </if> as returnValue
+     </select>
+     
+     <select id="getCiDataRelCountByRuleUp" resultType="int">
+          select (SELECT
+	                COUNT(*)
+                  FROM
+	                iom_ci_data_rel
+                  WHERE
+                  YXBZ=1
+	              <if test=" ciIdList != null and ciIdList != '' ">
+                      AND iom_ci_data_rel.TARGET_CI_ID IN
+                      <foreach item="ciId" index="index" collection="ciIdList" open="(" separator="," close=")">
+                          ${ciId}
+                      </foreach>
+                  </if>       
+                  <if test=" startSourceTypeId != null and startSourceTypeId != '' ">
+                      AND iom_ci_data_rel.SOURCE_TYPE_ID=#{startSourceTypeId}
+                  </if>
+		          <if test=" startTargetTypeId != null and startTargetTypeId != '' ">
+                      AND iom_ci_data_rel.TARGET_TYPE_ID=#{startTargetTypeId}
+                  </if>
+                  <if test=" startRelId != null and startRelId != '' ">
+                      AND iom_ci_data_rel.REL_ID=#{startRelId}
+                  </if>)
+                  <if test=" startSymbol != null and startSymbol != '' ">
+                      ${startSymbol}
+                  </if>
+                  <if test=" startLineVal != null and startLineVal != '' ">
+                      ${startLineVal}
+                  </if>
+                  ${ao} (SELECT
+	                     COUNT(*)
+                       FROM
+	                     iom_ci_data_rel
+                       WHERE
+                       YXBZ=1
+	                   <if test=" ciIdList != null and ciIdList != '' ">
+                         AND iom_ci_data_rel.TARGET_CI_ID IN
+                         <foreach item="ciId" index="index" collection="ciIdList" open="(" separator="," close=")">
+                            ${ciId}
+                         </foreach>
+                       </if>     
+                       <if test=" endSourceTypeId != null and endSourceTypeId != '' ">
+                          AND iom_ci_data_rel.SOURCE_TYPE_ID=#{endSourceTypeId}
+                       </if>
+		               <if test=" endTargetTypeId != null and endTargetTypeId != '' ">
+                          AND iom_ci_data_rel.TARGET_TYPE_ID=#{endTargetTypeId}
+                       </if>
+                       <if test=" endRelId != null and endRelId != '' ">
+                          AND iom_ci_data_rel.REL_ID=#{endRelId}
+                       </if>)
+                       <if test=" endSymbol != null and endSymbol != '' ">
+                          ${endSymbol}
+                       </if>
+                       <if test=" endLineVal != null and endLineVal != '' ">
+                          ${endLineVal}
+                       </if> as returnValue
+     </select>
+     
+     <select id="getCiDataRelCountByMinToMaxAllDown" resultType="int">
+          select
+          <if test=" startMin != null and startMin != '' ">
+              ${startMin}&lt;=                 
+          </if>
+          (SELECT
+	          COUNT(*)
+                  FROM
+	                iom_ci_data_rel
+                  WHERE
+                  YXBZ=1
+	              <if test=" ciIdList != null and ciIdList != '' ">
+                      AND iom_ci_data_rel.SOURCE_CI_ID IN
+                      <foreach item="ciId" index="index" collection="ciIdList" open="(" separator="," close=")">
+                          ${ciId}
+                      </foreach>
+                  </if>       
+                  <if test=" startSourceTypeId != null and startSourceTypeId != '' ">
+                      AND iom_ci_data_rel.SOURCE_TYPE_ID=#{startSourceTypeId}
+                  </if>
+		          <if test=" startTargetTypeId != null and startTargetTypeId != '' ">
+                      AND iom_ci_data_rel.TARGET_TYPE_ID=#{startTargetTypeId}
+                  </if>
+                  <if test=" startRelId != null and startRelId != '' ">
+                      AND iom_ci_data_rel.REL_ID=#{startRelId}
+                  </if>)
+          <if test=" startMax != null and startMax != '' ">
+              &lt;=${startMax}                
+          </if>         
+          ${ao} 
+          <if test=" endMin != null and endMin != '' ">
+              ${endMin}&lt;=               
+          </if>
+          (SELECT
+	           COUNT(*)
+                       FROM
+	                     iom_ci_data_rel
+                       WHERE
+                       YXBZ=1
+	                   <if test=" ciIdList != null and ciIdList != '' ">
+                         AND iom_ci_data_rel.SOURCE_CI_ID IN
+                         <foreach item="ciId" index="index" collection="ciIdList" open="(" separator="," close=")">
+                            ${ciId}
+                         </foreach>
+                       </if>     
+                       <if test=" endSourceTypeId != null and endSourceTypeId != '' ">
+                          AND iom_ci_data_rel.SOURCE_TYPE_ID=#{endSourceTypeId}
+                       </if>
+		               <if test=" endTargetTypeId != null and endTargetTypeId != '' ">
+                          AND iom_ci_data_rel.TARGET_TYPE_ID=#{endTargetTypeId}
+                       </if>
+                       <if test=" endRelId != null and endRelId != '' ">
+                          AND iom_ci_data_rel.REL_ID=#{endRelId}
+                       </if>)
+                <if test=" endMax != null and endMax != '' ">
+                    &lt;=${endMax}              
+                </if>as returnValue
+     </select>
+     
+     <select id="getCiDataRelCountByMinToMaxStartDown" resultType="int">
+          select
+          <if test=" startMin != null and startMin != '' ">
+              ${startMin}&lt;=                 
+          </if>
+          (SELECT
+	          COUNT(*)
+                  FROM
+	                iom_ci_data_rel
+                  WHERE
+                  YXBZ=1
+	              <if test=" ciIdList != null and ciIdList != '' ">
+                      AND iom_ci_data_rel.SOURCE_CI_ID IN
+                      <foreach item="ciId" index="index" collection="ciIdList" open="(" separator="," close=")">
+                          ${ciId}
+                      </foreach>
+                  </if>       
+                  <if test=" startSourceTypeId != null and startSourceTypeId != '' ">
+                      AND iom_ci_data_rel.SOURCE_TYPE_ID=#{startSourceTypeId}
+                  </if>
+		          <if test=" startTargetTypeId != null and startTargetTypeId != '' ">
+                      AND iom_ci_data_rel.TARGET_TYPE_ID=#{startTargetTypeId}
+                  </if>
+                  <if test=" startRelId != null and startRelId != '' ">
+                      AND iom_ci_data_rel.REL_ID=#{startRelId}
+                  </if>)
+          <if test=" startMax != null and startMax != '' ">
+              &lt;=${startMax}                
+          </if>
+          ${ao} (SELECT
+	                     COUNT(*)
+                       FROM
+	                     iom_ci_data_rel
+                       WHERE
+                       YXBZ=1
+	                   <if test=" ciIdList != null and ciIdList != '' ">
+                         AND iom_ci_data_rel.SOURCE_CI_ID IN
+                         <foreach item="ciId" index="index" collection="ciIdList" open="(" separator="," close=")">
+                            ${ciId}
+                         </foreach>
+                       </if>     
+                       <if test=" endSourceTypeId != null and endSourceTypeId != '' ">
+                          AND iom_ci_data_rel.SOURCE_TYPE_ID=#{endSourceTypeId}
+                       </if>
+		               <if test=" endTargetTypeId != null and endTargetTypeId != '' ">
+                          AND iom_ci_data_rel.TARGET_TYPE_ID=#{endTargetTypeId}
+                       </if>
+                       <if test=" endRelId != null and endRelId != '' ">
+                          AND iom_ci_data_rel.REL_ID=#{endRelId}
+                       </if>)
+                       <if test=" endSymbol != null and endSymbol != '' ">
+                          ${endSymbol}
+                       </if>
+                       <if test=" endLineVal != null and endLineVal != '' ">
+                          ${endLineVal}
+                       </if> as returnValue
+     </select>
+     
+     <select id="getCiDataRelCountByMinToMaxEndDown" resultType="int">
+          select
+          (SELECT
+	                COUNT(*)
+                  FROM
+	                iom_ci_data_rel
+                  WHERE
+                  YXBZ=1
+	              <if test=" ciIdList != null and ciIdList != '' ">
+                      AND iom_ci_data_rel.SOURCE_CI_ID IN
+                      <foreach item="ciId" index="index" collection="ciIdList" open="(" separator="," close=")">
+                          ${ciId}
+                      </foreach>
+                  </if>       
+                  <if test=" startSourceTypeId != null and startSourceTypeId != '' ">
+                      AND iom_ci_data_rel.SOURCE_TYPE_ID=#{startSourceTypeId}
+                  </if>
+		          <if test=" startTargetTypeId != null and startTargetTypeId != '' ">
+                      AND iom_ci_data_rel.TARGET_TYPE_ID=#{startTargetTypeId}
+                  </if>
+                  <if test=" startRelId != null and startRelId != '' ">
+                      AND iom_ci_data_rel.REL_ID=#{startRelId}
+                  </if>)
+                  <if test=" startSymbol != null and startSymbol != '' ">
+                      ${startSymbol}
+                  </if>
+                  <if test=" startLineVal != null and startLineVal != '' ">
+                      ${startLineVal}
+                  </if>
+          ${ao} (SELECT
+	                     COUNT(*)
+                       FROM
+	                     iom_ci_data_rel
+                       WHERE
+                       YXBZ=1
+	                   <if test=" ciIdList != null and ciIdList != '' ">
+                         AND iom_ci_data_rel.SOURCE_CI_ID IN
+                         <foreach item="ciId" index="index" collection="ciIdList" open="(" separator="," close=")">
+                            ${ciId}
+                         </foreach>
+                       </if>     
+                       <if test=" endSourceTypeId != null and endSourceTypeId != '' ">
+                          AND iom_ci_data_rel.SOURCE_TYPE_ID=#{endSourceTypeId}
+                       </if>
+		               <if test=" endTargetTypeId != null and endTargetTypeId != '' ">
+                          AND iom_ci_data_rel.TARGET_TYPE_ID=#{endTargetTypeId}
+                       </if>
+                       <if test=" endRelId != null and endRelId != '' ">
+                          AND iom_ci_data_rel.REL_ID=#{endRelId}
+                       </if>)
+                       <if test=" endSymbol != null and endSymbol != '' ">
+                          ${endSymbol}
+                       </if>
+                       <if test=" endLineVal != null and endLineVal != '' ">
+                          ${endLineVal}
+                       </if> as returnValue
+     </select>
+     
+     <select id="getCiDataRelCountByMinToMaxAllUp" resultType="int">
+          select
+          <if test=" startMin != null and startMin != '' ">
+              ${startMin}&lt;=                 
+          </if>
+          (SELECT
+	          COUNT(*)
+                  FROM
+	                iom_ci_data_rel
+                  WHERE
+                  YXBZ=1
+	              <if test=" ciIdList != null and ciIdList != '' ">
+                      AND iom_ci_data_rel.SOURCE_CI_ID IN
+                      <foreach item="ciId" index="index" collection="ciIdList" open="(" separator="," close=")">
+                          ${ciId}
+                      </foreach>
+                  </if>       
+                  <if test=" startSourceTypeId != null and startSourceTypeId != '' ">
+                      AND iom_ci_data_rel.SOURCE_TYPE_ID=#{startSourceTypeId}
+                  </if>
+		          <if test=" startTargetTypeId != null and startTargetTypeId != '' ">
+                      AND iom_ci_data_rel.TARGET_TYPE_ID=#{startTargetTypeId}
+                  </if>
+                  <if test=" startRelId != null and startRelId != '' ">
+                      AND iom_ci_data_rel.REL_ID=#{startRelId}
+                  </if>)
+          <if test=" startMax != null and startMax != '' ">
+              &lt;=${startMax}                
+          </if>         
+          ${ao} 
+          <if test=" endMin != null and endMin != '' ">
+              ${endMin}&lt;=               
+          </if>
+          (SELECT
+	           COUNT(*)
+                       FROM
+	                     iom_ci_data_rel
+                       WHERE
+                       YXBZ=1
+	                   <if test=" ciIdList != null and ciIdList != '' ">
+                         AND iom_ci_data_rel.SOURCE_CI_ID IN
+                         <foreach item="ciId" index="index" collection="ciIdList" open="(" separator="," close=")">
+                            ${ciId}
+                         </foreach>
+                       </if>     
+                       <if test=" endSourceTypeId != null and endSourceTypeId != '' ">
+                          AND iom_ci_data_rel.SOURCE_TYPE_ID=#{endSourceTypeId}
+                       </if>
+		               <if test=" endTargetTypeId != null and endTargetTypeId != '' ">
+                          AND iom_ci_data_rel.TARGET_TYPE_ID=#{endTargetTypeId}
+                       </if>
+                       <if test=" endRelId != null and endRelId != '' ">
+                          AND iom_ci_data_rel.REL_ID=#{endRelId}
+                       </if>)
+                <if test=" endMax != null and endMax != '' ">
+                    &lt;=${endMax}              
+                </if>as returnValue
+     </select>
+     
+     <select id="getCiDataRelCountByMinToMaxStartUp" resultType="int">
+          select
+          <if test=" startMin != null and startMin != '' ">
+              ${startMin}&lt;=                 
+          </if>
+          (SELECT
+	          COUNT(*)
+                  FROM
+	                iom_ci_data_rel
+                  WHERE
+                  YXBZ=1
+	              <if test=" ciIdList != null and ciIdList != '' ">
+                      AND iom_ci_data_rel.SOURCE_CI_ID IN
+                      <foreach item="ciId" index="index" collection="ciIdList" open="(" separator="," close=")">
+                          ${ciId}
+                      </foreach>
+                  </if>       
+                  <if test=" startSourceTypeId != null and startSourceTypeId != '' ">
+                      AND iom_ci_data_rel.SOURCE_TYPE_ID=#{startSourceTypeId}
+                  </if>
+		          <if test=" startTargetTypeId != null and startTargetTypeId != '' ">
+                      AND iom_ci_data_rel.TARGET_TYPE_ID=#{startTargetTypeId}
+                  </if>
+                  <if test=" startRelId != null and startRelId != '' ">
+                      AND iom_ci_data_rel.REL_ID=#{startRelId}
+                  </if>)
+          <if test=" startMax != null and startMax != '' ">
+              &lt;=${startMax}                
+          </if>
+          ${ao} (SELECT
+	                     COUNT(*)
+                       FROM
+	                     iom_ci_data_rel
+                       WHERE
+                       YXBZ=1
+	                   <if test=" ciIdList != null and ciIdList != '' ">
+                         AND iom_ci_data_rel.SOURCE_CI_ID IN
+                         <foreach item="ciId" index="index" collection="ciIdList" open="(" separator="," close=")">
+                            ${ciId}
+                         </foreach>
+                       </if>     
+                       <if test=" endSourceTypeId != null and endSourceTypeId != '' ">
+                          AND iom_ci_data_rel.SOURCE_TYPE_ID=#{endSourceTypeId}
+                       </if>
+		               <if test=" endTargetTypeId != null and endTargetTypeId != '' ">
+                          AND iom_ci_data_rel.TARGET_TYPE_ID=#{endTargetTypeId}
+                       </if>
+                       <if test=" endRelId != null and endRelId != '' ">
+                          AND iom_ci_data_rel.REL_ID=#{endRelId}
+                       </if>)
+                       <if test=" endSymbol != null and endSymbol != '' ">
+                          ${endSymbol}
+                       </if>
+                       <if test=" endLineVal != null and endLineVal != '' ">
+                          ${endLineVal}
+                       </if> as returnValue
+     </select>
+     
+     <select id="getCiDataRelCountByMinToMaxEndUp" resultType="int">
+          select
+          (SELECT
+	                COUNT(*)
+                  FROM
+	                iom_ci_data_rel
+                  WHERE
+                  YXBZ=1
+	              <if test=" ciIdList != null and ciIdList != '' ">
+                      AND iom_ci_data_rel.SOURCE_CI_ID IN
+                      <foreach item="ciId" index="index" collection="ciIdList" open="(" separator="," close=")">
+                          ${ciId}
+                      </foreach>
+                  </if>       
+                  <if test=" startSourceTypeId != null and startSourceTypeId != '' ">
+                      AND iom_ci_data_rel.SOURCE_TYPE_ID=#{startSourceTypeId}
+                  </if>
+		          <if test=" startTargetTypeId != null and startTargetTypeId != '' ">
+                      AND iom_ci_data_rel.TARGET_TYPE_ID=#{startTargetTypeId}
+                  </if>
+                  <if test=" startRelId != null and startRelId != '' ">
+                      AND iom_ci_data_rel.REL_ID=#{startRelId}
+                  </if>)
+                  <if test=" startSymbol != null and startSymbol != '' ">
+                      ${startSymbol}
+                  </if>
+                  <if test=" startLineVal != null and startLineVal != '' ">
+                      ${startLineVal}
+                  </if>
+          ${ao} (SELECT
+	                     COUNT(*)
+                       FROM
+	                     iom_ci_data_rel
+                       WHERE
+                       YXBZ=1
+	                   <if test=" ciIdList != null and ciIdList != '' ">
+                         AND iom_ci_data_rel.SOURCE_CI_ID IN
+                         <foreach item="ciId" index="index" collection="ciIdList" open="(" separator="," close=")">
+                            ${ciId}
+                         </foreach>
+                       </if>     
+                       <if test=" endSourceTypeId != null and endSourceTypeId != '' ">
+                          AND iom_ci_data_rel.SOURCE_TYPE_ID=#{endSourceTypeId}
+                       </if>
+		               <if test=" endTargetTypeId != null and endTargetTypeId != '' ">
+                          AND iom_ci_data_rel.TARGET_TYPE_ID=#{endTargetTypeId}
+                       </if>
+                       <if test=" endRelId != null and endRelId != '' ">
+                          AND iom_ci_data_rel.REL_ID=#{endRelId}
+                       </if>)
+                       <if test=" endSymbol != null and endSymbol != '' ">
+                          ${endSymbol}
+                       </if>
+                       <if test=" endLineVal != null and endLineVal != '' ">
+                          ${endLineVal}
+                       </if> as returnValue
+     </select>
+    <update id="updateTargetTypeBm" parameterType="com.integration.entity.Type">
+        update iom_ci_data_rel set TARGET_TYPE_BM=#{ci_type_bm} where TARGET_TYPE_ID=#{id}
+    </update>
+    <update id="updateSourceTypeBm" parameterType="com.integration.entity.Type">
+        update iom_ci_data_rel set SOURCE_TYPE_BM=#{ci_type_bm} where SOURCE_TYPE_ID=#{id}
+    </update>
+</mapper>

@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.integration.generator.dao.IomCampDictMapper">
+  <resultMap id="BaseResultMap" type="com.integration.generator.entity.IomCampDict">
+    <id column="DICT_ID" jdbcType="BIGINT" property="dictId" />
+    <result column="DICT_BM" jdbcType="VARCHAR" property="dictBm" />
+    <result column="DICT_NAME" jdbcType="VARCHAR" property="dictName" />
+    <result column="SJ_ID" jdbcType="VARCHAR" property="sjId" />
+    <result column="GNFL" jdbcType="INTEGER" property="gnfl" />
+    <result column="SORT" jdbcType="INTEGER" property="sort" />
+    <result column="CJR_ID" jdbcType="BIGINT" property="cjrId" />
+    <result column="CJSJ" jdbcType="TIMESTAMP" property="cjsj" />
+    <result column="XGR_ID" jdbcType="BIGINT" property="xgrId" />
+    <result column="XGSJ" jdbcType="TIMESTAMP" property="xgsj" />
+    <result column="YXBZ" jdbcType="INTEGER" property="yxbz" />
+    <result column="COUTENT" jdbcType="VARCHAR" property="coutent" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    DICT_ID, DICT_BM, DICT_NAME, SJ_ID, GNFL, SORT, CJR_ID, CJSJ, XGR_ID, XGSJ, YXBZ, 
+    COUTENT
+  </sql>
+  <select id="selectByExample" parameterType="com.integration.generator.entity.IomCampDictExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from iom_camp_dict
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from iom_camp_dict
+    where DICT_ID = #{dictId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from iom_camp_dict
+    where DICT_ID = #{dictId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.integration.generator.entity.IomCampDictExample">
+    delete from iom_camp_dict
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.integration.generator.entity.IomCampDict">
+    insert into iom_camp_dict (DICT_ID, DICT_BM, DICT_NAME, 
+      SJ_ID, GNFL, SORT, CJR_ID, 
+      CJSJ, XGR_ID, XGSJ, 
+      YXBZ, COUTENT)
+    values (#{dictId,jdbcType=BIGINT}, #{dictBm,jdbcType=VARCHAR}, #{dictName,jdbcType=VARCHAR}, 
+      #{sjId,jdbcType=VARCHAR}, #{gnfl,jdbcType=INTEGER}, #{sort,jdbcType=INTEGER}, #{cjrId,jdbcType=BIGINT}, 
+      #{cjsj,jdbcType=TIMESTAMP}, #{xgrId,jdbcType=BIGINT}, #{xgsj,jdbcType=TIMESTAMP}, 
+      #{yxbz,jdbcType=INTEGER}, #{coutent,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.integration.generator.entity.IomCampDict">
+    insert into iom_camp_dict
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="dictId != null">
+        DICT_ID,
+      </if>
+      <if test="dictBm != null">
+        DICT_BM,
+      </if>
+      <if test="dictName != null">
+        DICT_NAME,
+      </if>
+      <if test="sjId != null">
+        SJ_ID,
+      </if>
+      <if test="gnfl != null">
+        GNFL,
+      </if>
+      <if test="sort != null">
+        SORT,
+      </if>
+      <if test="cjrId != null">
+        CJR_ID,
+      </if>
+      <if test="cjsj != null">
+        CJSJ,
+      </if>
+      <if test="xgrId != null">
+        XGR_ID,
+      </if>
+      <if test="xgsj != null">
+        XGSJ,
+      </if>
+      <if test="yxbz != null">
+        YXBZ,
+      </if>
+      <if test="coutent != null">
+        COUTENT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="dictId != null">
+        #{dictId,jdbcType=BIGINT},
+      </if>
+      <if test="dictBm != null">
+        #{dictBm,jdbcType=VARCHAR},
+      </if>
+      <if test="dictName != null">
+        #{dictName,jdbcType=VARCHAR},
+      </if>
+      <if test="sjId != null">
+        #{sjId,jdbcType=VARCHAR},
+      </if>
+      <if test="gnfl != null">
+        #{gnfl,jdbcType=INTEGER},
+      </if>
+      <if test="sort != null">
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="cjrId != null">
+        #{cjrId,jdbcType=BIGINT},
+      </if>
+      <if test="cjsj != null">
+        #{cjsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="xgrId != null">
+        #{xgrId,jdbcType=BIGINT},
+      </if>
+      <if test="xgsj != null">
+        #{xgsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="yxbz != null">
+        #{yxbz,jdbcType=INTEGER},
+      </if>
+      <if test="coutent != null">
+        #{coutent,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.integration.generator.entity.IomCampDictExample" resultType="java.lang.Long">
+    select count(*) from iom_camp_dict
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+    <select id="getDictBySjIdDictBm" resultType="com.integration.entity.Dict">
+      select
+        *
+      from iom_camp_dict
+      where 1=1 and yxbz=1
+      <if test="dictBm!=null and dictBm!=''">
+        and dict_bm=#{dictBm}
+      </if>
+      <if test="sjId!=null and sjId!=''">
+        and sj_id=#{sjId}
+      </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+    update iom_camp_dict
+    <set>
+      <if test="record.dictId != null">
+        DICT_ID = #{record.dictId,jdbcType=BIGINT},
+      </if>
+      <if test="record.dictBm != null">
+        DICT_BM = #{record.dictBm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dictName != null">
+        DICT_NAME = #{record.dictName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sjId != null">
+        SJ_ID = #{record.sjId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gnfl != null">
+        GNFL = #{record.gnfl,jdbcType=INTEGER},
+      </if>
+      <if test="record.sort != null">
+        SORT = #{record.sort,jdbcType=INTEGER},
+      </if>
+      <if test="record.cjrId != null">
+        CJR_ID = #{record.cjrId,jdbcType=BIGINT},
+      </if>
+      <if test="record.cjsj != null">
+        CJSJ = #{record.cjsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.xgrId != null">
+        XGR_ID = #{record.xgrId,jdbcType=BIGINT},
+      </if>
+      <if test="record.xgsj != null">
+        XGSJ = #{record.xgsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.yxbz != null">
+        YXBZ = #{record.yxbz,jdbcType=INTEGER},
+      </if>
+      <if test="record.coutent != null">
+        COUTENT = #{record.coutent,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update iom_camp_dict
+    set DICT_ID = #{record.dictId,jdbcType=BIGINT},
+      DICT_BM = #{record.dictBm,jdbcType=VARCHAR},
+      DICT_NAME = #{record.dictName,jdbcType=VARCHAR},
+      SJ_ID = #{record.sjId,jdbcType=VARCHAR},
+      GNFL = #{record.gnfl,jdbcType=INTEGER},
+      SORT = #{record.sort,jdbcType=INTEGER},
+      CJR_ID = #{record.cjrId,jdbcType=BIGINT},
+      CJSJ = #{record.cjsj,jdbcType=TIMESTAMP},
+      XGR_ID = #{record.xgrId,jdbcType=BIGINT},
+      XGSJ = #{record.xgsj,jdbcType=TIMESTAMP},
+      YXBZ = #{record.yxbz,jdbcType=INTEGER},
+      COUTENT = #{record.coutent,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.integration.generator.entity.IomCampDict">
+    update iom_camp_dict
+    <set>
+      <if test="dictBm != null">
+        DICT_BM = #{dictBm,jdbcType=VARCHAR},
+      </if>
+      <if test="dictName != null">
+        DICT_NAME = #{dictName,jdbcType=VARCHAR},
+      </if>
+      <if test="sjId != null">
+        SJ_ID = #{sjId,jdbcType=VARCHAR},
+      </if>
+      <if test="gnfl != null">
+        GNFL = #{gnfl,jdbcType=INTEGER},
+      </if>
+      <if test="sort != null">
+        SORT = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="cjrId != null">
+        CJR_ID = #{cjrId,jdbcType=BIGINT},
+      </if>
+      <if test="cjsj != null">
+        CJSJ = #{cjsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="xgrId != null">
+        XGR_ID = #{xgrId,jdbcType=BIGINT},
+      </if>
+      <if test="xgsj != null">
+        XGSJ = #{xgsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="yxbz != null">
+        YXBZ = #{yxbz,jdbcType=INTEGER},
+      </if>
+      <if test="coutent != null">
+        COUTENT = #{coutent,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where DICT_ID = #{dictId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.integration.generator.entity.IomCampDict">
+    update iom_camp_dict
+    set DICT_BM = #{dictBm,jdbcType=VARCHAR},
+      DICT_NAME = #{dictName,jdbcType=VARCHAR},
+      SJ_ID = #{sjId,jdbcType=VARCHAR},
+      GNFL = #{gnfl,jdbcType=INTEGER},
+      SORT = #{sort,jdbcType=INTEGER},
+      CJR_ID = #{cjrId,jdbcType=BIGINT},
+      CJSJ = #{cjsj,jdbcType=TIMESTAMP},
+      XGR_ID = #{xgrId,jdbcType=BIGINT},
+      XGSJ = #{xgsj,jdbcType=TIMESTAMP},
+      YXBZ = #{yxbz,jdbcType=INTEGER},
+      COUTENT = #{coutent,jdbcType=VARCHAR}
+    where DICT_ID = #{dictId,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.integration.generator.dao.IomCampOrgMapper">
+  <resultMap id="BaseResultMap" type="com.integration.generator.entity.IomCampOrg">
+    <id column="id" jdbcType="DECIMAL" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="pid" jdbcType="DECIMAL" property="pid" />
+    <result column="path" jdbcType="VARCHAR" property="path" />
+    <result column="service_type" jdbcType="VARCHAR" property="serviceType" />
+    <result column="is_dept" jdbcType="INTEGER" property="isDept" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="sort" jdbcType="INTEGER" property="sort" />
+    <result column="cjr_id" jdbcType="BIGINT" property="cjrId" />
+    <result column="cjsj" jdbcType="TIMESTAMP" property="cjsj" />
+    <result column="xgr_id" jdbcType="BIGINT" property="xgrId" />
+    <result column="xgsj" jdbcType="TIMESTAMP" property="xgsj" />
+    <result column="yxbz" jdbcType="INTEGER" property="yxbz" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, name, pid, path, service_type, is_dept, status, sort, cjr_id, cjsj, xgr_id, xgsj, 
+    yxbz
+  </sql>
+  <select id="selectByExample" parameterType="com.integration.generator.entity.IomCampOrgExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from iom_camp_org
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from iom_camp_org
+    where id = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from iom_camp_org
+    where id = #{id,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.integration.generator.entity.IomCampOrgExample">
+    delete from iom_camp_org
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.integration.generator.entity.IomCampOrg">
+    insert into iom_camp_org (id, name, pid, 
+      path, service_type, is_dept, 
+      status, sort, cjr_id, 
+      cjsj, xgr_id, xgsj, 
+      yxbz)
+    values (#{id,jdbcType=DECIMAL}, #{name,jdbcType=VARCHAR}, #{pid,jdbcType=DECIMAL}, 
+      #{path,jdbcType=VARCHAR}, #{serviceType,jdbcType=VARCHAR}, #{isDept,jdbcType=INTEGER}, 
+      #{status,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}, #{cjrId,jdbcType=BIGINT}, 
+      #{cjsj,jdbcType=TIMESTAMP}, #{xgrId,jdbcType=BIGINT}, #{xgsj,jdbcType=TIMESTAMP}, 
+      #{yxbz,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.integration.generator.entity.IomCampOrg">
+    insert into iom_camp_org
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="pid != null">
+        pid,
+      </if>
+      <if test="path != null">
+        path,
+      </if>
+      <if test="serviceType != null">
+        service_type,
+      </if>
+      <if test="isDept != null">
+        is_dept,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="sort != null">
+        sort,
+      </if>
+      <if test="cjrId != null">
+        cjr_id,
+      </if>
+      <if test="cjsj != null">
+        cjsj,
+      </if>
+      <if test="xgrId != null">
+        xgr_id,
+      </if>
+      <if test="xgsj != null">
+        xgsj,
+      </if>
+      <if test="yxbz != null">
+        yxbz,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="pid != null">
+        #{pid,jdbcType=DECIMAL},
+      </if>
+      <if test="path != null">
+        #{path,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceType != null">
+        #{serviceType,jdbcType=VARCHAR},
+      </if>
+      <if test="isDept != null">
+        #{isDept,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="cjrId != null">
+        #{cjrId,jdbcType=BIGINT},
+      </if>
+      <if test="cjsj != null">
+        #{cjsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="xgrId != null">
+        #{xgrId,jdbcType=BIGINT},
+      </if>
+      <if test="xgsj != null">
+        #{xgsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="yxbz != null">
+        #{yxbz,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.integration.generator.entity.IomCampOrgExample" resultType="java.lang.Long">
+    select count(*) from iom_camp_org
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update iom_camp_org
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pid != null">
+        pid = #{record.pid,jdbcType=DECIMAL},
+      </if>
+      <if test="record.path != null">
+        path = #{record.path,jdbcType=VARCHAR},
+      </if>
+      <if test="record.serviceType != null">
+        service_type = #{record.serviceType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isDept != null">
+        is_dept = #{record.isDept,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sort != null">
+        sort = #{record.sort,jdbcType=INTEGER},
+      </if>
+      <if test="record.cjrId != null">
+        cjr_id = #{record.cjrId,jdbcType=BIGINT},
+      </if>
+      <if test="record.cjsj != null">
+        cjsj = #{record.cjsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.xgrId != null">
+        xgr_id = #{record.xgrId,jdbcType=BIGINT},
+      </if>
+      <if test="record.xgsj != null">
+        xgsj = #{record.xgsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.yxbz != null">
+        yxbz = #{record.yxbz,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update iom_camp_org
+    set id = #{record.id,jdbcType=DECIMAL},
+      name = #{record.name,jdbcType=VARCHAR},
+      pid = #{record.pid,jdbcType=DECIMAL},
+      path = #{record.path,jdbcType=VARCHAR},
+      service_type = #{record.serviceType,jdbcType=VARCHAR},
+      is_dept = #{record.isDept,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=VARCHAR},
+      sort = #{record.sort,jdbcType=INTEGER},
+      cjr_id = #{record.cjrId,jdbcType=BIGINT},
+      cjsj = #{record.cjsj,jdbcType=TIMESTAMP},
+      xgr_id = #{record.xgrId,jdbcType=BIGINT},
+      xgsj = #{record.xgsj,jdbcType=TIMESTAMP},
+      yxbz = #{record.yxbz,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.integration.generator.entity.IomCampOrg">
+    update iom_camp_org
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="pid != null">
+        pid = #{pid,jdbcType=DECIMAL},
+      </if>
+      <if test="path != null">
+        path = #{path,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceType != null">
+        service_type = #{serviceType,jdbcType=VARCHAR},
+      </if>
+      <if test="isDept != null">
+        is_dept = #{isDept,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="cjrId != null">
+        cjr_id = #{cjrId,jdbcType=BIGINT},
+      </if>
+      <if test="cjsj != null">
+        cjsj = #{cjsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="xgrId != null">
+        xgr_id = #{xgrId,jdbcType=BIGINT},
+      </if>
+      <if test="xgsj != null">
+        xgsj = #{xgsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="yxbz != null">
+        yxbz = #{yxbz,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.integration.generator.entity.IomCampOrg">
+    update iom_camp_org
+    set name = #{name,jdbcType=VARCHAR},
+      pid = #{pid,jdbcType=DECIMAL},
+      path = #{path,jdbcType=VARCHAR},
+      service_type = #{serviceType,jdbcType=VARCHAR},
+      is_dept = #{isDept,jdbcType=INTEGER},
+      status = #{status,jdbcType=VARCHAR},
+      sort = #{sort,jdbcType=INTEGER},
+      cjr_id = #{cjrId,jdbcType=BIGINT},
+      cjsj = #{cjsj,jdbcType=TIMESTAMP},
+      xgr_id = #{xgrId,jdbcType=BIGINT},
+      xgsj = #{xgsj,jdbcType=TIMESTAMP},
+      yxbz = #{yxbz,jdbcType=INTEGER}
+    where id = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+	<!--数据库驱动 -->
+	<classPathEntry
+		location="D:/maven_store/mysql/mysql-connector-java/5.1.44/mysql-connector-java-5.1.44-sources.jar" />
+	<context id="mysql">
+		<!-- 序列化 -->
+		<plugin type="com.integration.generator.SerializablePlugin" />
+		<!-- 缓存 -->
+		<plugin type="org.mybatis.generator.plugins.CachePlugin"/>
+		
+		<commentGenerator>
+			<property name="suppressDate" value="true" />
+			<property name="suppressAllComments" value="true" />
+		</commentGenerator>
+		<!--数据库链接地址账号密码 -->
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="jdbc:mysql://192.168.7.127:3306/iomci?characterEncoding=utf-8"
+			userId="root" password="root123">
+		</jdbcConnection>
+		<javaTypeResolver type="com.integration.generator.MyJavaTypeResolver">
+			<property name="forceBigDecimals" value="false" />
+		</javaTypeResolver>
+		<!--生成Model类存放位置 -->
+		<javaModelGenerator
+			targetPackage="com.integration.generator.entity" targetProject="integration-provider-cmdb-8006">
+			<property name="enableSubPackages" value="true" />
+			<property name="trimStrings" value="true" />
+		</javaModelGenerator>
+		<!--生成映射文件存放位置 -->
+		<sqlMapGenerator
+			targetPackage="com.integration.generator.dao" targetProject="integration-provider-cmdb-8006">
+			<property name="enableSubPackages" value="true" />
+		</sqlMapGenerator>
+		<!--生成mapper类存放位置 -->
+		<javaClientGenerator type="XMLMAPPER"
+			targetPackage="com.integration.generator.dao" targetProject="integration-provider-cmdb-8006">
+			<property name="enableSubPackages" value="true" />
+		</javaClientGenerator>
+		<!--生成对应表及类名 -->
+		
+		<table tableName="iom_ci_kpi" />
+		<!--
+		<table tableName="iom_pmv_dashboard_group" />
+		<table tableName="iom_pmv_dashboard_group" />
+		<table tableName="iom_pmv_kpi" />
+		<table tableName="iom_pmv_kpi_clas" />
+		<table tableName="iom_pmv_performance" />
+		<table tableName="iom_pmv_performance_current" /> -->
+	</context>
+</generatorConfiguration>

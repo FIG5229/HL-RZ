@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.integration.dao.IomCampActionLogDao">
+
+	<sql id="cols">
+		a.id,
+		DATE_FORMAT(a.log_time, '%Y-%m-%d %H:%i:%s') log_time,
+		a.user_id,
+		a.czry_dldm,
+		a.czry_mc,
+		a.op_name,
+		a.op_path,
+		a.op_desc,
+		a.is_status,
+		a.op_param,
+		a.op_result,
+		a.op_class,
+		a.op_method,
+		DATE_FORMAT(a.cjsj, '%Y-%m-%d %H:%i:%s') cjsj
+	</sql>
+
+	<sql id="colsAdd">
+		id,
+		log_time,
+		user_id,
+		czry_dldm,
+		czry_mc,
+		op_name,
+		op_path,
+		op_desc,
+		is_status,
+		op_param,
+		op_result,
+		op_class,
+		op_method,
+		cjsj
+	</sql>
+
+	<sql id="getSql">
+		from iommgt.iom_camp_action a where 1=1
+		<if test="null != id ">
+			AND a.id = #{id}
+		</if>
+		<if test="null != log_time ">
+			AND a.log_time = #{log_time}
+		</if>
+		<if test="null != user_id ">
+			AND a.user_id = #{user_id}
+		</if>
+		<if test="null != czry_dldm ">
+			AND a.czry_dldm like CONCAT('%',#{czry_dldm},'%')
+		</if>
+		<if test="null != czry_mc ">
+			AND a.czry_mc like CONCAT('%',#{czry_mc},'%')
+		</if>
+		<if test="null != op_name ">
+			AND a.op_name like CONCAT('%',#{op_name},'%')
+		</if>
+		<if test="null != op_path ">
+			AND a.op_path = #{op_path}
+		</if>
+		<if test="null != op_desc ">
+			AND a.op_desc like CONCAT('%',#{op_desc},'%')
+		</if>
+		<if test="null != is_status ">
+			AND a.is_status = #{is_status}
+		</if>
+		<if test="null != op_param ">
+			AND a.op_param = #{op_param}
+		</if>
+		<if test="null != op_result ">
+			AND a.op_result = #{op_result}
+		</if>
+		<if test="null != op_class ">
+			AND a.op_class = #{op_class}
+		</if>
+		<if test="null != op_method ">
+			AND a.op_method = #{op_method}
+		</if>
+		<if test="null != cjsj ">
+			AND a.cjsj = #{cjsj}
+		</if>
+	</sql>
+
+	<select id="getAllPageId" parameterType="map" resultType="IomCampActionInfo">
+		select
+		a.id
+		<include refid="getSql" />
+		<if test="starttime != null and starttime != ''">
+			<![CDATA[and a.cjsj >= '${starttime} 00:00:00' ]]>
+		</if>
+		<if test="endtime != null and endtime != ''">
+			<![CDATA[and a.cjsj <= '${endtime} 23:59:59' ]]>
+		</if>
+		ORDER BY a.log_time desc,a.id desc
+	</select>
+
+	<select id="getAllPageNew" parameterType="map" resultType="IomCampActionInfo">
+
+		select
+		<include refid="cols" />
+		<include refid="getSql" />
+		and id in
+		<foreach collection="idList" open="(" close=")" separator="," item="tempId">
+			${tempId}
+		</foreach>
+	</select>
+
+	<select id="getAllPage" parameterType="map" resultType="IomCampActionInfo">
+
+		select
+		<include refid="cols" />
+		<include refid="getSql" />
+		<if test="starttime != null and starttime != ''">
+		<![CDATA[and a.cjsj >= '${starttime} 00:00:00' ]]>
+		</if>
+		<if test="endtime != null and endtime != ''">
+		<![CDATA[and a.cjsj <= '${endtime} 23:59:59' ]]>
+		</if>
+		<if test="idList != null and idList.size() > 0">
+		and id in
+			<foreach collection="idList" open="(" close=")" separator="," item="tempId">
+				${tempId}
+			</foreach>
+		</if>
+		ORDER BY a.log_time desc,a.id desc
+	</select>
+
+	<select id="getAllCount" parameterType="map" resultType="int">
+		select count(*)
+		<include refid="getSql" />
+		<if test="starttime != null and starttime != ''">
+			<![CDATA[and a.cjsj >= DATE_FORMAT(#{starttime},'%Y-%m-%d %H:%i:%s') ]]>
+		</if>
+		<if test="endtime != null and endtime != ''">
+			<![CDATA[and a.cjsj <= DATE_FORMAT(#{endtime},'%Y-%m-%d %H:%i:%s') ]]>
+		</if>
+	</select>
+
+	<select id="getAllList" parameterType="hashmap" resultType="IomCampActionInfo">
+
+		select
+		<include refid="cols" />
+		<include refid="getSql" />
+		ORDER BY a.id desc
+	</select>
+
+	<select id="getInfo" parameterType="hashmap" resultType="IomCampActionInfo">
+
+		select
+		<include refid="cols" />
+		<include refid="getSql" />
+
+	</select>
+
+	<update id="updateInfo" parameterType="IomCampActionInfo">
+		UPDATE iommgt.iom_camp_action a
+		<set>
+			<if test="null != id ">
+				a.id = #{id},
+			</if>
+			<if test="null != log_time ">
+				a.log_time = #{log_time},
+			</if>
+			<if test="null != user_id ">
+				a.user_id = #{user_id},
+			</if>
+			<if test="null != czry_dldm ">
+				a.czry_dldm = #{czry_dldm},
+			</if>
+			<if test="null != czry_mc ">
+				a.czry_mc = #{czry_mc},
+			</if>
+			<if test="null != op_name ">
+				a.op_name = #{op_name},
+			</if>
+			<if test="null != op_path ">
+				a.op_path = #{op_path},
+			</if>
+			<if test="null != op_desc ">
+				a.op_desc = #{op_desc},
+			</if>
+			<if test="null != is_status ">
+				a.is_status = #{is_status},
+			</if>
+			<if test="null != op_param ">
+				a.op_param = #{op_param},
+			</if>
+			<if test="null != op_result ">
+				a.op_result = #{op_result},
+			</if>
+			<if test="null != op_class ">
+				a.op_class = #{op_class},
+			</if>
+			<if test="null != op_method ">
+				a.op_method = #{op_method},
+			</if>
+			<if test="null != cjsj ">
+				a.cjsj = #{cjsj}
+			</if>
+		</set>
+		WHERE
+
+	</update>
+
+	<insert id="insertInfo" parameterType="IomCampActionInfo">
+		INSERT INTO iommgt.iom_camp_action(
+		<include refid="colsAdd" />
+		)
+		VALUES (
+		#{id},
+		#{log_time},
+		#{user_id},
+		#{czry_dldm},
+		#{czry_mc},
+		#{op_name},
+		#{op_path},
+		#{op_desc},
+		#{is_status},
+		#{op_param},
+		#{op_result},
+		#{op_class},
+		#{op_method},
+		#{cjsj}
+		)
+	</insert>
+
+	<delete id="deleteInfo" parameterType="int">
+		DELETE FROM iommgt.iom_camp_action a WHERE a.id=#{id}
+	</delete>
+
+</mapper>

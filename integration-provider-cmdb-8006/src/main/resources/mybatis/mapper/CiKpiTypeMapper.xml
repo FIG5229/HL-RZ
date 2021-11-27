@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.integration.dao.CiKpiTypeDao">
+
+    <sql id="cols">
+        a.id,
+        a.kpi_id,
+        a.obj_type,
+        a.obj_id,
+        a.cjsj,
+        a.xgsj,
+        a.yxbz
+    </sql>
+
+    <sql id="colsAdd">
+        id,
+        kpi_id,
+        obj_type,
+        obj_id,
+        cjsj,
+        xgsj,
+        yxbz
+    </sql>
+
+    <sql id="getSql">
+        from IOMCI.IOM_CI_KPI_TYPE a where 1=1
+        <if test="null != id ">
+            AND a.id = #{id}
+        </if>
+        <if test="null != kpi_id ">
+            AND a.kpi_id = #{kpi_id}
+        </if>
+        <if test="null != obj_type ">
+            AND a.obj_type = #{obj_type}
+        </if>
+        <if test="null != obj_id ">
+            AND a.obj_id = #{obj_id}
+        </if>
+        <if test="null != cjsj ">
+            AND a.cjsj = #{cjsj}
+        </if>
+        <if test="null != xgsj ">
+            AND a.xgsj = #{xgsj}
+        </if>
+        <if test="null != yxbz ">
+            AND a.yxbz = #{yxbz}
+        </if>
+    </sql>
+
+    <select id="getAllPage" parameterType="hashmap" resultType="CiKpiTypeInfo">
+
+        select
+        <include refid="cols"/>
+        <include refid="getSql"/>ORDER BY a.id desc
+    </select>
+
+    <select id="getAllCount" parameterType="hashmap" resultType="int">
+        select count(*)
+        <include refid="getSql"/>
+    </select>
+
+    <select id="getAllList" parameterType="hashmap" resultType="CiKpiTypeInfo">
+
+        select
+        <include refid="cols"/>
+        <include refid="getSql"/>
+        ORDER BY a.id desc
+    </select>
+
+    <select id="getInfo" parameterType="hashmap" resultType="CiKpiTypeInfo">
+
+        select
+        <include refid="cols"/>
+        <include refid="getSql"/>
+
+    </select>
+
+    <update id="updateInfo" parameterType="CiKpiTypeInfo">
+        UPDATE IOMCI.IOM_CI_KPI_TYPE a
+        <set>
+            <if test="null != kpi_id ">
+                a.kpi_id = #{kpi_id},
+            </if>
+            <if test="null != obj_type ">
+                a.obj_type = #{obj_type},
+            </if>
+            <if test="null != obj_id ">
+                a.obj_id = #{obj_id},
+            </if>
+            <if test="null != cjsj ">
+                a.cjsj = #{cjsj},
+            </if>
+            <if test="null != xgsj ">
+                a.xgsj = #{xgsj},
+            </if>
+            <if test="null != yxbz ">
+                a.yxbz = #{yxbz}
+            </if>
+        </set>
+        WHERE
+        <if test="null != id ">
+            a.id = #{id}
+        </if>
+    </update>
+
+    <insert id="insertInfo" parameterType="CiKpiTypeInfo">
+        INSERT INTO IOMCI.IOM_CI_KPI_TYPE
+        VALUES (
+        #{id},
+        #{kpi_id},
+        #{obj_type},
+        #{obj_id},
+        str_to_date(#{cjsj},'%Y-%m-%d %H:%i:%s'),
+		str_to_date(#{xgsj},'%Y-%m-%d %H:%i:%s'),
+        #{yxbz}
+        )
+    </insert>
+
+    <insert id="insertInfoList" parameterType="CiKpiTypeInfo">
+        INSERT INTO IOMCI.IOM_CI_KPI_TYPE
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id},
+            #{item.kpi_id},
+            #{item.obj_type},
+            #{item.obj_id},
+            str_to_date(#{item.cjsj},'%Y-%m-%d %H:%i:%s'),
+            str_to_date(#{item.xgsj},'%Y-%m-%d %H:%i:%s'),
+            #{item.yxbz}
+            )
+        </foreach>
+    </insert>
+
+    <delete id="deleteInfo" parameterType="string">
+        DELETE FROM IOMCI.IOM_CI_KPI_TYPE a WHERE a.id=#{id}
+    </delete>
+
+    <select id="getAllInfo" resultType="CiKpiTypeInfo">
+        select * from
+            IOMCI.IOM_CI_KPI_TYPE
+    </select>
+
+    <select id="getObjByKpiId" parameterType="string" resultType="CiKpiTypeInfo">
+        select * from IOMCI.IOM_CI_KPI_TYPE WHERE KPI_ID = #{kpiId} AND YXBZ=1 AND OBJ_TYPE=2
+    </select>
+
+    <delete id="deleteByKpiId" parameterType="string">
+        DELETE FROM IOMCI.IOM_CI_KPI_TYPE WHERE kpi_id=#{kpiId}
+    </delete>
+    <select id="findById" parameterType="string" resultType="string">
+        select OBJ_ID from IOMCI.IOM_CI_KPI_TYPE WHERE KPI_ID = #{id} and YXBZ = 1
+    </select>
+    <select id="findByThres" parameterType="string" resultType="CiKpiThres">
+        select * from iomci.iom_ci_kpi_thres where KPI_ID = #{id} and YXBZ = 1
+    </select>
+    
+    <select id="getHangKpiByCiId" parameterType="string" resultType="int">
+        select count(*) from iomci.iom_ci_kpi_type where OBJ_ID = #{ciTypeId} and YXBZ = 1 AND OBJ_TYPE=2
+    </select>
+    <select id="getAllCikpiTypeInfo" resultType="com.integration.entity.CiKpiTypeInfo">
+        select * from IOMCI.IOM_CI_KPI_TYPE WHERE  YXBZ=1 AND OBJ_TYPE=2
+    </select>
+</mapper>

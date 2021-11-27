@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.integration.dao.IomCampLicenseAuthMapper">
+  <resultMap id="BaseResultMap" type="com.integration.entity.IomCampLicenseAuth">
+    <id column="id" jdbcType="DECIMAL" property="id" />
+    <result column="auth_code" jdbcType="VARCHAR" property="authCode" />
+    <result column="client_code" jdbcType="VARCHAR" property="clientCode" />
+    <result column="register_man" jdbcType="VARCHAR" property="registerMan" />
+    <result column="register_time" jdbcType="TIMESTAMP" property="registerTime" />
+    <result column="valid_date" jdbcType="TIMESTAMP" property="validDate" />
+    <result column="auth_user_num" jdbcType="INTEGER" property="authUserNum" />
+    <result column="auth_cabinet_num" jdbcType="INTEGER" property="authCabinetNum" />
+    <result column="auth_door_num" jdbcType="INTEGER" property="authDoorNum" />
+    <result column="auth_scene_num" jdbcType="INTEGER" property="authSceneNum" />
+    <result column="auth_view_num" jdbcType="INTEGER" property="authViewNum" />
+    <result column="day_count" jdbcType="INTEGER" property="dayCount" />
+    <result column="is_blocked" jdbcType="VARCHAR" property="isBlocked" />
+    <result column="CJR_ID" jdbcType="DECIMAL" property="cjrId" />
+    <result column="CJSJ" jdbcType="TIMESTAMP" property="cjsj" />
+    <result column="XGR_ID" jdbcType="DECIMAL" property="xgrId" />
+    <result column="XGSJ" jdbcType="TIMESTAMP" property="xgsj" />
+    <result column="menu_str" jdbcType="VARCHAR" property="menuStr" />
+    <result column="allow_module_name" jdbcType="VARCHAR" property="allowModuleName" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.integration.entity.IomCampLicenseAuth">
+    <result column="auth_img" jdbcType="LONGVARCHAR" property="authImg" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, auth_code, client_code, register_man, register_time, valid_date, auth_user_num, 
+    auth_cabinet_num, auth_door_num, auth_scene_num, auth_view_num, day_count, is_blocked, 
+    CJR_ID, CJSJ, XGR_ID, XGSJ,menu_str,allow_module_name
+  </sql>
+  <sql id="Blob_Column_List">
+    auth_img
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.math.BigDecimal" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from iom_camp_license_auth
+    where id = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+    delete from iom_camp_license_auth
+    where id = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.integration.entity.IomCampLicenseAuth">
+    insert into iom_camp_license_auth (id, auth_code, client_code, 
+      register_man, register_time, valid_date, 
+      auth_user_num, auth_cabinet_num, auth_door_num, 
+      auth_scene_num, auth_view_num, day_count, 
+      is_blocked, CJR_ID, CJSJ, 
+      XGR_ID, XGSJ, auth_img,allow_module_name
+      )
+    values (#{id,jdbcType=DECIMAL}, #{authCode,jdbcType=VARCHAR}, #{clientCode,jdbcType=VARCHAR}, 
+      #{registerMan,jdbcType=VARCHAR}, #{registerTime,jdbcType=TIMESTAMP}, #{validDate,jdbcType=TIMESTAMP}, 
+      #{authUserNum,jdbcType=INTEGER}, #{authCabinetNum,jdbcType=INTEGER}, #{authDoorNum,jdbcType=INTEGER}, 
+      #{authSceneNum,jdbcType=INTEGER}, #{authViewNum,jdbcType=INTEGER}, #{dayCount,jdbcType=INTEGER}, 
+      #{isBlocked,jdbcType=VARCHAR}, #{cjrId,jdbcType=DECIMAL}, #{cjsj,jdbcType=TIMESTAMP},
+      #{xgrId,jdbcType=DECIMAL}, #{xgsj,jdbcType=TIMESTAMP}, #{authImg,jdbcType=LONGVARCHAR}, #{allowModuleName,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.integration.entity.IomCampLicenseAuth">
+    insert into iom_camp_license_auth
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="authCode != null">
+        auth_code,
+      </if>
+      <if test="clientCode != null">
+        client_code,
+      </if>
+      <if test="registerMan != null">
+        register_man,
+      </if>
+      <if test="registerTime != null">
+        register_time,
+      </if>
+      <if test="validDate != null">
+        valid_date,
+      </if>
+      <if test="authUserNum != null">
+        auth_user_num,
+      </if>
+      <if test="authCabinetNum != null">
+        auth_cabinet_num,
+      </if>
+      <if test="authDoorNum != null">
+        auth_door_num,
+      </if>
+      <if test="authSceneNum != null">
+        auth_scene_num,
+      </if>
+      <if test="authViewNum != null">
+        auth_view_num,
+      </if>
+      <if test="dayCount != null">
+        day_count,
+      </if>
+      <if test="isBlocked != null">
+        is_blocked,
+      </if>
+      <if test="cjrId != null">
+        CJR_ID,
+      </if>
+      <if test="cjsj != null">
+        CJSJ,
+      </if>
+      <if test="xgrId != null">
+        XGR_ID,
+      </if>
+      <if test="xgsj != null">
+        XGSJ,
+      </if>
+      <if test="authImg != null">
+        auth_img,
+      </if>
+      <if test="allowModuleName != null">
+        allow_module_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="authCode != null">
+        #{authCode,jdbcType=VARCHAR},
+      </if>
+      <if test="clientCode != null">
+        #{clientCode,jdbcType=VARCHAR},
+      </if>
+      <if test="registerMan != null">
+        #{registerMan,jdbcType=VARCHAR},
+      </if>
+      <if test="registerTime != null">
+        #{registerTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validDate != null">
+        #{validDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="authUserNum != null">
+        #{authUserNum,jdbcType=INTEGER},
+      </if>
+      <if test="authCabinetNum != null">
+        #{authCabinetNum,jdbcType=INTEGER},
+      </if>
+      <if test="authDoorNum != null">
+        #{authDoorNum,jdbcType=INTEGER},
+      </if>
+      <if test="authSceneNum != null">
+        #{authSceneNum,jdbcType=INTEGER},
+      </if>
+      <if test="authViewNum != null">
+        #{authViewNum,jdbcType=INTEGER},
+      </if>
+      <if test="dayCount != null">
+        #{dayCount,jdbcType=INTEGER},
+      </if>
+      <if test="isBlocked != null">
+        #{isBlocked,jdbcType=VARCHAR},
+      </if>
+      <if test="cjrId != null">
+        #{cjrId,jdbcType=DECIMAL},
+      </if>
+      <if test="cjsj != null">
+        #{cjsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="xgrId != null">
+        #{xgrId,jdbcType=DECIMAL},
+      </if>
+      <if test="xgsj != null">
+        #{xgsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="authImg != null">
+        #{authImg,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="allowModuleName != null">
+        #{allowModuleName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.integration.entity.IomCampLicenseAuth">
+    update iom_camp_license_auth
+    <set>
+      <if test="authCode != null">
+        auth_code = #{authCode,jdbcType=VARCHAR},
+      </if>
+      <if test="clientCode != null">
+        client_code = #{clientCode,jdbcType=VARCHAR},
+      </if>
+      <if test="registerMan != null">
+        register_man = #{registerMan,jdbcType=VARCHAR},
+      </if>
+      <if test="registerTime != null">
+        register_time = #{registerTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validDate != null">
+        valid_date = #{validDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="authUserNum != null">
+        auth_user_num = #{authUserNum,jdbcType=INTEGER},
+      </if>
+      <if test="authCabinetNum != null">
+        auth_cabinet_num = #{authCabinetNum,jdbcType=INTEGER},
+      </if>
+      <if test="authDoorNum != null">
+        auth_door_num = #{authDoorNum,jdbcType=INTEGER},
+      </if>
+      <if test="authSceneNum != null">
+        auth_scene_num = #{authSceneNum,jdbcType=INTEGER},
+      </if>
+      <if test="authViewNum != null">
+        auth_view_num = #{authViewNum,jdbcType=INTEGER},
+      </if>
+      <if test="dayCount != null">
+        day_count = #{dayCount,jdbcType=INTEGER},
+      </if>
+      <if test="isBlocked != null">
+        is_blocked = #{isBlocked,jdbcType=VARCHAR},
+      </if>
+      <if test="cjrId != null">
+        CJR_ID = #{cjrId,jdbcType=DECIMAL},
+      </if>
+      <if test="cjsj != null">
+        CJSJ = #{cjsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="xgrId != null">
+        XGR_ID = #{xgrId,jdbcType=DECIMAL},
+      </if>
+      <if test="xgsj != null">
+        XGSJ = #{xgsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="authImg != null">
+        auth_img = #{authImg,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="allowModuleName != null">
+        allow_module_name = #{allowModuleName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.integration.entity.IomCampLicenseAuth">
+    update iom_camp_license_auth
+    set auth_code = #{authCode,jdbcType=VARCHAR},
+      client_code = #{clientCode,jdbcType=VARCHAR},
+      register_man = #{registerMan,jdbcType=VARCHAR},
+      register_time = #{registerTime,jdbcType=TIMESTAMP},
+      valid_date = #{validDate,jdbcType=TIMESTAMP},
+      auth_user_num = #{authUserNum,jdbcType=INTEGER},
+      auth_cabinet_num = #{authCabinetNum,jdbcType=INTEGER},
+      auth_door_num = #{authDoorNum,jdbcType=INTEGER},
+      auth_scene_num = #{authSceneNum,jdbcType=INTEGER},
+      auth_view_num = #{authViewNum,jdbcType=INTEGER},
+      day_count = #{dayCount,jdbcType=INTEGER},
+      is_blocked = #{isBlocked,jdbcType=VARCHAR},
+      CJR_ID = #{cjrId,jdbcType=DECIMAL},
+      CJSJ = #{cjsj,jdbcType=TIMESTAMP},
+      XGR_ID = #{xgrId,jdbcType=DECIMAL},
+      XGSJ = #{xgsj,jdbcType=TIMESTAMP},
+      auth_img = #{authImg,jdbcType=LONGVARCHAR},
+      allow_module_name = #{allowModuleName,jdbcType=VARCHAR},
+    where id = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.integration.entity.IomCampLicenseAuth">
+    update iom_camp_license_auth
+    set auth_code = #{authCode,jdbcType=VARCHAR},
+      client_code = #{clientCode,jdbcType=VARCHAR},
+      register_man = #{registerMan,jdbcType=VARCHAR},
+      register_time = #{registerTime,jdbcType=TIMESTAMP},
+      valid_date = #{validDate,jdbcType=TIMESTAMP},
+      auth_user_num = #{authUserNum,jdbcType=INTEGER},
+      auth_cabinet_num = #{authCabinetNum,jdbcType=INTEGER},
+      auth_door_num = #{authDoorNum,jdbcType=INTEGER},
+      auth_scene_num = #{authSceneNum,jdbcType=INTEGER},
+      auth_view_num = #{authViewNum,jdbcType=INTEGER},
+      day_count = #{dayCount,jdbcType=INTEGER},
+      is_blocked = #{isBlocked,jdbcType=VARCHAR},
+      CJR_ID = #{cjrId,jdbcType=DECIMAL},
+      CJSJ = #{cjsj,jdbcType=TIMESTAMP},
+      XGR_ID = #{xgrId,jdbcType=DECIMAL},
+      XGSJ = #{xgsj,jdbcType=TIMESTAMP},
+      allow_module_name = #{allowModuleName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=DECIMAL}
+  </update>
+
+  <select id="selectList" parameterType="com.integration.entity.IomCampLicenseAuth" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from iom_camp_license_auth
+    limit 0,1
+  </select>
+
+</mapper>

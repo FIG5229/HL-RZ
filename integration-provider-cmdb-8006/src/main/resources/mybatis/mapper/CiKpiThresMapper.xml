@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.integration.dao.CiKpiThresDao">
+    <insert id="insertInfo" parameterType="CiKpiThres">
+        INSERT INTO IOMCI.IOM_CI_KPI_THRES(
+        ID,
+        KPI_ID,
+        KPI_THRES,
+        KPI_ICON,
+        KPI_COLOR,
+        CJSJ,
+        XGSJ,
+        YXBZ
+        )
+        VALUES (
+        #{id},
+        #{kpi_id},
+        #{kpi_thres},
+        #{kpi_icon},
+        #{kpi_color},
+        #{cjsj},
+        #{xgsj},
+        #{yxbz}
+        )
+    </insert>
+
+    <insert id="insertInfoList" parameterType="CiKpiThres">
+        INSERT INTO IOMCI.IOM_CI_KPI_THRES(ID,KPI_ID,KPI_THRES,KPI_ICON,KPI_COLOR,CJSJ,XGSJ,YXBZ)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+                #{item.id},
+                #{item.kpi_id},
+                #{item.kpi_thres},
+                #{item.kpi_icon},
+                #{item.kpi_color},
+                #{item.cjsj},
+                #{item.xgsj},
+                #{item.yxbz}
+            )
+        </foreach>
+    </insert>
+
+    <select id="findByKpiId" parameterType="string" resultType="CiKpiThres">
+        select * from IOMCI.IOM_CI_KPI_THRES where KPI_ID = #{kpiId}
+    </select>
+    <select id="getAllCiKpiThres" resultType="com.integration.entity.CiKpiThres">
+        select * from IOMCI.IOM_CI_KPI_THRES
+    </select>
+
+    <delete id="deleteByKpiId" parameterType="string">
+        delete from IOMCI.IOM_CI_KPI_THRES where KPI_ID = #{kpiId}
+    </delete>
+</mapper>

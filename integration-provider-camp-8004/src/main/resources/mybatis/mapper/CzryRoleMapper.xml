@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.integration.dao.CzryRoleDao">
+
+	<select id="findCzryRoleAll" resultType="CzryRole">
+		SELECT ID, CZRY_ID,
+		ROLE_DM, CJR_ID, CJSJ, XGR_ID, XGSJ,
+		(select ROLE_MC from iommgt.iom_camp_role where
+		iommgt.iom_camp_czry_role.ROLE_DM=ROLE_DM  and YXBZ=1) as roleName
+		FROM iommgt.iom_camp_czry_role;
+	</select>
+
+	<select id="findCzryRoleByCzryId" resultType="CzryRole">
+		SELECT
+			iommgt.iom_camp_czry_role.ID,
+			iommgt.iom_camp_czry_role.CZRY_ID,
+			iommgt.iom_camp_czry_role.ROLE_DM,
+			iommgt.iom_camp_czry_role.CJR_ID,
+			iommgt.iom_camp_czry_role.CJSJ,
+			iommgt.iom_camp_czry_role.XGR_ID,
+			iommgt.iom_camp_czry_role.XGSJ,
+			iommgt.iom_camp_role.role_mc roleName
+		FROM
+			iommgt.iom_camp_czry_role
+		INNER JOIN iommgt.iom_camp_role ON iommgt.iom_camp_role.ROLE_DM = iommgt.iom_camp_czry_role.ROLE_DM
+		AND iommgt.iom_camp_role.YXBZ = 1
+		where 1=1
+		<if test="czryId!=null">
+			and CZRY_ID=#{czryId}
+		</if>
+	</select>
+
+	<select id="findCzryRoleById" resultType="CzryRole">
+		SELECT ID, CZRY_ID,
+		ROLE_DM, CJR_ID, CJSJ, XGR_ID, XGSJ,
+		(select ROLE_MC from iommgt.iom_camp_role where
+		iommgt.iom_camp_czry_role.ROLE_DM=ROLE_DM and YXBZ=1) as roleName
+		FROM
+		iommgt.iom_camp_czry_role
+		where ID=#{id};
+	</select>
+    <select id="getRoleIdByCzryId" resultType="java.lang.String">
+		SELECT
+		ROLE_DM
+		FROM
+		iommgt.iom_camp_czry_role
+		where CZRY_ID=#{id}
+	</select>
+
+    <insert id="addCzryRole">
+		INSERT INTO iommgt.iom_camp_czry_role(
+		ID,
+		CZRY_ID,
+		ROLE_DM,
+		CJR_ID,
+		CJSJ,
+		XGR_ID,
+		XGSJ) VALUES(
+		#{id},
+		#{czry_id},
+		#{role_dm},
+		#{cjr_id},
+		str_to_date(#{cjsj} ,'%Y-%m-%d %H:%i:%s'),
+		#{xgr_id},
+		str_to_date(#{xgsj} ,'%Y-%m-%d %H:%i:%s'));
+	</insert>
+
+	<delete id="deleteCzryRole">
+		DELETE FROM iommgt.iom_camp_czry_role WHERE
+		id=#{id} ;
+	</delete>
+	<delete id="deleteCzryRoleByCzryId">
+		DELETE FROM iommgt.iom_camp_czry_role WHERE
+		CZRY_ID=#{id} ;
+	</delete>
+
+	<update id="updateCzryRole">
+		update iommgt.iom_camp_czry_role
+		<set>
+			<if test="czry_id != null and czry_id !=''">
+				CZRY_ID=#{czry_id},
+			</if>
+			<if test="role_dm != null and role_dm !=''">
+				ROLE_DM=#{role_dm},
+			</if>
+			<if test="cjr_id != null and cjr_id !=''">
+				CJR_ID=#{cjr_id},
+			</if>
+			<if test="cjsj != null and cjsj !=''">
+				CJSJ=str_to_date(#{cjsj} ,'%Y-%m-%d %H:%i:%s'),
+			</if>
+			<if test="xgr_id != null and xgr_id !=''">
+				XGR_ID=#{xgr_id},
+			</if>
+			<if test="xgsj != null and xgsj !=''">
+				XGSJ=str_to_date(#{xgsj} ,'%Y-%m-%d %H:%i:%s'),
+			</if>
+
+		</set>
+		WHERE id=#{id};
+	</update>
+</mapper>

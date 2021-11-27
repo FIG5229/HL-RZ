@@ -1,0 +1,496 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.integration.generator.dao.IomCiKpiMapper">
+  <resultMap id="BaseResultMap" type="com.integration.generator.entity.IomCiKpi">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="KPI_NAME" jdbcType="VARCHAR" property="kpiName" />
+    <result column="KPI_ALIAS" jdbcType="VARCHAR" property="kpiAlias" />
+    <result column="KPI_DESC" jdbcType="VARCHAR" property="kpiDesc" />
+    <result column="TYPE_ID" jdbcType="DECIMAL" property="typeId" />
+    <result column="KPI_CLASS_ID" jdbcType="DECIMAL" property="kpiClassId" />
+    <result column="IS_MATCH" jdbcType="INTEGER" property="isMatch" />
+    <result column="VAL_UNIT" jdbcType="VARCHAR" property="valUnit" />
+    <result column="VAL_TYPE" jdbcType="INTEGER" property="valType" />
+    <result column="VAL_EXP" jdbcType="VARCHAR" property="valExp" />
+    <result column="DW_ID" jdbcType="INTEGER" property="dwId" />
+    <result column="DW_NAME" jdbcType="VARCHAR" property="dwName" />
+    <result column="SOURCE_ID" jdbcType="DECIMAL" property="sourceId" />
+    <result column="OP_ID" jdbcType="INTEGER" property="opId" />
+    <result column="IDX_FIELD" jdbcType="VARCHAR" property="idxField" />
+    <result column="MINIMUM" jdbcType="DECIMAL" property="minimum" />
+    <result column="MAXIMUM" jdbcType="DECIMAL" property="maximum" />
+    <result column="DOMAIN_ID" jdbcType="INTEGER" property="domainId" />
+    <result column="CJR_ID" jdbcType="BIGINT" property="cjrId" />
+    <result column="CJSJ" jdbcType="TIMESTAMP" property="cjsj" />
+    <result column="XGR_ID" jdbcType="BIGINT" property="xgrId" />
+    <result column="XGSJ" jdbcType="TIMESTAMP" property="xgsj" />
+    <result column="YXBZ" jdbcType="INTEGER" property="yxbz" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ID, KPI_NAME, KPI_ALIAS, KPI_DESC, TYPE_ID, KPI_CLASS_ID, IS_MATCH, VAL_UNIT, VAL_TYPE, 
+    VAL_EXP, DW_ID, DW_NAME, SOURCE_ID, OP_ID, IDX_FIELD, MINIMUM, MAXIMUM, DOMAIN_ID, 
+    CJR_ID, CJSJ, XGR_ID, XGSJ, YXBZ
+  </sql>
+  <select id="selectByExample" parameterType="com.integration.generator.entity.IomCiKpiExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from iom_ci_kpi
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from iom_ci_kpi
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from iom_ci_kpi
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.integration.generator.entity.IomCiKpiExample">
+    delete from iom_ci_kpi
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.integration.generator.entity.IomCiKpi">
+    insert into iom_ci_kpi (ID, KPI_NAME, KPI_ALIAS, 
+      KPI_DESC, TYPE_ID, KPI_CLASS_ID, 
+      IS_MATCH, VAL_UNIT, VAL_TYPE, 
+      VAL_EXP, DW_ID, DW_NAME, 
+      SOURCE_ID, OP_ID, IDX_FIELD, 
+      MINIMUM, MAXIMUM, DOMAIN_ID, 
+      CJR_ID, CJSJ, XGR_ID, 
+      XGSJ, YXBZ)
+    values (#{id,jdbcType=DECIMAL}, #{kpiName,jdbcType=VARCHAR}, #{kpiAlias,jdbcType=VARCHAR}, 
+      #{kpiDesc,jdbcType=VARCHAR}, #{typeId,jdbcType=DECIMAL}, #{kpiClassId,jdbcType=DECIMAL}, 
+      #{isMatch,jdbcType=INTEGER}, #{valUnit,jdbcType=VARCHAR}, #{valType,jdbcType=INTEGER}, 
+      #{valExp,jdbcType=VARCHAR}, #{dwId,jdbcType=INTEGER}, #{dwName,jdbcType=VARCHAR}, 
+      #{sourceId,jdbcType=DECIMAL}, #{opId,jdbcType=INTEGER}, #{idxField,jdbcType=VARCHAR}, 
+      #{minimum,jdbcType=DECIMAL}, #{maximum,jdbcType=DECIMAL}, #{domainId,jdbcType=INTEGER}, 
+      #{cjrId,jdbcType=BIGINT}, #{cjsj,jdbcType=TIMESTAMP}, #{xgrId,jdbcType=BIGINT}, 
+      #{xgsj,jdbcType=TIMESTAMP}, #{yxbz,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.integration.generator.entity.IomCiKpi">
+    insert into iom_ci_kpi
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="kpiName != null">
+        KPI_NAME,
+      </if>
+      <if test="kpiAlias != null">
+        KPI_ALIAS,
+      </if>
+      <if test="kpiDesc != null">
+        KPI_DESC,
+      </if>
+      <if test="typeId != null">
+        TYPE_ID,
+      </if>
+      <if test="kpiClassId != null">
+        KPI_CLASS_ID,
+      </if>
+      <if test="isMatch != null">
+        IS_MATCH,
+      </if>
+      <if test="valUnit != null">
+        VAL_UNIT,
+      </if>
+      <if test="valType != null">
+        VAL_TYPE,
+      </if>
+      <if test="valExp != null">
+        VAL_EXP,
+      </if>
+      <if test="dwId != null">
+        DW_ID,
+      </if>
+      <if test="dwName != null">
+        DW_NAME,
+      </if>
+      <if test="sourceId != null">
+        SOURCE_ID,
+      </if>
+      <if test="opId != null">
+        OP_ID,
+      </if>
+      <if test="idxField != null">
+        IDX_FIELD,
+      </if>
+      <if test="minimum != null">
+        MINIMUM,
+      </if>
+      <if test="maximum != null">
+        MAXIMUM,
+      </if>
+      <if test="domainId != null">
+        DOMAIN_ID,
+      </if>
+      <if test="cjrId != null">
+        CJR_ID,
+      </if>
+      <if test="cjsj != null">
+        CJSJ,
+      </if>
+      <if test="xgrId != null">
+        XGR_ID,
+      </if>
+      <if test="xgsj != null">
+        XGSJ,
+      </if>
+      <if test="yxbz != null">
+        YXBZ,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="kpiName != null">
+        #{kpiName,jdbcType=VARCHAR},
+      </if>
+      <if test="kpiAlias != null">
+        #{kpiAlias,jdbcType=VARCHAR},
+      </if>
+      <if test="kpiDesc != null">
+        #{kpiDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="typeId != null">
+        #{typeId,jdbcType=DECIMAL},
+      </if>
+      <if test="kpiClassId != null">
+        #{kpiClassId,jdbcType=DECIMAL},
+      </if>
+      <if test="isMatch != null">
+        #{isMatch,jdbcType=INTEGER},
+      </if>
+      <if test="valUnit != null">
+        #{valUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="valType != null">
+        #{valType,jdbcType=INTEGER},
+      </if>
+      <if test="valExp != null">
+        #{valExp,jdbcType=VARCHAR},
+      </if>
+      <if test="dwId != null">
+        #{dwId,jdbcType=INTEGER},
+      </if>
+      <if test="dwName != null">
+        #{dwName,jdbcType=VARCHAR},
+      </if>
+      <if test="sourceId != null">
+        #{sourceId,jdbcType=DECIMAL},
+      </if>
+      <if test="opId != null">
+        #{opId,jdbcType=INTEGER},
+      </if>
+      <if test="idxField != null">
+        #{idxField,jdbcType=VARCHAR},
+      </if>
+      <if test="minimum != null">
+        #{minimum,jdbcType=DECIMAL},
+      </if>
+      <if test="maximum != null">
+        #{maximum,jdbcType=DECIMAL},
+      </if>
+      <if test="domainId != null">
+        #{domainId,jdbcType=INTEGER},
+      </if>
+      <if test="cjrId != null">
+        #{cjrId,jdbcType=BIGINT},
+      </if>
+      <if test="cjsj != null">
+        #{cjsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="xgrId != null">
+        #{xgrId,jdbcType=BIGINT},
+      </if>
+      <if test="xgsj != null">
+        #{xgsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="yxbz != null">
+        #{yxbz,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.integration.generator.entity.IomCiKpiExample" resultType="java.lang.Long">
+    select count(*) from iom_ci_kpi
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update iom_ci_kpi
+    <set>
+      <if test="record.id != null">
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.kpiName != null">
+        KPI_NAME = #{record.kpiName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.kpiAlias != null">
+        KPI_ALIAS = #{record.kpiAlias,jdbcType=VARCHAR},
+      </if>
+      <if test="record.kpiDesc != null">
+        KPI_DESC = #{record.kpiDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.typeId != null">
+        TYPE_ID = #{record.typeId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.kpiClassId != null">
+        KPI_CLASS_ID = #{record.kpiClassId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.isMatch != null">
+        IS_MATCH = #{record.isMatch,jdbcType=INTEGER},
+      </if>
+      <if test="record.valUnit != null">
+        VAL_UNIT = #{record.valUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.valType != null">
+        VAL_TYPE = #{record.valType,jdbcType=INTEGER},
+      </if>
+      <if test="record.valExp != null">
+        VAL_EXP = #{record.valExp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dwId != null">
+        DW_ID = #{record.dwId,jdbcType=INTEGER},
+      </if>
+      <if test="record.dwName != null">
+        DW_NAME = #{record.dwName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sourceId != null">
+        SOURCE_ID = #{record.sourceId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.opId != null">
+        OP_ID = #{record.opId,jdbcType=INTEGER},
+      </if>
+      <if test="record.idxField != null">
+        IDX_FIELD = #{record.idxField,jdbcType=VARCHAR},
+      </if>
+      <if test="record.minimum != null">
+        MINIMUM = #{record.minimum,jdbcType=DECIMAL},
+      </if>
+      <if test="record.maximum != null">
+        MAXIMUM = #{record.maximum,jdbcType=DECIMAL},
+      </if>
+      <if test="record.domainId != null">
+        DOMAIN_ID = #{record.domainId,jdbcType=INTEGER},
+      </if>
+      <if test="record.cjrId != null">
+        CJR_ID = #{record.cjrId,jdbcType=BIGINT},
+      </if>
+      <if test="record.cjsj != null">
+        CJSJ = #{record.cjsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.xgrId != null">
+        XGR_ID = #{record.xgrId,jdbcType=BIGINT},
+      </if>
+      <if test="record.xgsj != null">
+        XGSJ = #{record.xgsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.yxbz != null">
+        YXBZ = #{record.yxbz,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update iom_ci_kpi
+    set ID = #{record.id,jdbcType=DECIMAL},
+      KPI_NAME = #{record.kpiName,jdbcType=VARCHAR},
+      KPI_ALIAS = #{record.kpiAlias,jdbcType=VARCHAR},
+      KPI_DESC = #{record.kpiDesc,jdbcType=VARCHAR},
+      TYPE_ID = #{record.typeId,jdbcType=DECIMAL},
+      KPI_CLASS_ID = #{record.kpiClassId,jdbcType=DECIMAL},
+      IS_MATCH = #{record.isMatch,jdbcType=INTEGER},
+      VAL_UNIT = #{record.valUnit,jdbcType=VARCHAR},
+      VAL_TYPE = #{record.valType,jdbcType=INTEGER},
+      VAL_EXP = #{record.valExp,jdbcType=VARCHAR},
+      DW_ID = #{record.dwId,jdbcType=INTEGER},
+      DW_NAME = #{record.dwName,jdbcType=VARCHAR},
+      SOURCE_ID = #{record.sourceId,jdbcType=DECIMAL},
+      OP_ID = #{record.opId,jdbcType=INTEGER},
+      IDX_FIELD = #{record.idxField,jdbcType=VARCHAR},
+      MINIMUM = #{record.minimum,jdbcType=DECIMAL},
+      MAXIMUM = #{record.maximum,jdbcType=DECIMAL},
+      DOMAIN_ID = #{record.domainId,jdbcType=INTEGER},
+      CJR_ID = #{record.cjrId,jdbcType=BIGINT},
+      CJSJ = #{record.cjsj,jdbcType=TIMESTAMP},
+      XGR_ID = #{record.xgrId,jdbcType=BIGINT},
+      XGSJ = #{record.xgsj,jdbcType=TIMESTAMP},
+      YXBZ = #{record.yxbz,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.integration.generator.entity.IomCiKpi">
+    update iom_ci_kpi
+    <set>
+      <if test="kpiName != null">
+        KPI_NAME = #{kpiName,jdbcType=VARCHAR},
+      </if>
+      <if test="kpiAlias != null">
+        KPI_ALIAS = #{kpiAlias,jdbcType=VARCHAR},
+      </if>
+      <if test="kpiDesc != null">
+        KPI_DESC = #{kpiDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="typeId != null">
+        TYPE_ID = #{typeId,jdbcType=DECIMAL},
+      </if>
+      <if test="kpiClassId != null">
+        KPI_CLASS_ID = #{kpiClassId,jdbcType=DECIMAL},
+      </if>
+      <if test="isMatch != null">
+        IS_MATCH = #{isMatch,jdbcType=INTEGER},
+      </if>
+      <if test="valUnit != null">
+        VAL_UNIT = #{valUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="valType != null">
+        VAL_TYPE = #{valType,jdbcType=INTEGER},
+      </if>
+      <if test="valExp != null">
+        VAL_EXP = #{valExp,jdbcType=VARCHAR},
+      </if>
+      <if test="dwId != null">
+        DW_ID = #{dwId,jdbcType=INTEGER},
+      </if>
+      <if test="dwName != null">
+        DW_NAME = #{dwName,jdbcType=VARCHAR},
+      </if>
+      <if test="sourceId != null">
+        SOURCE_ID = #{sourceId,jdbcType=DECIMAL},
+      </if>
+      <if test="opId != null">
+        OP_ID = #{opId,jdbcType=INTEGER},
+      </if>
+      <if test="idxField != null">
+        IDX_FIELD = #{idxField,jdbcType=VARCHAR},
+      </if>
+      <if test="minimum != null">
+        MINIMUM = #{minimum,jdbcType=DECIMAL},
+      </if>
+      <if test="maximum != null">
+        MAXIMUM = #{maximum,jdbcType=DECIMAL},
+      </if>
+      <if test="domainId != null">
+        DOMAIN_ID = #{domainId,jdbcType=INTEGER},
+      </if>
+      <if test="cjrId != null">
+        CJR_ID = #{cjrId,jdbcType=BIGINT},
+      </if>
+      <if test="cjsj != null">
+        CJSJ = #{cjsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="xgrId != null">
+        XGR_ID = #{xgrId,jdbcType=BIGINT},
+      </if>
+      <if test="xgsj != null">
+        XGSJ = #{xgsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="yxbz != null">
+        YXBZ = #{yxbz,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.integration.generator.entity.IomCiKpi">
+    update iom_ci_kpi
+    set KPI_NAME = #{kpiName,jdbcType=VARCHAR},
+      KPI_ALIAS = #{kpiAlias,jdbcType=VARCHAR},
+      KPI_DESC = #{kpiDesc,jdbcType=VARCHAR},
+      TYPE_ID = #{typeId,jdbcType=DECIMAL},
+      KPI_CLASS_ID = #{kpiClassId,jdbcType=DECIMAL},
+      IS_MATCH = #{isMatch,jdbcType=INTEGER},
+      VAL_UNIT = #{valUnit,jdbcType=VARCHAR},
+      VAL_TYPE = #{valType,jdbcType=INTEGER},
+      VAL_EXP = #{valExp,jdbcType=VARCHAR},
+      DW_ID = #{dwId,jdbcType=INTEGER},
+      DW_NAME = #{dwName,jdbcType=VARCHAR},
+      SOURCE_ID = #{sourceId,jdbcType=DECIMAL},
+      OP_ID = #{opId,jdbcType=INTEGER},
+      IDX_FIELD = #{idxField,jdbcType=VARCHAR},
+      MINIMUM = #{minimum,jdbcType=DECIMAL},
+      MAXIMUM = #{maximum,jdbcType=DECIMAL},
+      DOMAIN_ID = #{domainId,jdbcType=INTEGER},
+      CJR_ID = #{cjrId,jdbcType=BIGINT},
+      CJSJ = #{cjsj,jdbcType=TIMESTAMP},
+      XGR_ID = #{xgrId,jdbcType=BIGINT},
+      XGSJ = #{xgsj,jdbcType=TIMESTAMP},
+      YXBZ = #{yxbz,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <cache />
+</mapper>

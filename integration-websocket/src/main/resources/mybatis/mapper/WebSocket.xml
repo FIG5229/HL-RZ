@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.integration.dao.WebSocketDao">
+
+    <select id="getUnSends" resultType="java.util.Map">
+       select ID,NEWS_TIME,NEWS_INFO,NEWS_TYPE,RECEIVER_ID,CZRY_ID,CZRY_DM,CZRY_MC,CJSJ
+       from IOMMGT.IOM_CAMP_UNSEND_NEWS
+    </select>
+
+    <delete id="romoveUnSends">
+        delete from IOMMGT.IOM_CAMP_UNSEND_NEWS
+        where id in
+        <foreach collection="listIds" index="index" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <insert id="inssetUnSends">
+        insert into IOMMGT.IOM_CAMP_UNSEND_NEWS (ID,NEWS_TIME,NEWS_INFO,NEWS_TYPE,RECEIVER_ID,CZRY_ID,CZRY_DM,CZRY_MC,CJSJ)
+        values
+        <foreach collection="webSocketEntitys" item="webSocketEntity" separator=",">
+            (#{webSocketEntity.id}, #{webSocketEntity.newsTime}, #{webSocketEntity.newsInfo}, #{webSocketEntity.newsType},
+            #{webSocketEntity.receiverId}, #{webSocketEntity.czryId}, #{webSocketEntity.czryDm}, #{webSocketEntity.czryMc},
+            #{webSocketEntity.cjsj})
+        </foreach>
+    </insert>
+    <delete id="deleteByReceiverId">
+        delete from IOMMGT.IOM_CAMP_UNSEND_NEWS
+        where RECEIVER_ID in
+        <foreach collection="receiverId" index="index" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

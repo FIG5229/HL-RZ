@@ -1,0 +1,525 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.integration.generator.dao.IomCampCzryMapper">
+  <resultMap id="BaseResultMap" type="com.integration.generator.entity.IomCampCzry">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="czry_dm" jdbcType="VARCHAR" property="czryDm" />
+    <result column="czry_mc" jdbcType="VARCHAR" property="czryMc" />
+    <result column="zzjg_mc" jdbcType="VARCHAR" property="zzjgMc" />
+    <result column="mobile_no" jdbcType="VARCHAR" property="mobileNo" />
+    <result column="email_addres" jdbcType="VARCHAR" property="emailAddres" />
+    <result column="czry_dldm" jdbcType="VARCHAR" property="czryDldm" />
+    <result column="czry_pass" jdbcType="VARCHAR" property="czryPass" />
+    <result column="czry_short" jdbcType="VARCHAR" property="czryShort" />
+    <result column="allow_pass" jdbcType="VARCHAR" property="allowPass" />
+    <result column="last_login_time" jdbcType="VARCHAR" property="lastLoginTime" />
+    <result column="login_bz" jdbcType="INTEGER" property="loginBz" />
+    <result column="super_bz" jdbcType="INTEGER" property="superBz" />
+    <result column="lock_bz" jdbcType="INTEGER" property="lockBz" />
+    <result column="pass_days" jdbcType="INTEGER" property="passDays" />
+    <result column="up_pass_bz" jdbcType="INTEGER" property="upPassBz" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="sort" jdbcType="INTEGER" property="sort" />
+    <result column="cjr_id" jdbcType="BIGINT" property="cjrId" />
+    <result column="cjsj" jdbcType="VARCHAR" property="cjsj" />
+    <result column="xgr_id" jdbcType="BIGINT" property="xgrId" />
+    <result column="xgsj" jdbcType="VARCHAR" property="xgsj" />
+    <result column="yxbz" jdbcType="INTEGER" property="yxbz" />
+    <result column="dept_id" jdbcType="BIGINT" property="deptId" />
+    <result column="org_id" jdbcType="BIGINT" property="orgId" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, czry_dm, czry_mc, zzjg_mc, mobile_no, email_addres, czry_dldm, czry_pass, czry_short, 
+    allow_pass, last_login_time, login_bz, super_bz, lock_bz, pass_days, up_pass_bz, 
+    status, sort, cjr_id, cjsj, xgr_id, xgsj, yxbz, dept_id, org_id
+  </sql>
+  <select id="selectByExample" parameterType="com.integration.generator.entity.IomCampCzryExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from iom_camp_czry
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from iom_camp_czry
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from iom_camp_czry
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.integration.generator.entity.IomCampCzryExample">
+    delete from iom_camp_czry
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.integration.generator.entity.IomCampCzry">
+    insert into iom_camp_czry (id, czry_dm, czry_mc, 
+      zzjg_mc, mobile_no, email_addres, 
+      czry_dldm, czry_pass, czry_short, 
+      allow_pass, last_login_time, login_bz, 
+      super_bz, lock_bz, pass_days, 
+      up_pass_bz, status, sort, 
+      cjr_id, cjsj, xgr_id, xgsj, 
+      yxbz, dept_id, org_id)
+    values (#{id,jdbcType=BIGINT}, #{czryDm,jdbcType=VARCHAR}, #{czryMc,jdbcType=VARCHAR}, 
+      #{zzjgMc,jdbcType=VARCHAR}, #{mobileNo,jdbcType=VARCHAR}, #{emailAddres,jdbcType=VARCHAR}, 
+      #{czryDldm,jdbcType=VARCHAR}, #{czryPass,jdbcType=VARCHAR}, #{czryShort,jdbcType=VARCHAR}, 
+      #{allowPass,jdbcType=VARCHAR}, #{lastLoginTime,jdbcType=VARCHAR}, #{loginBz,jdbcType=INTEGER}, 
+      #{superBz,jdbcType=INTEGER}, #{lockBz,jdbcType=INTEGER}, #{passDays,jdbcType=INTEGER}, 
+      #{upPassBz,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{sort,jdbcType=INTEGER}, 
+      #{cjrId,jdbcType=BIGINT}, #{cjsj,jdbcType=VARCHAR}, #{xgrId,jdbcType=BIGINT}, #{xgsj,jdbcType=VARCHAR}, 
+      #{yxbz,jdbcType=INTEGER}, #{deptId,jdbcType=BIGINT}, #{orgId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.integration.generator.entity.IomCampCzry">
+    insert into iom_camp_czry
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="czryDm != null">
+        czry_dm,
+      </if>
+      <if test="czryMc != null">
+        czry_mc,
+      </if>
+      <if test="zzjgMc != null">
+        zzjg_mc,
+      </if>
+      <if test="mobileNo != null">
+        mobile_no,
+      </if>
+      <if test="emailAddres != null">
+        email_addres,
+      </if>
+      <if test="czryDldm != null">
+        czry_dldm,
+      </if>
+      <if test="czryPass != null">
+        czry_pass,
+      </if>
+      <if test="czryShort != null">
+        czry_short,
+      </if>
+      <if test="allowPass != null">
+        allow_pass,
+      </if>
+      <if test="lastLoginTime != null">
+        last_login_time,
+      </if>
+      <if test="loginBz != null">
+        login_bz,
+      </if>
+      <if test="superBz != null">
+        super_bz,
+      </if>
+      <if test="lockBz != null">
+        lock_bz,
+      </if>
+      <if test="passDays != null">
+        pass_days,
+      </if>
+      <if test="upPassBz != null">
+        up_pass_bz,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="sort != null">
+        sort,
+      </if>
+      <if test="cjrId != null">
+        cjr_id,
+      </if>
+      <if test="cjsj != null">
+        cjsj,
+      </if>
+      <if test="xgrId != null">
+        xgr_id,
+      </if>
+      <if test="xgsj != null">
+        xgsj,
+      </if>
+      <if test="yxbz != null">
+        yxbz,
+      </if>
+      <if test="deptId != null">
+        dept_id,
+      </if>
+      <if test="orgId != null">
+        org_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="czryDm != null">
+        #{czryDm,jdbcType=VARCHAR},
+      </if>
+      <if test="czryMc != null">
+        #{czryMc,jdbcType=VARCHAR},
+      </if>
+      <if test="zzjgMc != null">
+        #{zzjgMc,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileNo != null">
+        #{mobileNo,jdbcType=VARCHAR},
+      </if>
+      <if test="emailAddres != null">
+        #{emailAddres,jdbcType=VARCHAR},
+      </if>
+      <if test="czryDldm != null">
+        #{czryDldm,jdbcType=VARCHAR},
+      </if>
+      <if test="czryPass != null">
+        #{czryPass,jdbcType=VARCHAR},
+      </if>
+      <if test="czryShort != null">
+        #{czryShort,jdbcType=VARCHAR},
+      </if>
+      <if test="allowPass != null">
+        #{allowPass,jdbcType=VARCHAR},
+      </if>
+      <if test="lastLoginTime != null">
+        #{lastLoginTime,jdbcType=VARCHAR},
+      </if>
+      <if test="loginBz != null">
+        #{loginBz,jdbcType=INTEGER},
+      </if>
+      <if test="superBz != null">
+        #{superBz,jdbcType=INTEGER},
+      </if>
+      <if test="lockBz != null">
+        #{lockBz,jdbcType=INTEGER},
+      </if>
+      <if test="passDays != null">
+        #{passDays,jdbcType=INTEGER},
+      </if>
+      <if test="upPassBz != null">
+        #{upPassBz,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="sort != null">
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="cjrId != null">
+        #{cjrId,jdbcType=BIGINT},
+      </if>
+      <if test="cjsj != null">
+        #{cjsj,jdbcType=VARCHAR},
+      </if>
+      <if test="xgrId != null">
+        #{xgrId,jdbcType=BIGINT},
+      </if>
+      <if test="xgsj != null">
+        #{xgsj,jdbcType=VARCHAR},
+      </if>
+      <if test="yxbz != null">
+        #{yxbz,jdbcType=INTEGER},
+      </if>
+      <if test="deptId != null">
+        #{deptId,jdbcType=BIGINT},
+      </if>
+      <if test="orgId != null">
+        #{orgId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.integration.generator.entity.IomCampCzryExample" resultType="java.lang.Long">
+    select count(*) from iom_camp_czry
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update iom_camp_czry
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.czryDm != null">
+        czry_dm = #{record.czryDm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.czryMc != null">
+        czry_mc = #{record.czryMc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.zzjgMc != null">
+        zzjg_mc = #{record.zzjgMc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mobileNo != null">
+        mobile_no = #{record.mobileNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.emailAddres != null">
+        email_addres = #{record.emailAddres,jdbcType=VARCHAR},
+      </if>
+      <if test="record.czryDldm != null">
+        czry_dldm = #{record.czryDldm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.czryPass != null">
+        czry_pass = #{record.czryPass,jdbcType=VARCHAR},
+      </if>
+      <if test="record.czryShort != null">
+        czry_short = #{record.czryShort,jdbcType=VARCHAR},
+      </if>
+      <if test="record.allowPass != null">
+        allow_pass = #{record.allowPass,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastLoginTime != null">
+        last_login_time = #{record.lastLoginTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.loginBz != null">
+        login_bz = #{record.loginBz,jdbcType=INTEGER},
+      </if>
+      <if test="record.superBz != null">
+        super_bz = #{record.superBz,jdbcType=INTEGER},
+      </if>
+      <if test="record.lockBz != null">
+        lock_bz = #{record.lockBz,jdbcType=INTEGER},
+      </if>
+      <if test="record.passDays != null">
+        pass_days = #{record.passDays,jdbcType=INTEGER},
+      </if>
+      <if test="record.upPassBz != null">
+        up_pass_bz = #{record.upPassBz,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.sort != null">
+        sort = #{record.sort,jdbcType=INTEGER},
+      </if>
+      <if test="record.cjrId != null">
+        cjr_id = #{record.cjrId,jdbcType=BIGINT},
+      </if>
+      <if test="record.cjsj != null">
+        cjsj = #{record.cjsj,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xgrId != null">
+        xgr_id = #{record.xgrId,jdbcType=BIGINT},
+      </if>
+      <if test="record.xgsj != null">
+        xgsj = #{record.xgsj,jdbcType=VARCHAR},
+      </if>
+      <if test="record.yxbz != null">
+        yxbz = #{record.yxbz,jdbcType=INTEGER},
+      </if>
+      <if test="record.deptId != null">
+        dept_id = #{record.deptId,jdbcType=BIGINT},
+      </if>
+      <if test="record.orgId != null">
+        org_id = #{record.orgId,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update iom_camp_czry
+    set id = #{record.id,jdbcType=BIGINT},
+      czry_dm = #{record.czryDm,jdbcType=VARCHAR},
+      czry_mc = #{record.czryMc,jdbcType=VARCHAR},
+      zzjg_mc = #{record.zzjgMc,jdbcType=VARCHAR},
+      mobile_no = #{record.mobileNo,jdbcType=VARCHAR},
+      email_addres = #{record.emailAddres,jdbcType=VARCHAR},
+      czry_dldm = #{record.czryDldm,jdbcType=VARCHAR},
+      czry_pass = #{record.czryPass,jdbcType=VARCHAR},
+      czry_short = #{record.czryShort,jdbcType=VARCHAR},
+      allow_pass = #{record.allowPass,jdbcType=VARCHAR},
+      last_login_time = #{record.lastLoginTime,jdbcType=VARCHAR},
+      login_bz = #{record.loginBz,jdbcType=INTEGER},
+      super_bz = #{record.superBz,jdbcType=INTEGER},
+      lock_bz = #{record.lockBz,jdbcType=INTEGER},
+      pass_days = #{record.passDays,jdbcType=INTEGER},
+      up_pass_bz = #{record.upPassBz,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=INTEGER},
+      sort = #{record.sort,jdbcType=INTEGER},
+      cjr_id = #{record.cjrId,jdbcType=BIGINT},
+      cjsj = #{record.cjsj,jdbcType=VARCHAR},
+      xgr_id = #{record.xgrId,jdbcType=BIGINT},
+      xgsj = #{record.xgsj,jdbcType=VARCHAR},
+      yxbz = #{record.yxbz,jdbcType=INTEGER},
+      dept_id = #{record.deptId,jdbcType=BIGINT},
+      org_id = #{record.orgId,jdbcType=BIGINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.integration.generator.entity.IomCampCzry">
+    update iom_camp_czry
+    <set>
+      <if test="czryDm != null">
+        czry_dm = #{czryDm,jdbcType=VARCHAR},
+      </if>
+      <if test="czryMc != null">
+        czry_mc = #{czryMc,jdbcType=VARCHAR},
+      </if>
+      <if test="zzjgMc != null">
+        zzjg_mc = #{zzjgMc,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileNo != null">
+        mobile_no = #{mobileNo,jdbcType=VARCHAR},
+      </if>
+      <if test="emailAddres != null">
+        email_addres = #{emailAddres,jdbcType=VARCHAR},
+      </if>
+      <if test="czryDldm != null">
+        czry_dldm = #{czryDldm,jdbcType=VARCHAR},
+      </if>
+      <if test="czryPass != null">
+        czry_pass = #{czryPass,jdbcType=VARCHAR},
+      </if>
+      <if test="czryShort != null">
+        czry_short = #{czryShort,jdbcType=VARCHAR},
+      </if>
+      <if test="allowPass != null">
+        allow_pass = #{allowPass,jdbcType=VARCHAR},
+      </if>
+      <if test="lastLoginTime != null">
+        last_login_time = #{lastLoginTime,jdbcType=VARCHAR},
+      </if>
+      <if test="loginBz != null">
+        login_bz = #{loginBz,jdbcType=INTEGER},
+      </if>
+      <if test="superBz != null">
+        super_bz = #{superBz,jdbcType=INTEGER},
+      </if>
+      <if test="lockBz != null">
+        lock_bz = #{lockBz,jdbcType=INTEGER},
+      </if>
+      <if test="passDays != null">
+        pass_days = #{passDays,jdbcType=INTEGER},
+      </if>
+      <if test="upPassBz != null">
+        up_pass_bz = #{upPassBz,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="sort != null">
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="cjrId != null">
+        cjr_id = #{cjrId,jdbcType=BIGINT},
+      </if>
+      <if test="cjsj != null">
+        cjsj = #{cjsj,jdbcType=VARCHAR},
+      </if>
+      <if test="xgrId != null">
+        xgr_id = #{xgrId,jdbcType=BIGINT},
+      </if>
+      <if test="xgsj != null">
+        xgsj = #{xgsj,jdbcType=VARCHAR},
+      </if>
+      <if test="yxbz != null">
+        yxbz = #{yxbz,jdbcType=INTEGER},
+      </if>
+      <if test="deptId != null">
+        dept_id = #{deptId,jdbcType=BIGINT},
+      </if>
+      <if test="orgId != null">
+        org_id = #{orgId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.integration.generator.entity.IomCampCzry">
+    update iom_camp_czry
+    set czry_dm = #{czryDm,jdbcType=VARCHAR},
+      czry_mc = #{czryMc,jdbcType=VARCHAR},
+      zzjg_mc = #{zzjgMc,jdbcType=VARCHAR},
+      mobile_no = #{mobileNo,jdbcType=VARCHAR},
+      email_addres = #{emailAddres,jdbcType=VARCHAR},
+      czry_dldm = #{czryDldm,jdbcType=VARCHAR},
+      czry_pass = #{czryPass,jdbcType=VARCHAR},
+      czry_short = #{czryShort,jdbcType=VARCHAR},
+      allow_pass = #{allowPass,jdbcType=VARCHAR},
+      last_login_time = #{lastLoginTime,jdbcType=VARCHAR},
+      login_bz = #{loginBz,jdbcType=INTEGER},
+      super_bz = #{superBz,jdbcType=INTEGER},
+      lock_bz = #{lockBz,jdbcType=INTEGER},
+      pass_days = #{passDays,jdbcType=INTEGER},
+      up_pass_bz = #{upPassBz,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      sort = #{sort,jdbcType=INTEGER},
+      cjr_id = #{cjrId,jdbcType=BIGINT},
+      cjsj = #{cjsj,jdbcType=VARCHAR},
+      xgr_id = #{xgrId,jdbcType=BIGINT},
+      xgsj = #{xgsj,jdbcType=VARCHAR},
+      yxbz = #{yxbz,jdbcType=INTEGER},
+      dept_id = #{deptId,jdbcType=BIGINT},
+      org_id = #{orgId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
